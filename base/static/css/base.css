@@ -1,0 +1,146 @@
+html {
+    overflow-y: scroll;
+    background-color: #D8DEE9;
+    color: #2E3440;
+}
+
+body {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
+
+main {
+    flex: 1 0 auto;
+}
+
+nav .brand-logo {
+    padding-left: 20px;
+    color: #D8DEE9;
+}
+
+nav ul {
+    padding-right: 12px;
+    color: #D8DEE9;
+}
+
+nav ul a {
+    font-size: 1.15rem;
+    color: #D8DEE9;
+}
+
+nav ul a:hover {
+    background-color: rgba(0,0,0,0);
+}
+
+footer div {
+    padding-left: 10px;
+    padding-bottom: 10px;
+}
+
+.page-footer {
+  position: fixed;
+  bottom: -5px;
+  width: 100%;
+  z-index:9;
+  padding-top: 10px;
+}
+
+.input-field label {
+    color: #fafafa;
+}
+
+#username, #password {
+    border-bottom: 1px solid #D8DEE9;
+    box-shadow: 0 0px 0 0 #D8DEE9;
+}
+
+#initialer, #fornavn, #mellemnavn, #efternavn, #epost, #telefon, #nuvaerende_adgangskode, #ny_adgangskode, #bekraeft_adgangskode, #navn, #producent, #kapacitet, #medie_navn, #processor, #bundkort, #arbejdshukommelse, #kommentar, #brugernavn, #adgangskode  {
+    border-bottom: 1px solid #2E3440;
+    box-shadow: 0 0px 0 0 #2E3440;
+}
+
+.select-wrapper input.select-dropdown {
+    border-bottom: 1px solid #616161;
+    box-shadow: 0 0px 0 0 #616161;
+}
+
+.dropdown-content li>span {
+    color: #616161
+}
+
+.select-wrapper input.select-dropdown:focus {
+    border-bottom: 1px solid #616161;
+    box-shadow: 0 0px 0 0 #616161;
+}
+
+[type="checkbox"]:checked+span:not(.lever):before {
+    top: -4px;
+    left: -5px;
+    width: 12px;
+    height: 22px;
+    border-top: 2px solid transparent;
+    border-left: 2px solid transparent;
+    border-right: 2px solid #616161;
+    border-bottom: 2px solid #616161;
+    -webkit-transform: rotate(40deg);
+    transform: rotate(40deg);
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    -webkit-transform-origin: 100% 100%;
+    transform-origin: 100% 100%;
+}
+
+.card-content {
+    background-color: #D8DEE9;
+}
+
+.modal-content {
+    background-color: #D8DEE9;
+}
+
+.modal .modal-footer {
+    background-color: #D8DEE9;
+}
+
+.btn-flat {
+    padding: 0;
+}
+
+.dropdown-content {
+    background-color: #D8DEE9;
+}
+
+.card .card-action {
+    border: 0;
+}
+
+a {
+    color: rgba(0,0,0,0.87);
+}
+
+.row {
+    margin-bottom: 10px;
+}
+
+.white-text {
+    color: #D8DEE9 !important;
+}
+
+.toast-success {
+    background-color: #A3BE8C;
+    color: #4C566A;
+}
+
+.toast-warning {
+    background-color: #EBCB8B;
+    color: #4C566A;
+}
+
+input {
+    color: #2E3440 !important;
+}
+
+.input-field [type=text] {
+    color: #2E3440 !important;
+}

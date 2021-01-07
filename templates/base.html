@@ -1,0 +1,132 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="da">
+
+<head>
+
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <link rel="shortcut icon" href="/static/favicon.ico" type="image/x-icon">
+  <link rel="icon" href="/static/favicon.ico" type="image/x-icon">
+
+  <link type="text/css" rel="stylesheet" href="/static/css/material-icons.css" />
+  <link type="text/css" rel="stylesheet" href="/static/css/roboto-fonts.css" />
+  <link type="text/css" rel="stylesheet" href="/static/css/materialize.min.css" />
+  <link type="text/css" rel="stylesheet" href="/static/css/base.css" />
+
+  <title>{% block title %}{% endblock %}</title>
+
+  <script type="text/javascript" src="/static/js/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/static/js/materialize.min.js"></script>
+  <script type="text/javascript" src="/static/js/base.js"></script>
+
+</head>
+
+<body>
+  <header>
+    <div class="navbar-fixed">
+      <nav class="z-depth-0" style="background-color: #434C5E;">
+        <div class="nav-wrapper">
+          <a href="{% url 'forside_view' %}" class="brand-logo left">Meta X</a>
+          <ul class="right">
+            <li><a href="{% url 'system_view' %}">System</a></li>
+            <li><a href="{% url 'hardware_view' %}">Hardware</a></li>
+            <li><a href="{% url 'statistik_view' %}">Statistik</a></li>
+            <li><a href="{% url 'arkiveringsversioner_view' %}">Arkiveringsversioner</a></li>
+          </ul>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    {% block content %}{% endblock content %}
+  </main>
+
+  <footer class="page-footer" style="background-color: #434C5E;">
+    {% block footer %}{% endblock %}
+    <div class="row right">
+      <div class="col l12">
+        <a href="{% url 'profil_view' %}" style="margin-right: 15px;">
+          <h6 class="white-text" style="display: inline-block;">Profil</h6>
+        </a>
+        <a href="#" style="margin-right: 15px;">
+          <h6 class="white-text" style="display: inline-block;">Log ud</h6>
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  {% if messages %}
+  {% for message in messages %}
+  {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+  <aside>
+    <div class="modal bottom-sheet" id="fejl">
+      <div class="modal-content">
+        {% if messages %}
+        <ul class="collection">
+          {% for message in messages %}
+          {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+          <li class="collection-item" style="background-color: #BF616A; color: #2E3440;">{{ message }}</li>
+          {% endif %}
+          {% endfor %}
+        </ul>
+        {% endif %}
+      </div>
+    </div>
+  </aside>
+  {% endif %}
+  {% endfor %}
+  {% endif %}
+
+  <aside>
+    <div class="modal" id="hjaelp">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Lorem ipsum</h5>
+          </div>
+          <div class="modal-body">
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse eget elementum lacus. Duis mollis arcu ut est ultricies ullamcorper. Nam sit amet libero erat. Proin sit amet tincidunt sapien, at blandit diam. Cras vel fermentum nulla, at ultricies nunc. Aliquam cursus lorem vel urna aliquet posuere. Maecenas tempor dui a augue lobortis pulvinar.</p>
+            <p>Cras euismod pretium ante non volutpat. Pellentesque lacinia, elit nec suscipit molestie, purus nisi mattis magna, non ullamcorper neque mi at tellus. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Etiam in nisi quis odio rutrum efficitur. Sed non pellentesque nibh, condimentum egestas libero. Duis neque ex, interdum sed eros in, gravida dictum odio. Quisque sagittis nunc fermentum, gravida metus ut, sodales metus. Nunc in sem tincidunt, convallis quam ut, feugiat sapien. Donec vitae eleifend nisl, vitae rhoncus sapien. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Donec magna tortor, varius ac tellus ut, dignissim tincidunt ante.</p>
+            <p>Duis non est in odio tincidunt egestas vel a nulla. Nullam pellentesque mattis ipsum, vel vestibulum dolor fringilla eget. Nulla egestas tellus metus, quis tincidunt velit ornare fringilla. Nullam nunc tellus, placerat ac ante a, mollis tristique libero. Sed nisl tortor, malesuada sit amet efficitur eu, sagittis ullamcorper magna. Donec et maximus diam. Maecenas venenatis neque enim. Nulla in lorem quis lectus ultrices pulvinar. Duis tempus justo et nunc mollis, eu consectetur leo posuere. Morbi vitae rhoncus sem, at bibendum ante. Pellentesque cursus molestie arcu quis efficitur.</p>
+            <p>Nullam nisi nulla, egestas ut auctor a, ultricies at ante. Nam euismod ex sem, id commodo lectus volutpat vitae. Vestibulum mattis lobortis nisl, in luctus neque consequat ut. Fusce sit amet vestibulum justo. Aliquam lacinia, neque id lobortis gravida, nulla metus suscipit dolor, vel suscipit purus lacus vitae quam. Nunc ultricies ac lacus vel elementum. Vestibulum at metus tortor. Nam a purus et libero aliquet ullamcorper et eu leo.</p>
+          </div>
+        </div>
+  </aside>
+
+  {% if messages %}
+  {% for message in messages %}
+  {% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+  <script>M.toast({ html: '{{ message }}', classes: 'toast-success' })</script>
+  {% elif message.level == DEFAULT_MESSAGE_LEVELS.WARNING %}
+  <script>M.toast({ html: '{{ message }}', classes: 'toast-warning' })</script>
+  {% endif %}
+  {% endfor %}
+  {% endif %}
+
+  {% if messages %}
+  {% for message in messages %}
+  {% if message.level != DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+  <script>
+    $(document).ready(function () {
+      $('#fejl').modal();
+      $('#fejl').modal('open');
+    });
+  </script>
+  {% elif message.level != DEFAULT_MESSAGE_LEVELS.WARNING %}
+  <script>
+    $(document).ready(function () {
+      $('#fejl').modal();
+      $('#fejl').modal('open');
+    });
+  </script>
+  {% endif %}
+  {% endfor %}
+  {% endif %}
+
+</body>
+
+</html>

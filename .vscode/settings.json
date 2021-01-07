@@ -1,0 +1,35 @@
+{
+    "python.linting.pylintEnabled": true,
+    "python.linting.enabled": true,
+    "python.linting.pylintArgs": [
+        "--errors-only",
+        "--load-plugins=pylint_django",
+    ],
+    "python.formatting.autopep8Args": [
+        "--max-line-length=900"
+    ],
+    "html.format.wrapLineLength": 900,
+    "files.exclude": {
+        "venv": true,
+        ".pylintrc": true,
+        ".vscode": true,
+        "manage.py": true,
+        "db.sqlite3": true,
+        "static": true,
+        "**/__pycache__": true,
+        "**/migrations": true,
+        "arkiveringsversioner/__init__.py": true,
+        "arkiveringsversioner/apps.py": true,
+        "base/__init__.py": true,
+        "base/asgi.py": true,
+        "base/wsgi.py": true,
+        "forside/__init__.py": true,
+        "forside/apps.py": true,
+        "hardware/__init__.py": true,
+        "hardware/apps.py": true,
+        "statistik/__init__.py": true,
+        "statistik/apps.py": true,
+        "system/__init__.py": true,
+        "system/apps.py": true,
+    },
+}
