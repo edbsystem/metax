@@ -1,4 +1,3 @@
-THTHTHTH
 <div class="row left">
   <div class="col l12">
     <a class="modal-trigger" href="#hjaelp" style="margin-right: 20px;">
@@ -9,14 +8,14 @@ THTHTHTH
     <span style="margin-right: 20px;">|</span>
     {% endif %}
 
-    {% if 'system_brugere_se' in bruger_rettigheder%}
-    <a href="#" style="margin-right: 30px;">
+    {% if 'system_brugere_se' in bruger_rettigheder and request.resolver_match.view_name != 'brugere_view' %}
+    <a href="{% url 'brugere_view' %}" style="margin-right: 30px;">
       <h6 class="white-text" style="display: inline-block;">Brugere</h6>
     </a>
     {% endif %}
 
-    {% if 'system_grupper_se' in bruger_rettigheder%}
-    <a href="#" style="margin-right: 20px;">
+    {% if 'system_grupper_se' in bruger_rettigheder and request.resolver_match.view_name != 'grupper_view' %}
+    <a href="{% url 'grupper_view' %}" style="margin-right: 20px;">
       <h6 class="white-text" style="display: inline-block;">Grupper</h6>
     </a>
     {% endif %}
