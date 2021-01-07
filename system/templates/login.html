@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block title %}Meta X - Log ind{% endblock title %}
+
+{% block content %}
+
+<section class="section section-login">
+  <div class="container">
+    <div class="row">
+      <br><br>
+      <div class="col l6 offset-l3">
+        <div class="card-panel loginwhite-text center z-depth-0" style="background-color: #4C566A;">
+          <h1 style="font-weight: 600; letter-spacing: 3px; color: #D8DEE9;">Meta X</h1>
+          <i class="material-icons prefix large" style="color: #D8DEE9;">bug_report</i>
+          <br><br><br>
+          <form method="POST">
+            {% csrf_token %}
+            <div class="input-field" style="padding-left: 45px; padding-right: 55px">
+              <i class="material-icons prefix" style="color: #D8DEE9;">face</i>
+              <input type="text" name="username" id="username" style="color: #D8DEE9 !important;" oninput="this.value = this.value.toUpperCase()" autofocus>
+              <label class="white-text" for="username" style="padding-left: 45px; padding-right: 55px; color: #D8DEE9;">Brugernavn</label>
+            </div>
+            <div class="input-field" style="padding-left: 45px; padding-right: 55px">
+              <i class="material-icons prefix" style="color: #D8DEE9;">lock</i>
+              <input type="password" name="password" id="password" style="color: #D8DEE9 !important;">
+              <label class="white-text" for="password" style="padding-left: 45px; padding-right: 55px; color: #D8DEE9;">Adgangskode</label>
+            </div>
+            <br><br>
+            <input type="submit" value="Log ind" class="btn z-depth-0" style="color: #4C566A; background-color: #D8DEE9;">
+            <br><br>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock content %}

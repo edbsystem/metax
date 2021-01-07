@@ -11,6 +11,7 @@
     "html.format.wrapLineLength": 900,
     "files.exclude": {
         "venv": true,
+        ".gitignore": true,
         ".pylintrc": true,
         ".vscode": true,
         "manage.py": true,

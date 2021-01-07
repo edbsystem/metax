@@ -5,11 +5,11 @@ from system.models import Gruppe
 
 class Rettighed(models.Model):
     RETTIGHED = (
-        ('arkiveringsversioner_se', 'arkiveringsversioner_se'),
+        ('arkiveringsversioner_se',   'arkiveringsversioner_se'),
 
-        ('hardware_se', 'hardware_se'),
+        ('hardware_se',               'hardware_se'),
 
-        ('statistik_se', 'statistik_se'),
+        ('statistik_se',              'statistik_se'),
 
         ('system_se',                 'system_se'),
 
@@ -21,10 +21,10 @@ class Rettighed(models.Model):
         ('system_gruppe_se',          'system_gruppe_se'),
         ('system_gruppe_rediger',     'system_gruppe_rediger'),
 
-        ('system_login', 'system_login'),
+        ('system_logind',             'system_logind'),
 
-        ('system_profil_se', 'system_profil_se'),
-        ('system_profil_rediger', 'system_profil_rediger'),
+        ('system_profil_se',          'system_profil_se'),
+        ('system_profil_rediger',     'system_profil_rediger'),
     )
 
     navn = models.CharField(

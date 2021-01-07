@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}Meta X - Log ud{% endblock title %}
+
+{% block content %}
+
+<section class="section section-login">
+  <div class="container">
+    <div class="row">
+      <br><br>
+      <div class="col l6 offset-l3">
+        <div class="card-panel login center z-depth-0" style="background-color: #4C566A; color: #D8DEE9;">
+          <h5>Du er nu logget af Meta X</h5>
+          <br>
+          <p></p>
+          <br><br>
+          <a href="{% url 'login_view' %}" class="btn z-depth-0" style="background-color: #D8DEE9; color: #4C566A;">Log ind</a>
+          <br><br>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock content %}

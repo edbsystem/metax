@@ -25,17 +25,20 @@
 </head>
 
 <body>
+  {{ user }} {{ bruger_rettigheder }}
   <header>
     <div class="navbar-fixed">
       <nav class="z-depth-0" style="background-color: #434C5E;">
         <div class="nav-wrapper">
+          {% if user.is_authenticated %}
           <a href="{% url 'forside_view' %}" class="brand-logo left">Meta X</a>
           <ul class="right">
-            <li><a href="{% url 'system_view' %}">System</a></li>
-            <li><a href="{% url 'hardware_view' %}">Hardware</a></li>
-            <li><a href="{% url 'statistik_view' %}">Statistik</a></li>
-            <li><a href="{% url 'arkiveringsversioner_view' %}">Arkiveringsversioner</a></li>
+            {% if 'system_se' in bruger_rettigheder %}<li><a href="{% url 'system_view' %}">System</a></li>{% endif %}
+            {% if 'hardware_se' in bruger_rettigheder %}<li><a href="{% url 'hardware_view' %}">Hardware</a></li>{% endif %}
+            {% if 'statistik_se' in bruger_rettigheder %}<li><a href="{% url 'statistik_view' %}">Statistik</a></li>{% endif %}
+            {% if 'arkiveringsversioner_se' in bruger_rettigheder %}<li><a href="{% url 'arkiveringsversioner_view' %}">Arkiveringsversioner</a></li>{% endif %}
           </ul>
+          {% endif %}
         </div>
       </nav>
     </div>
@@ -46,15 +49,19 @@
   </main>
 
   <footer class="page-footer" style="background-color: #434C5E;">
-    {% block footer %}{% endblock %}
+    {% block footer %}{% endblock footer %}
     <div class="row right">
       <div class="col l12">
+        {% if 'system_profil_se' in bruger_rettigheder %}
         <a href="{% url 'profil_view' %}" style="margin-right: 15px;">
           <h6 class="white-text" style="display: inline-block;">Profil</h6>
         </a>
-        <a href="#" style="margin-right: 15px;">
+        {% endif %}
+        {% if user.is_authenticated %}
+        <a href="{% url 'logout_view' %}" style="margin-right: 15px;">
           <h6 class="white-text" style="display: inline-block;">Log ud</h6>
         </a>
+        {% endif %}
       </div>
     </div>
   </footer>

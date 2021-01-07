@@ -18,6 +18,7 @@ def profil_view(request, initialer=None):
             profil = Profil.objects.get(initialer=request.user.username)
 
             return render(request, 'profil.html', {
+                "bruger_rettigheder": list(rettigheder(request.user)),
                 "profil": profil
             })
 
