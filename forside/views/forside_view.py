@@ -10,6 +10,6 @@ def tjek(user):
 
 @user_passes_test(tjek, login_url='/system/logind', redirect_field_name=None)
 def forside_view(request):
-    return render(request, 'forside.html', {
+    return render(request, 'forside/forside.html', {
         "bruger_rettigheder": list(rettigheder(request.user))
     })

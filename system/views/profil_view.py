@@ -19,7 +19,7 @@ def profil_view(request, initialer=None):
         if Profil.objects.filter(initialer=request.user.username).exists():
             profil = Profil.objects.get(initialer=request.user.username)
 
-            return render(request, 'profil.html', {
+            return render(request, 'system/profil.html', {
                 "bruger_rettigheder": list(rettigheder(request.user)),
                 "profil": profil
             })
@@ -63,7 +63,7 @@ def profil_view(request, initialer=None):
                 _bruger.save()
                 return redirect('login_view')
 
-            return render(request, 'profil.html', {
+            return render(request, 'system/profil.html', {
                 "bruger_rettigheder": list(rettigheder(request.user)),
                 "profil": _profil,
                 "nuvaerende_adgangskode": _nuvaerende_adgangskode,

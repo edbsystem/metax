@@ -10,6 +10,6 @@ def tjek(user):
 
 @user_passes_test(tjek, login_url='/', redirect_field_name=None)
 def hardware_view(request):
-    return render(request, 'hardware.html', {
+    return render(request, 'hardware/hardware.html', {
         "bruger_rettigheder": list(rettigheder(request.user)),
     })
