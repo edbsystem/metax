@@ -10,5 +10,4 @@ urlpatterns = [
     path('', system_view, name='system_view'),
 
     path('profil/', profil_view, name='profil_view'),
-    path('profil_gem/', profil_save, name='profil_save'),
 ]

@@ -33,4 +33,8 @@
         "system/__init__.py": true,
         "system/apps.py": true,
     },
+    "editor.matchBrackets": "never",
+    "editor.occurrencesHighlight": false,
+    "editor.renderLineHighlight": "none",
+    "editor.selectionHighlight": false,
 }
