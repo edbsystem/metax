@@ -20,6 +20,11 @@ class Rettighed(models.Model):
         ('system_grupper_se',         'system_grupper_se'),
         ('system_gruppe_se',          'system_gruppe_se'),
         ('system_gruppe_rediger',     'system_gruppe_rediger'),
+
+        ('system_login', 'system_login'),
+
+        ('system_profil_se', 'system_profil_se'),
+        ('system_profil_rediger', 'system_profil_rediger'),
     )
 
     navn = models.CharField(

@@ -1,3 +1,29 @@
 from django.contrib import admin
 
-# Register your models here.
+from .models import Profil, Bruger, Gruppe, Rettighed
+
+
+class ProfilAdmin(admin.ModelAdmin):
+    list_display = ('initialer',)
+    ordering = ['initialer']
+
+
+class BrugerAdmin(admin.ModelAdmin):
+    list_display = ('profil',)
+    ordering = ['profil']
+
+
+class GruppeAdmin(admin.ModelAdmin):
+    list_display = ('navn',)
+    ordering = ['navn']
+
+
+class RettighedAdmin(admin.ModelAdmin):
+    list_display = ('navn',)
+    ordering = ['navn']
+
+
+admin.site.register(Profil, ProfilAdmin)
+admin.site.register(Bruger, BrugerAdmin)
+admin.site.register(Gruppe, GruppeAdmin)
+admin.site.register(Rettighed, RettighedAdmin)
