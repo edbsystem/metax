@@ -25,10 +25,15 @@ def gruppe_view(request, navn=None):
                 for rettighed in Gruppe.objects.get(navn=navn).rettighed_set.all():
                     _tildelte_rettigheder.append(rettighed.navn)
 
+                _brugere = []
+                for _bruger in _gruppe.bruger.all():
+                    _brugere.append(_bruger.profil.initialer)
+
                 return render(request, 'system/gruppe.html', {
                     "bruger_rettigheder": list(rettigheder(request.user)),
                     "navn": _gruppe.navn,
                     "tildelte_rettigheder": _tildelte_rettigheder,
+                    "brugere": _brugere,
                     "ny": False,
                     "slet": True,
                 })
@@ -68,7 +73,7 @@ def gruppe_view(request, navn=None):
 
                 if _ny == 'True':
                     messages.error(request, f"Gruppen '{_navn}' findes allerede.")
-                    return render(request, 'gruppe.html', {
+                    return render(request, 'system/gruppe.html', {
                         "navn": _navn,
                         "ny": True,
                         "slet": False,

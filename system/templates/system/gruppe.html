@@ -3,7 +3,6 @@
 {% block title %}Meta X - Gruppe{% endblock %}
 
 {% block content %}
-
 <section class="section center">
   {% if 'system_gruppe_rediger' in bruger_rettigheder %}
   <form action="{% url 'gruppe_view' %}" method="POST">
@@ -13,95 +12,107 @@
 
     <div class="row">
 
-      <div class="col l3 offset-l3">
-        <div class="card z-depth-0">
-          <div class="card-content">
+      {% if ny %}
+      <div class="col l4 offset-l4">
+        {% else %}
+        <div class="col l3 offset-l3">
+          {% endif %}
+          <div class="card z-depth-0">
+            <div class="card-content">
 
-            <div class="row">
-              <div class="input-field col l12">
-                <div class="form-group">
-                  <label for="navn" class="col-form-label left" style="color: #4C566A;">Navn</label>
-                  {% if 'system_gruppe_rediger' in bruger_rettigheder %}
-                  {% if ny %}
-                  <input type="text" name="navn" id="navn" class="form-control" value="{{ navn | default_if_none:'' }}" oninput="this.value = this.value.toUpperCase()">
-                  {% else %}
-                  <input type="text" name="navn" id="navn" class="form-control" value="{{ navn | default_if_none:'' }}" readonly>
-                  {% endif %}
-                  {% else %}
-                  <input type="text" name="navn" id="navn" class="form-control" value="{{ navn | default_if_none:'' }}" readonly>
-                  {% endif %}
+              <div class="row">
+                <div class="input-field col l12">
+                  <div class="form-group">
+                    <label for="navn" class="col-form-label left" style="color: #4C566A;">Navn</label>
+                    {% if 'system_gruppe_rediger' in bruger_rettigheder %}
+                    {% if ny %}
+                    <input type="text" name="navn" id="navn" class="form-control" value="{{ navn | default_if_none:'' }}" oninput="this.value = this.value.toUpperCase()">
+                    {% else %}
+                    <input type="text" name="navn" id="navn" class="form-control" value="{{ navn | default_if_none:'' }}" readonly>
+                    {% endif %}
+                    {% else %}
+                    <input type="text" name="navn" id="navn" class="form-control" value="{{ navn | default_if_none:'' }}" readonly>
+                    {% endif %}
+                  </div>
                 </div>
               </div>
-            </div>
 
-            {% if not ny %}
-            <div class="row">
-              <div class="col l12">
-                <table>
-                  <tbody>
-                    {% for rettighed in rettigheder %}
-                    <tr style="line-height: 1;">
-                      <td>
-                        <div class="form-group">
-                          <label for="{{ rettighed }}">
-                            {% if 'system_gruppe_rediger' in bruger_rettigheder %}
-                            {% if rettighed in tildelte_rettigheder %}
-                            <input type="checkbox" name="{{ rettighed }}" id="{{ rettighed }}" checked />
-                            {% else %}
-                            <input type="checkbox" name="{{ rettighed }}" id="{{ rettighed }}" />
-                            {% endif %}
-                            <span style="color: #4C566A;">{{ rettighed }}</span>
-                            {% else %}
-                            {% if rettighed in tildelte_rettigheder %}
-                            <input type="checkbox" name="{{ rettighed }}" id="{{ rettighed }}" onclick="return false;" checked />
-                            {% else %}
-                            <input type="checkbox" name="{{ rettighed }}" id="{{ rettighed }}" onclick="return false;" />
-                            {% endif %}
-                            <span style="color: #4C566A;">{{ rettighed }}</span>
-                            {% endif %}
-                          </label>
-                        </div>
-                      </td>
-                    </tr>
-                    {% endfor %}
-                  </tbody>
-                </table>
+              {% if not ny %}
+              <div class="row">
+                <div class="col l12">
+                  <table>
+                    <tbody>
+                      {% for rettighed in rettigheder %}
+                      <tr style="line-height: 1;">
+                        <td>
+                          <div class="form-group">
+                            <label for="{{ rettighed }}">
+                              {% if 'system_gruppe_rediger' in bruger_rettigheder %}
+                              {% if rettighed in tildelte_rettigheder %}
+                              <input type="checkbox" name="{{ rettighed }}" id="{{ rettighed }}" checked />
+                              {% else %}
+                              <input type="checkbox" name="{{ rettighed }}" id="{{ rettighed }}" />
+                              {% endif %}
+                              <span style="color: #4C566A;">{{ rettighed }}</span>
+                              {% else %}
+                              {% if rettighed in tildelte_rettigheder %}
+                              <input type="checkbox" name="{{ rettighed }}" id="{{ rettighed }}" onclick="return false;" checked />
+                              {% else %}
+                              <input type="checkbox" name="{{ rettighed }}" id="{{ rettighed }}" onclick="return false;" />
+                              {% endif %}
+                              <span style="color: #4C566A; cursor: default !important;">{{ rettighed }}</span>
+                              {% endif %}
+                            </label>
+                          </div>
+                        </td>
+                      </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
               </div>
+              {% endif %}
+
             </div>
-            {% endif %}
-
           </div>
         </div>
-      </div>
 
-      <div class="col l3">
-        <div class="card z-depth-0">
-          <div class="card-content">
-
+        {% if not ny %}
+        <div class="col l3">
+          <div class="card z-depth-0">
+            <div class="card-content">
+              {{ brugere }}
+            </div>
           </div>
         </div>
-      </div>
+        {% endif %}
 
+      </div>
     </div>
 
     {% if 'system_gruppe_rediger' in bruger_rettigheder %}
     <div class="row">
-      <div class="col l6 offset-l3">
-        <div class="card z-depth-0">
-          <div class="card-content">
-            <div class="row">
-              <div class="card-action col l12">
-                <div class="col right" style="padding: 0; padding-top: 30px; margin: 0;">
-                  <button class="btn waves-effect waves-light z-depth-0" style="margin-right: -15px; background-color: #4C566A; color: #D8DEE9;" type="submit" id="gem" name="gem">Gem</button>
+      {% if ny %}
+      <div class="col l4 offset-l4">
+        {% else %}
+        <div class="col l6 offset-l3">
+          {% endif %}
+          <div class="card z-depth-0">
+            <div class="card-content">
+              <div class="row">
+                <div class="card-action col l12">
+                  <div class="col right" style="padding: 0; padding-top: 30px; margin: 0;">
+                    <button class="btn waves-effect waves-light z-depth-0" style="margin-right: -15px; background-color: #4C566A; color: #D8DEE9;" type="submit" id="gem" name="gem">Gem</button>
+                  </div>
+                  <div class="col right" style="padding: 0; padding-top: 30px; margin: 0;">
+                    <button class="btn waves-effect waves-light z-depth-0" style="margin-right: 20px; background-color: #4C566A; color: #D8DEE9;" type="submit" id="fortryd" name="fortryd">Fortryd</button>
+                  </div>
+                  {% if slet %}
+                  <div class="col left" style="padding: 0; padding-top: 30px; margin: 0;">
+                    <button class="btn waves-effect waves-light z-depth-0" style="margin-left: -13px; background-color: #BF616A; color: #D8DEE9;" type="submit" id="slet" name="slet">Slet</button>
+                  </div>
+                  {% endif %}
                 </div>
-                <div class="col right" style="padding: 0; padding-top: 30px; margin: 0;">
-                  <button class="btn waves-effect waves-light z-depth-0" style="margin-right: 20px; background-color: #4C566A; color: #D8DEE9;" type="submit" id="fortryd" name="fortryd">Fortryd</button>
-                </div>
-                {% if slet %}
-                <div class="col left" style="padding: 0; padding-top: 30px; margin: 0;">
-                  <button class="btn waves-effect waves-light z-depth-0" style="margin-left: -13px; background-color: #BF616A; color: #D8DEE9;" type="submit" id="slet" name="slet">Slet</button>
-                </div>
-                {% endif %}
               </div>
             </div>
           </div>

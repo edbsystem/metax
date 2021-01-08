@@ -12,7 +12,7 @@
           <table style="margin-top: -14px;">
             <thead>
               <tr style="color: #4C566A;">
-                {% if 'system_bruger_rediger' in bruger_rettigheder %}
+                {% if 'system_bruger_se' in bruger_rettigheder and 'system_bruger_rediger' in bruger_rettigheder %}
                 <th><a href="{% url 'bruger_view' %}"><i class="material-icons" style="color: #4C566A;">add</i></a></th>
                 {% else %}
                 <th></th>
@@ -25,7 +25,7 @@
             </thead>
             <tbody>
               {% for bruger in brugere %}
-              {% if 'system_bruger_rediger' in bruger_rettigheder %}
+              {% if 'system_bruger_se' in bruger_rettigheder and 'system_bruger_rediger' in bruger_rettigheder %}
               <tr style="line-height: 1; cursor: pointer;" class='clickable-row' data-href="{% url 'bruger_view' bruger.profil.initialer %}">
                 <td><a href="{% url 'bruger_view' bruger.profil.initialer %}"><i class="material-icons" style="color: #4C566A;">edit</i></a></td>
                 {% else %}
