@@ -13,7 +13,7 @@
             <thead>
               <tr style="color: #4C566A;">
                 {% if 'system_gruppe_rediger' in bruger_rettigheder %}
-                <th><a href=""><i class="material-icons" style="color: #4C566A;">add</i></a></th>
+                <th><a href="{% url 'gruppe_view' %}"><i class="material-icons" style="color: #4C566A;">add</i></a></th>
                 {% else %}
                 <th></th>
                 {% endif %}
@@ -23,11 +23,11 @@
             <tbody>
               {% for gruppe in grupper %}
               {% if 'system_gruppe_rediger' in bruger_rettigheder %}
-              <tr style="line-height: 1; cursor: pointer;" class='clickable-row' data-href="">
-                <td><a href=""><i class="material-icons" style="color: #4C566A;">edit</i></a></td>
+              <tr style="line-height: 1; cursor: pointer;" class='clickable-row' data-href="{% url 'gruppe_view' gruppe.navn %}">
+                <td><a href="{% url 'gruppe_view' gruppe.navn %}"><i class="material-icons" style="color: #4C566A;">edit</i></a></td>
                 {% else %}
-              <tr style="line-height: 1; cursor: pointer;" class='clickable-row' data-href="">
-                <td><a href=""><i class="material-icons" style="color: #4C566A;">visibility</i></a></td>
+              <tr style="line-height: 1; cursor: pointer;" class='clickable-row' data-href="{% url 'gruppe_view' gruppe.navn %}">
+                <td><a href="{% url 'gruppe_view' gruppe.navn %}"><i class="material-icons" style="color: #4C566A;">visibility</i></a></td>
                 {% endif %}
                 <td>{{ gruppe.navn }}</td>
               </tr>

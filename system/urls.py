@@ -1,7 +1,7 @@
 from django.urls import path
 from django.contrib.auth import views as auth_views
 
-from .views import system_view, profil_view, brugere_view, bruger_view, grupper_view
+from .views import system_view, profil_view, brugere_view, bruger_view, grupper_view, gruppe_view
 
 urlpatterns = [
     path('logind/', auth_views.LoginView.as_view(template_name='login.html'), name='login_view'),
@@ -16,4 +16,6 @@ urlpatterns = [
     path('bruger/<str:initialer>/', bruger_view, name='bruger_view'),
 
     path('grupper/', grupper_view, name='grupper_view'),
+    path('gruppe/', gruppe_view, name='gruppe_view'),
+    path('gruppe/<str:navn>/', gruppe_view, name='gruppe_view'),
 ]

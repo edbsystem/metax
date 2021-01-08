@@ -4,8 +4,6 @@ from system.services import rettigheder
 
 def tjek_rettigheder(user, rttghdr):
 
-    # return True
-
     if not user.is_authenticated:
         return False
 
