@@ -1,0 +1,168 @@
+{% extends 'base.html' %}
+
+{% block title %}Meta X - Bruger{% endblock %}
+
+{% block content %}
+
+<section class="section center">
+  {% if 'system_bruger_rediger' in bruger_rettigheder %}
+  <form action="{% url 'bruger_view' %}" method="POST">
+    {% csrf_token %}
+    {% endif %}
+
+    <input type="hidden" name="ny" id="ny" value="{{ ny }}">
+
+    <div class="row">
+
+      <div class="col l4 offset-l2">
+        <div class="card z-depth-0">
+          <div class="card-content">
+            <div class="row">
+              <div class="input-field col l12">
+                <div class="form-group">
+                  <label for="initialer" class="col-form-label left" style="color: #4C566A;">Initialer</label>
+                  {% if ny %}
+                  <input type="text" name="initialer" id="initialer" class="form-control" value="{{ initialer | upper  | default_if_none:'' }}" oninput="this.value = this.value.toUpperCase()">
+                  {% else %}
+                  <input type="text" name="initialer" id="initialer" class="form-control" value="{{ initialer | upper  | default_if_none:'' }}" readonly>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="input-field col l12">
+                <div class="form-group">
+                  <label for="fornavn" class="col-form-label left" style="color: #4C566A;">Fornavn</label>
+                  {% if 'system_bruger_rediger' in bruger_rettigheder%}
+                  <input type="text" name="fornavn" id="fornavn" class="form-control" value="{{ fornavn | default_if_none:'' }}">
+                  {% else %}
+                  <input type="text" name="fornavn" id="fornavn" class="form-control" value="{{ fornavn | default_if_none:'' }}" readonly>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="input-field col l12">
+                <div class="form-group">
+                  <label for="mellemnavn" class="col-form-label left" style="color: #4C566A;">Mellemnavn</label>
+                  {% if 'system_bruger_rediger' in bruger_rettigheder%}
+                  <input type="text" name="mellemnavn" id="mellemnavn" class="form-control" value="{{ mellemnavn | default_if_none:'' }}">
+                  {% else %}
+                  <input type="text" name="mellemnavn" id="mellemnavn" class="form-control" value="{{ mellemnavn | default_if_none:'' }}" readonly>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="input-field col l12">
+                <div class="form-group">
+                  <label for="efternavn" class="col-form-label left" style="color: #4C566A;">Efternavn</label>
+                  {% if 'system_bruger_rediger' in bruger_rettigheder%}
+                  <input type="text" name="efternavn" id="efternavn" class="form-control" value="{{ efternavn | default_if_none:'' }}">
+                  {% else%}
+                  <input type="text" name="efternavn" id="efternavn" class="form-control" value="{{ efternavn | default_if_none:'' }}" readonly>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="input-field col l12">
+                <div class="form-group">
+                  <label for="adgangskode" class="col-form-label left" style="color: #4C566A;">Adgangskode</label>
+                  {% if 'system_bruger_rediger' in bruger_rettigheder%}
+                  <input type="text" name="adgangskode" id="adgangskode" class="form-control">
+                  {% else %}
+                  <input type="text" name="adgangskode" id="adgangskode" class="form-control" readonly>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col l4">
+        <div class="card z-depth-0">
+          <div class="card-content">
+            {% for gruppe in grupper %}
+            <div class="row">
+              <div class="col l12">
+                <div class="form-group left" style="margin-top: 20px;">
+                  <label for="{{ gruppe }}">
+                    {% if gruppe in tildelte_grupper %}
+                    {% if 'system_bruger_rediger' in bruger_rettigheder%}
+                    <input type="checkbox" name="{{ gruppe }}" id="{{ gruppe }}" checked />
+                    {% else %}
+                    <input type="checkbox" name="{{ gruppe }}" id="{{ gruppe }}" onclick="return false;" checked />
+                    {% endif %}
+                    {% else %}
+                    {% if 'system_bruger_rediger' in bruger_rettigheder%}
+                    <input type="checkbox" name="{{ gruppe }}" id="{{ gruppe }}" />
+                    {% else %}
+                    <input type="checkbox" name="{{ gruppe }}" id="{{ gruppe }}" onclick="return false;" readonly />
+                    {% endif %}
+                    {% endif %}
+                    <span style="color: #4C566A;">{{ gruppe }}</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    {% if 'system_bruger_rediger' in bruger_rettigheder %}
+    <div class="row">
+      <div class="col l8 offset-l2">
+        <div class="card z-depth-0">
+          <div class="card-content">
+            <div class="row">
+              <div class="card-action col l12">
+                <div class="col right" style="padding: 0; padding-top: 30px; margin: 0;">
+                  <button class="btn waves-effect waves-light z-depth-0" style="margin-right: -15px; background-color: #4C566A; color: #D8DEE9;" type="submit" id="gem" name="gem">Gem</button>
+                </div>
+                <div class="col right" style="padding: 0; padding-top: 30px; margin: 0;">
+                  <button class="btn waves-effect waves-light z-depth-0" style="margin-right: 20px; background-color: #4C566A; color: #D8DEE9;" type="submit" id="fortryd" name="fortryd">Fortryd</button>
+                </div>
+                {% if slet %}
+                <div class="col left" style="padding: 0; padding-top: 30px; margin: 0;">
+                  <button class="btn waves-effect waves-light z-depth-0" style="margin-left: -13px; background-color: #BF616A; color: #D8DEE9;" type="submit" id="slet" name="slet">Slet</button>
+                </div>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endif %}
+
+  </form>
+</section>
+
+<script>
+  {% if ny %}
+  $(document).ready(function () {
+    var input = $("#initialer");
+    var len = input.val().length;
+    input[0].focus();
+    input[0].setSelectionRange(len, len);
+  });
+  {% else %}
+  $(document).ready(function () {
+    var input = $("#fornavn");
+    var len = input.val().length;
+    input[0].focus();
+    input[0].setSelectionRange(len, len);
+  });
+  {% endif %}
+</script>
+
+{% endblock content %}
+
+{% block footer %}
+{% include 'system/footer.html' %}
+{% endblock footer %}
