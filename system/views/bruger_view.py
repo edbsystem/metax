@@ -127,10 +127,6 @@ def bruger_view(request, initialer=None):
                         _user.set_password(_adgangskode)
                         _user.save()
 
-                    _tildelte_grupper = []
-                    for gruppe in Gruppe.objects.filter(bruger=_bruger).order_by(Lower('navn')):
-                        _tildelte_grupper.append(gruppe.navn)
-
                     _grupper = []
                     for gruppe in Gruppe.objects.all().order_by(Lower('navn')):
                         _grupper.append(gruppe.navn)

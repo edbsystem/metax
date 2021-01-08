@@ -24,7 +24,7 @@
                   {% if ny %}
                   <input type="text" name="initialer" id="initialer" class="form-control" value="{{ initialer | upper  | default_if_none:'' }}" oninput="this.value = this.value.toUpperCase()">
                   {% else %}
-                  <input type="text" name="initialer" id="initialer" class="form-control" value="{{ initialer | upper  | default_if_none:'' }}" readonly>
+                  <input type="text" name="initialer" id="initialer" class="form-control" value="{{ initialer | upper  | default_if_none:'' }}" style="cursor: default !important;" readonly>
                   {% endif %}
                 </div>
               </div>
@@ -36,7 +36,7 @@
                   {% if 'system_bruger_rediger' in bruger_rettigheder%}
                   <input type="text" name="fornavn" id="fornavn" class="form-control" value="{{ fornavn | default_if_none:'' }}">
                   {% else %}
-                  <input type="text" name="fornavn" id="fornavn" class="form-control" value="{{ fornavn | default_if_none:'' }}" readonly>
+                  <input type="text" name="fornavn" id="fornavn" class="form-control" value="{{ fornavn | default_if_none:'' }}" style="cursor: default !important;" readonly>
                   {% endif %}
                 </div>
               </div>
@@ -48,7 +48,7 @@
                   {% if 'system_bruger_rediger' in bruger_rettigheder%}
                   <input type="text" name="mellemnavn" id="mellemnavn" class="form-control" value="{{ mellemnavn | default_if_none:'' }}">
                   {% else %}
-                  <input type="text" name="mellemnavn" id="mellemnavn" class="form-control" value="{{ mellemnavn | default_if_none:'' }}" readonly>
+                  <input type="text" name="mellemnavn" id="mellemnavn" class="form-control" value="{{ mellemnavn | default_if_none:'' }}" style="cursor: default !important;" readonly>
                   {% endif %}
                 </div>
               </div>
@@ -60,23 +60,21 @@
                   {% if 'system_bruger_rediger' in bruger_rettigheder%}
                   <input type="text" name="efternavn" id="efternavn" class="form-control" value="{{ efternavn | default_if_none:'' }}">
                   {% else%}
-                  <input type="text" name="efternavn" id="efternavn" class="form-control" value="{{ efternavn | default_if_none:'' }}" readonly>
+                  <input type="text" name="efternavn" id="efternavn" class="form-control" value="{{ efternavn | default_if_none:'' }}" style="cursor: default !important;" readonly>
                   {% endif %}
                 </div>
               </div>
             </div>
+            {% if 'system_bruger_rediger' in bruger_rettigheder%}
             <div class="row">
               <div class="input-field col l12">
                 <div class="form-group">
                   <label for="adgangskode" class="col-form-label left" style="color: #4C566A;">Adgangskode</label>
-                  {% if 'system_bruger_rediger' in bruger_rettigheder%}
                   <input type="text" name="adgangskode" id="adgangskode" class="form-control">
-                  {% else %}
-                  <input type="text" name="adgangskode" id="adgangskode" class="form-control" readonly>
-                  {% endif %}
                 </div>
               </div>
             </div>
+            {% endif %}
           </div>
         </div>
       </div>
@@ -102,7 +100,7 @@
                     <input type="checkbox" name="{{ gruppe }}" id="{{ gruppe }}" onclick="return false;" readonly />
                     {% endif %}
                     {% endif %}
-                    <span style="color: #4C566A;">{{ gruppe }}</span>
+                    <span style="color: #4C566A;  cursor: default !important;">{{ gruppe }}</span>
                   </label>
                 </div>
               </div>

@@ -28,10 +28,10 @@
                     {% if ny %}
                     <input type="text" name="navn" id="navn" class="form-control" value="{{ navn | default_if_none:'' }}" oninput="this.value = this.value.toUpperCase()">
                     {% else %}
-                    <input type="text" name="navn" id="navn" class="form-control" value="{{ navn | default_if_none:'' }}" readonly>
+                    <input type="text" name="navn" id="navn" class="form-control" value="{{ navn | default_if_none:'' }}" style="cursor: default !important;" readonly>
                     {% endif %}
                     {% else %}
-                    <input type="text" name="navn" id="navn" class="form-control" value="{{ navn | default_if_none:'' }}" readonly>
+                    <input type="text" name="navn" id="navn" class="form-control" value="{{ navn | default_if_none:'' }}" style="cursor: default !important;" readonly>
                     {% endif %}
                   </div>
                 </div>
@@ -81,7 +81,32 @@
         <div class="col l3">
           <div class="card z-depth-0">
             <div class="card-content">
-              {{ brugere }}
+              <span class="card-title left" style="margin-top: 12px; cursor: default !important;">Brugere</span><br><br>
+              {% for bruger in brugere %}
+              <div class="row">
+                <div class="col l12">
+                  <div class="form-group left" style="margin-top: 20px;">
+                    <label for="{{ bruger.0 }}">
+                      {% if 'system_gruppe_rediger' in bruger_rettigheder %}
+                      {% if bruger.0 in tildelte_brugere %}
+                      <input type="checkbox" name="{{ bruger.0 }}" id="{{ bruger.0 }}" checked />
+                      {% else %}
+                      <input type="checkbox" name="{{ bruger.0 }}" id="{{ bruger.0 }}" />
+                      {% endif %}
+                      <span style="color: #4C566A;">{{ bruger.1 }} ({{ bruger.0 }})</span>
+                      {% else %}
+                      {% if bruger.0 in tildelte_brugere %}
+                      <input type="checkbox" name="{{ bruger.0 }}" id="{{ bruger.0 }}" onclick="return false;" checked />
+                      {% else %}
+                      <input type="checkbox" name="{{ bruger.0 }}" id="{{ bruger.0 }}" onclick="return false;" />
+                      {% endif %}
+                      <span style="color: #4C566A; cursor: default !important;">{{ bruger.1 }} ({{ bruger.0 }})</span>
+                      {% endif %}
+                    </label>
+                  </div>
+                </div>
+              </div>
+              {% endfor %}
             </div>
           </div>
         </div>

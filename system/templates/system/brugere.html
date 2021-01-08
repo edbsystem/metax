@@ -14,13 +14,14 @@
               <tr style="color: #4C566A;">
                 {% if 'system_bruger_se' in bruger_rettigheder and 'system_bruger_rediger' in bruger_rettigheder %}
                 <th><a href="{% url 'bruger_view' %}"><i class="material-icons" style="color: #4C566A;">add</i></a></th>
-                {% else %}
+                {% elif 'system_bruger_se' in bruger_rettigheder %}
                 <th></th>
+                {% else %}
                 {% endif %}
-                <th>Initialer</th>
-                <th>Fornavn</th>
-                <th>Mellemnavn</th>
-                <th>Efternavn</th>
+                <th style="cursor: default !important;">Initialer</th>
+                <th style="cursor: default !important;">Fornavn</th>
+                <th style="cursor: default !important;">Mellemnavn</th>
+                <th style="cursor: default !important;">Efternavn</th>
               </tr>
             </thead>
             <tbody>
@@ -28,14 +29,16 @@
               {% if 'system_bruger_se' in bruger_rettigheder and 'system_bruger_rediger' in bruger_rettigheder %}
               <tr style="line-height: 1; cursor: pointer;" class='clickable-row' data-href="{% url 'bruger_view' bruger.profil.initialer %}">
                 <td><a href="{% url 'bruger_view' bruger.profil.initialer %}"><i class="material-icons" style="color: #4C566A;">edit</i></a></td>
-                {% else %}
+                {% elif 'system_bruger_se' in bruger_rettigheder %}
               <tr style="line-height: 1; cursor: pointer;" class='clickable-row' data-href="{% url 'bruger_view' bruger.profil.initialer %}">
                 <td><a href="{% url 'bruger_view' bruger.profil.initialer %}"><i class="material-icons" style="color: #4C566A;">visibility</i></a></td>
-                {% endif %}
-                <td>{{ bruger.profil.initialer | upper }}</td>
-                <td>{{ bruger.profil.fornavn | default_if_none:'' }}</td>
-                <td>{{ bruger.profil.mellemnavn | default_if_none:'' }}</td>
-                <td>{{ bruger.profil.efternavn | default_if_none:'' }}</td>
+                {% else %}
+              <tr style="line-height: 1; cursor: default;"></tr>
+              {% endif %}
+              <td>{{ bruger.profil.initialer | upper }}</td>
+              <td>{{ bruger.profil.fornavn | default_if_none:'' }}</td>
+              <td>{{ bruger.profil.mellemnavn | default_if_none:'' }}</td>
+              <td>{{ bruger.profil.efternavn | default_if_none:'' }}</td>
               </tr>
               {% endfor %}
             </tbody>
