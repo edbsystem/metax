@@ -35,4 +35,4 @@ class Profil(models.Model):
         return str(self.initialer)
 
     class Meta:
-        verbose_name_plural = "profiler"
+        verbose_name_plural = "Profiler"

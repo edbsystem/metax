@@ -1,6 +1,5 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import user_passes_test
-from django.db.models.functions import Lower
 from django.contrib import messages
 from django.contrib.auth.models import User
 
@@ -22,21 +21,21 @@ def bruger_view(request, initialer=None):
             _slet = True
 
             if Profil.objects.filter(initialer=initialer).exists():
-                _profil = Profil.objects.get(initialer=initialer)
-                _bruger = Bruger.objects.get(profil=_profil)
+                _profil_obj = Profil.objects.get(initialer=initialer)
+                _bruger_obj = Bruger.objects.get(profil=_profil_obj)
 
                 _tildelte_grupper = []
-                for gruppe in Gruppe.objects.filter(bruger=_bruger).order_by(Lower('navn')):
-                    _tildelte_grupper.append(gruppe.navn)
+                for _gruppe_obj in Gruppe.objects.filter(bruger=_bruger_obj):
+                    _tildelte_grupper.append(_gruppe_obj.navn)
 
                 return render(request, 'system/bruger.html', {
                     "bruger_rettigheder": list(rettigheder(request.user)),
-                    "initialer": _bruger.profil.initialer,
-                    "fornavn": _bruger.profil.fornavn,
-                    "mellemnavn": _bruger.profil.mellemnavn,
-                    "efternavn": _bruger.profil.efternavn,
+                    "initialer": _bruger_obj.profil.initialer,
+                    "fornavn": _bruger_obj.profil.fornavn,
+                    "mellemnavn": _bruger_obj.profil.mellemnavn,
+                    "efternavn": _bruger_obj.profil.efternavn,
                     "adgangskode": '',
-                    "tildelte_grupper": _tildelte_grupper,
+                    "tildelte_grupper": sorted(_tildelte_grupper),
                     "ny": False,
                     "slet": _slet,
                 })
@@ -69,19 +68,17 @@ def bruger_view(request, initialer=None):
         _efternavn = request.POST['efternavn'] if 'efternavn' in request.POST else None
         _adgangskode = request.POST['adgangskode'] if 'adgangskode' in request.POST else None
 
-        _bruger = None
-
         if _initialer:
             if len(_initialer) != 3:
 
                 _grupper = []
-                for gruppe in Gruppe.objects.all():
-                    _grupper.append(gruppe.navn)
+                for _gruppe_obj in Gruppe.objects.all():
+                    _grupper.append(_gruppe_obj.navn)
 
                 _tildelte_grupper = []
-                for _g in _grupper:
-                    if _g in request.POST:
-                        _tildelte_grupper.append(_g)
+                for _gruppe in _grupper:
+                    if _gruppe in request.POST:
+                        _tildelte_grupper.append(_gruppe)
 
                 messages.error(request, f"Initialer skal altid udgøres af tre tegn. Hverken mere eller mindre. Tre tegn!")
                 return render(request, 'system/bruger.html', {
@@ -91,7 +88,7 @@ def bruger_view(request, initialer=None):
                     "mellemnavn": _mellemnavn,
                     "efternavn": _efternavn,
                     "adgangskode": '',
-                    "tildelte_grupper": _tildelte_grupper,
+                    "tildelte_grupper": sorted(_tildelte_grupper),
                     "ny": True,
                     "slet": False,
                 })
@@ -101,13 +98,13 @@ def bruger_view(request, initialer=None):
                 if 'slet' in request.POST:
                     messages.warning(request, f"Brugeren '{_initialer}' blev slettet.")
 
-                    _user = User.objects.get(username=_initialer)
-                    _profil = Profil.objects.get(initialer=_initialer)
-                    _bruger = Bruger.objects.get(profil=_profil)
+                    _user_obj = User.objects.get(username=_initialer)
+                    _profil_obj = Profil.objects.get(initialer=_initialer)
+                    _bruger_obj = Bruger.objects.get(profil=_profil_obj)
 
-                    _user.delete()
-                    _bruger.delete()
-                    _profil.delete()
+                    _user_obj.delete()
+                    _bruger_obj.delete()
+                    _profil_obj.delete()
 
                     return redirect('brugere_view')
 
@@ -125,74 +122,70 @@ def bruger_view(request, initialer=None):
                     })
 
                 if not _ny == 'True':
-                    _profil = Profil.objects.get(initialer=_initialer)
-                    _bruger = Bruger.objects.get(profil=_profil)
+                    _profil_obj = Profil.objects.get(initialer=_initialer)
+                    _bruger_obj = Bruger.objects.get(profil=_profil_obj)
 
-                    _bruger.profil.fornavn = _fornavn if _fornavn != '' else _bruger.profil.fornavn
-                    _bruger.profil.mellemnavn = _mellemnavn if _mellemnavn != '' else _bruger.profil.mellemnavn
-                    _bruger.profil.efternavn = _efternavn if _efternavn != '' else _bruger.profil.efternavn
-                    _bruger.profil.save()
+                    _bruger_obj.profil.fornavn = _fornavn if _fornavn != '' else _bruger_obj.profil.fornavn
+                    _bruger_obj.profil.mellemnavn = _mellemnavn if _mellemnavn != '' else _bruger_obj.profil.mellemnavn
+                    _bruger_obj.profil.efternavn = _efternavn if _efternavn != '' else _bruger_obj.profil.efternavn
+                    _bruger_obj.profil.save()
 
                     if _adgangskode != '':
-                        _user = User.objects.get(username=_initialer)
-                        _user.set_password(_adgangskode)
-                        _user.save()
+                        _user_obj = User.objects.get(username=_initialer)
+                        _user_obj.set_password(_adgangskode)
+                        _user_obj.save()
 
                     _grupper = []
-                    for gruppe in Gruppe.objects.all().order_by(Lower('navn')):
-                        _grupper.append(gruppe.navn)
+                    for gruppe_obj in Gruppe.objects.all():
+                        _grupper.append(gruppe_obj.navn)
 
-                    for _g in _grupper:
-                        _post_gruppe = request.POST[_g] if _g in request.POST else None
-                        _gruppe = None
+                    for _gruppe in _grupper:
+                        _post_gruppe = request.POST[_gruppe] if _gruppe in request.POST else None
 
                         if _post_gruppe:
-                            _gruppe = Gruppe.objects.filter(navn=_g, bruger=_bruger).first()
-                            if not _gruppe:
-                                _gruppe = Gruppe.objects.get(navn=_g)
-                                _gruppe.bruger.add(_bruger)
+                            if not Gruppe.objects.filter(navn=_gruppe, bruger=_bruger_obj).first():
+                                _gruppe_obj = Gruppe.objects.get(navn=_gruppe)
+                                _gruppe_obj.bruger.add(_bruger_obj)
 
                         if not _post_gruppe:
-                            _gruppe = Gruppe.objects.filter(navn=_g, bruger=_bruger).first()
-                            if _gruppe:
-                                _gruppe.bruger.remove(_bruger)
+                            _gruppe_obj = Gruppe.objects.filter(navn=_gruppe, bruger=_bruger_obj).first()
+                            if _gruppe_obj:
+                                _gruppe_obj.bruger.remove(_bruger_obj)
 
                     messages.success(request, f"Brugeren '{_initialer}' blev gemt.")
                     return redirect('brugere_view')
 
             if not Profil.objects.filter(initialer=_initialer).exists():
                 User.objects.create_user(username=_initialer)
-                _profil = Profil.objects.create(initialer=_initialer)
-                _bruger = Bruger.objects.create(profil=_profil)
+                _profil_obj = Profil.objects.create(initialer=_initialer)
+                _bruger_obj = Bruger.objects.create(profil=_profil_obj)
 
-                _bruger.profil.fornavn = _fornavn if _fornavn != '' else _bruger.profil.fornavn
-                _bruger.profil.mellemnavn = _mellemnavn if _mellemnavn != '' else _bruger.profil.mellemnavn
-                _bruger.profil.efternavn = _efternavn if _efternavn != '' else _bruger.profil.efternavn
-                _bruger.profil.save()
+                _bruger_obj.profil.fornavn = _fornavn if _fornavn != '' else _bruger_obj.profil.fornavn
+                _bruger_obj.profil.mellemnavn = _mellemnavn if _mellemnavn != '' else _bruger_obj.profil.mellemnavn
+                _bruger_obj.profil.efternavn = _efternavn if _efternavn != '' else _bruger_obj.profil.efternavn
+                _bruger_obj.profil.save()
 
                 if _adgangskode:
-                    _user = User.objects.get(username=_initialer)
-                    _user.set_password(_adgangskode)
-                    _user.save()
+                    _user_obj = User.objects.get(username=_initialer)
+                    _user_obj.set_password(_adgangskode)
+                    _user_obj.save()
 
                 _grupper = []
-                for gruppe in Gruppe.objects.all().order_by(Lower('navn')):
-                    _grupper.append(gruppe.navn)
+                for gruppe_obj in Gruppe.objects.all():
+                    _grupper.append(gruppe_obj.navn)
 
-                for _g in _grupper:
-                    _post_gruppe = request.POST[_g] if _g in request.POST else None
-                    _gruppe = None
+                for _gruppe in _grupper:
+                    _post_gruppe = request.POST[_gruppe] if _gruppe in request.POST else None
 
                     if _post_gruppe:
-                        _gruppe = Gruppe.objects.filter(navn=_g, bruger=_bruger).first()
-                        if not _gruppe:
-                            _gruppe = Gruppe.objects.get(navn=_g)
-                            _gruppe.bruger.add(_bruger)
+                        if not Gruppe.objects.filter(navn=_gruppe, bruger=_bruger_obj).first():
+                            _gruppe_obj = Gruppe.objects.get(navn=_gruppe)
+                            _gruppe_obj.bruger.add(_bruger_obj)
 
                     if not _post_gruppe:
-                        _gruppe = Gruppe.objects.filter(navn=_g, bruger=_bruger).first()
-                        if _gruppe:
-                            _gruppe.bruger.remove(_bruger)
+                        _gruppe_obj = Gruppe.objects.filter(navn=_gruppe, bruger=_bruger_obj).first()
+                        if _gruppe_obj:
+                            _gruppe_obj.bruger.remove(_bruger_obj)
 
                 messages.success(request, f"Brugeren '{_initialer}' blev oprettet.")
                 return redirect('brugere_view')

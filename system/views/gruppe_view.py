@@ -30,10 +30,10 @@ def gruppe_view(request, navn=None):
                     _tildelte_brugere.append(_bruger.profil.initialer)
 
                 return render(request, 'system/gruppe.html', {
-                    "bruger_rettigheder": list(rettigheder(request.user)),
+                    "bruger_rettigheder": rettigheder(request.user),
                     "navn": _gruppe.navn,
-                    "tildelte_rettigheder": _tildelte_rettigheder,
-                    "tildelte_brugere": _tildelte_brugere,
+                    "tildelte_rettigheder": sorted(_tildelte_rettigheder),
+                    "tildelte_brugere": sorted(_tildelte_brugere),
                     "ny": False,
                     "slet": True,
                 })
@@ -44,7 +44,7 @@ def gruppe_view(request, navn=None):
 
         if not navn:
             return render(request, 'system/gruppe.html', {
-                "bruger_rettigheder": list(rettigheder(request.user)),
+                "bruger_rettigheder": rettigheder(request.user),
                 "navn": '',
                 "ny": True,
                 "slet": False,
@@ -74,10 +74,10 @@ def gruppe_view(request, navn=None):
                 if _ny == 'True':
                     messages.error(request, f"Gruppen '{_navn}' findes allerede.")
                     return render(request, 'system/gruppe.html', {
+                        "bruger_rettigheder": rettigheder(request.user),
                         "navn": _navn,
                         "ny": True,
                         "slet": False,
-                        "bruger_rettigheder": list(rettigheder(request.user))
                     })
 
                 if _ny == 'False':
@@ -112,7 +112,7 @@ def gruppe_view(request, navn=None):
 
                 messages.success(request, f"Gruppen '{_navn}' blev oprettet.")
                 return render(request, 'system/gruppe.html', {
-                    "bruger_rettigheder": list(rettigheder(request.user)),
+                    "bruger_rettigheder": rettigheder(request.user),
                     "navn": _navn,
                     "ny": False,
                     "slet": True,
@@ -121,7 +121,7 @@ def gruppe_view(request, navn=None):
         if not _navn:
             messages.error(request, f"Udfyld venligst feltet 'Navn'.")
             return render(request, 'system/gruppe.html', {
-                "bruger_rettigheder": list(rettigheder(request.user)),
+                "bruger_rettigheder": rettigheder(request.user),
                 "navn": _navn,
                 "ny": True,
                 "slet": False,

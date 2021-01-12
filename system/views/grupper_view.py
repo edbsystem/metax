@@ -16,6 +16,6 @@ def grupper_view(request):
     _grupper = Gruppe.objects.all().order_by(Lower('navn'))
 
     return render(request, 'system/grupper.html', {
-        "bruger_rettigheder": list(rettigheder(request.user)),
+        "bruger_rettigheder": rettigheder(request.user),
         "grupper": _grupper,
     })

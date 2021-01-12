@@ -11,5 +11,5 @@ def tjek(user):
 @user_passes_test(tjek, login_url='/', redirect_field_name=None)
 def statistik_view(request):
     return render(request, 'statistik/statistik.html', {
-        "bruger_rettigheder": list(rettigheder(request.user)),
+        "bruger_rettigheder": rettigheder(request.user),
     })

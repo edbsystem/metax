@@ -5,13 +5,13 @@ def rettigheder(user):
 
     _rettigheder = set()
 
-    if Profil.objects.filter(initialer=str(user)).exists():
-        _profil = Profil.objects.get(initialer=str(user))
-        _bruger = Bruger.objects.get(profil=_profil)
+    if Profil.objects.filter(initialer=user).exists():
+        _profil_obj = Profil.objects.get(initialer=user)
+        _bruger_obj = Bruger.objects.get(profil=_profil_obj)
 
-        for _gruppe in Gruppe.objects.all():
-            if _gruppe.bruger.filter(profil=_profil).first():
-                for _rettighed in Rettighed.objects.filter(gruppe=_gruppe):
-                    _rettigheder.add(_rettighed.navn)
+        for _gruppe_obj in Gruppe.objects.all():
+            if _gruppe_obj.bruger.filter(profil=_profil_obj).first():
+                for _rettighed_obj in Rettighed.objects.filter(gruppe=_gruppe_obj):
+                    _rettigheder.add(_rettighed_obj.navn)
 
-    return _rettigheder
+    return list(_rettigheder)
