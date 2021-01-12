@@ -35,7 +35,7 @@ def bruger_view(request, initialer=None):
                     "adgangskode": '',
                     "tildelte_grupper": sorted(_tildelte_grupper),
                     "ny": False,
-                    "slet": True,
+                    "slet": False if 'SUPERUSER' in _tildelte_grupper else True
                 })
 
             if not Profil.objects.filter(initialer=initialer).exists():
@@ -97,6 +97,14 @@ def bruger_view(request, initialer=None):
                     _user_obj = User.objects.get(username=_initialer)
                     _profil_obj = Profil.objects.get(initialer=_initialer)
                     _bruger_obj = Bruger.objects.get(profil=_profil_obj)
+
+                    _tildelte_grupper = []
+                    for _gruppe_obj in Gruppe.objects.filter(bruger=_bruger_obj):
+                        _tildelte_grupper.append(_gruppe_obj.navn)
+
+                    if 'SUPERUSER' in _tildelte_grupper:
+                        messages.error(request, f"Du kan ikke slette en bruger der er medlem af gruppen 'SUPERUSER'")
+                        return redirect('brugere_view')
 
                     _user_obj.delete()
                     _bruger_obj.delete()
