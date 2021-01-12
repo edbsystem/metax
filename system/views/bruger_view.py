@@ -73,6 +73,16 @@ def bruger_view(request, initialer=None):
 
         if _initialer:
             if len(_initialer) != 3:
+
+                _grupper = []
+                for gruppe in Gruppe.objects.all():
+                    _grupper.append(gruppe.navn)
+
+                _tildelte_grupper = []
+                for _g in _grupper:
+                    if _g in request.POST:
+                        _tildelte_grupper.append(_g)
+
                 messages.error(request, f"Initialer skal altid udgøres af tre tegn. Hverken mere eller mindre. Tre tegn!")
                 return render(request, 'system/bruger.html', {
                     "bruger_rettigheder": list(rettigheder(request.user)),
@@ -81,6 +91,7 @@ def bruger_view(request, initialer=None):
                     "mellemnavn": _mellemnavn,
                     "efternavn": _efternavn,
                     "adgangskode": '',
+                    "tildelte_grupper": _tildelte_grupper,
                     "ny": True,
                     "slet": False,
                 })

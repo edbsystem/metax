@@ -89,11 +89,11 @@
                     <label for="{{ bruger.0 }}">
                       {% if 'system_gruppe_rediger' in bruger_rettigheder %}
                       {% if bruger.0 in tildelte_brugere %}
-                      <input type="checkbox" name="{{ bruger.0 }}" id="{{ bruger.0 }}" checked />
+                      <input type="checkbox" name="{{ bruger.0 }}" id="{{ bruger.0 }}" onclick="return false;" checked />
                       {% else %}
-                      <input type="checkbox" name="{{ bruger.0 }}" id="{{ bruger.0 }}" />
+                      <input type="checkbox" name="{{ bruger.0 }}" id="{{ bruger.0 }}" onclick="return false;" />
                       {% endif %}
-                      <span style="color: #4C566A;">{{ bruger.1 }} ({{ bruger.0 }})</span>
+                      <span style="color: #4C566A; cursor: default !important;">{{ bruger.1 }} ({{ bruger.0 }})</span>
                       {% else %}
                       {% if bruger.0 in tildelte_brugere %}
                       <input type="checkbox" name="{{ bruger.0 }}" id="{{ bruger.0 }}" onclick="return false;" checked />
