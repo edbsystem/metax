@@ -18,8 +18,6 @@ def bruger_view(request, initialer=None):
 
         if initialer:
 
-            _slet = True
-
             if Profil.objects.filter(initialer=initialer).exists():
                 _profil_obj = Profil.objects.get(initialer=initialer)
                 _bruger_obj = Bruger.objects.get(profil=_profil_obj)
@@ -29,7 +27,7 @@ def bruger_view(request, initialer=None):
                     _tildelte_grupper.append(_gruppe_obj.navn)
 
                 return render(request, 'system/bruger.html', {
-                    "bruger_rettigheder": list(rettigheder(request.user)),
+                    "bruger_rettigheder": rettigheder(request.user),
                     "initialer": _bruger_obj.profil.initialer,
                     "fornavn": _bruger_obj.profil.fornavn,
                     "mellemnavn": _bruger_obj.profil.mellemnavn,
@@ -37,7 +35,7 @@ def bruger_view(request, initialer=None):
                     "adgangskode": '',
                     "tildelte_grupper": sorted(_tildelte_grupper),
                     "ny": False,
-                    "slet": _slet,
+                    "slet": True,
                 })
 
             if not Profil.objects.filter(initialer=initialer).exists():
@@ -46,7 +44,7 @@ def bruger_view(request, initialer=None):
 
         if not initialer:
             return render(request, 'system/bruger.html', {
-                "bruger_rettigheder": list(rettigheder(request.user)),
+                "bruger_rettigheder": rettigheder(request.user),
                 "initialer": '',
                 "fornavn": '',
                 "mellemnavn": '',
@@ -82,7 +80,7 @@ def bruger_view(request, initialer=None):
 
                 messages.error(request, f"Initialer skal altid udgøres af tre tegn. Hverken mere eller mindre. Tre tegn!")
                 return render(request, 'system/bruger.html', {
-                    "bruger_rettigheder": list(rettigheder(request.user)),
+                    "bruger_rettigheder": rettigheder(request.user),
                     "initialer": _initialer,
                     "fornavn": _fornavn,
                     "mellemnavn": _mellemnavn,
@@ -95,9 +93,7 @@ def bruger_view(request, initialer=None):
 
             if Profil.objects.filter(initialer=_initialer).exists():
 
-                if 'slet' in request.POST:
-                    messages.warning(request, f"Brugeren '{_initialer}' blev slettet.")
-
+                if 'slet' in request.POST and tjek_rettigheder(request.user, {'system_bruger_slet'}):
                     _user_obj = User.objects.get(username=_initialer)
                     _profil_obj = Profil.objects.get(initialer=_initialer)
                     _bruger_obj = Bruger.objects.get(profil=_profil_obj)
@@ -106,13 +102,14 @@ def bruger_view(request, initialer=None):
                     _bruger_obj.delete()
                     _profil_obj.delete()
 
+                    messages.warning(request, f"Brugeren '{_initialer}' blev slettet.")
                     return redirect('brugere_view')
 
                 if _ny == 'True':
                     messages.error(request, f"Brugeren '{_initialer}' findes allerede.")
 
                     return render(request, 'system/bruger.html', {
-                        "bruger_rettigheder": list(rettigheder(request.user)),
+                        "bruger_rettigheder": rettigheder(request.user),
                         "fornavn": _fornavn,
                         "mellemnavn": _mellemnavn,
                         "efternavn": _efternavn,
@@ -155,7 +152,7 @@ def bruger_view(request, initialer=None):
                     messages.success(request, f"Brugeren '{_initialer}' blev gemt.")
                     return redirect('brugere_view')
 
-            if not Profil.objects.filter(initialer=_initialer).exists():
+            if not Profil.objects.filter(initialer=_initialer).exists() and tjek_rettigheder(request.user, {'system_bruger_opret'}):
                 User.objects.create_user(username=_initialer)
                 _profil_obj = Profil.objects.create(initialer=_initialer)
                 _bruger_obj = Bruger.objects.create(profil=_profil_obj)
@@ -193,7 +190,7 @@ def bruger_view(request, initialer=None):
         if not _initialer:
             messages.error(request, f"Udfyld venligst feltet 'Initialer'.")
             return render(request, 'system/bruger.html', {
-                "bruger_rettigheder": list(rettigheder(request.user)),
+                "bruger_rettigheder": rettigheder(request.user),
                 "initialer": _initialer,
                 "fornavn": _fornavn,
                 "mellemnavn": _mellemnavn,

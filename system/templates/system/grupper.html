@@ -12,7 +12,7 @@
           <table style="margin-top: -14px;">
             <thead>
               <tr style="color: #4C566A;">
-                {% if 'system_gruppe_se' in bruger_rettigheder and 'system_gruppe_rediger' in bruger_rettigheder %}
+                {% if 'system_gruppe_se' in bruger_rettigheder and 'system_gruppe_opret' in bruger_rettigheder %}
                 <th><a href="{% url 'gruppe_view' %}"><i class="material-icons" style="color: #4C566A;">add</i></a></th>
                 {% elif 'system_gruppe_se' in bruger_rettigheder %}
                 <th></th>

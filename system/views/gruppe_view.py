@@ -64,7 +64,7 @@ def gruppe_view(request, navn=None):
 
             if Gruppe.objects.filter(navn=_navn).exists():
 
-                if 'slet' in request.POST:
+                if 'slet' in request.POST and tjek_rettigheder(request.user, {'system_gruppe_slet'}):
                     _gruppe = Gruppe.objects.get(navn=_navn)
                     _gruppe.delete()
 
@@ -107,7 +107,7 @@ def gruppe_view(request, navn=None):
                     messages.success(request, f"Gruppen '{_navn}' blev gemt.")
                     return redirect('grupper_view')
 
-            if not Gruppe.objects.filter(navn=_navn).exists():
+            if not Gruppe.objects.filter(navn=_navn).exists() and tjek_rettigheder(request.user, {'system_gruppe_opret'}):
                 Gruppe.objects.create(navn=_navn)
 
                 messages.success(request, f"Gruppen '{_navn}' blev oprettet.")

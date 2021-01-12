@@ -16,10 +16,14 @@ class Rettighed(models.Model):
         ('system_brugere_se',         'system_brugere_se'),
         ('system_bruger_se',          'system_bruger_se'),
         ('system_bruger_rediger',     'system_bruger_rediger'),
+        ('system_bruger_opret',       'system_bruger_opret'),
+        ('system_bruger_slet',        'system_bruger_slet'),
 
         ('system_grupper_se',         'system_grupper_se'),
         ('system_gruppe_se',          'system_gruppe_se'),
         ('system_gruppe_rediger',     'system_gruppe_rediger'),
+        ('system_gruppe_opret',       'system_gruppe_opret'),
+        ('system_gruppe_slet',        'system_gruppe_slet'),
 
         ('system_logind',             'system_logind'),
 

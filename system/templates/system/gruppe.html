@@ -132,7 +132,7 @@
                   <div class="col right" style="padding: 0; padding-top: 30px; margin: 0;">
                     <button class="btn waves-effect waves-light z-depth-0" style="margin-right: 20px; background-color: #4C566A; color: #D8DEE9;" type="submit" id="fortryd" name="fortryd">Fortryd</button>
                   </div>
-                  {% if slet %}
+                  {% if slet and 'system_gruppe_slet' in bruger_rettigheder%}
                   <div class="col left" style="padding: 0; padding-top: 30px; margin: 0;">
                     <button class="btn waves-effect waves-light z-depth-0" style="margin-left: -13px; background-color: #BF616A; color: #D8DEE9;" type="submit" id="slet" name="slet">Slet</button>
                   </div>
