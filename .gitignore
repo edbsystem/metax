@@ -4,3 +4,4 @@ __pycache__/
 *.so
 venv/
 .DS_Store
+todo.txt
