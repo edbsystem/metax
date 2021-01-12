@@ -19,19 +19,19 @@ def gruppe_view(request, navn=None):
         if navn:
 
             if Gruppe.objects.filter(navn=navn).exists():
-                _gruppe = Gruppe.objects.get(navn=navn)
+                _gruppe_obj = Gruppe.objects.get(navn=navn)
 
                 _tildelte_rettigheder = []
                 for rettighed in Gruppe.objects.get(navn=navn).rettighed_set.all():
                     _tildelte_rettigheder.append(rettighed.navn)
 
                 _tildelte_brugere = []
-                for _bruger in _gruppe.bruger.all():
-                    _tildelte_brugere.append(_bruger.profil.initialer)
+                for _bruger_obj in _gruppe_obj.bruger.all():
+                    _tildelte_brugere.append(_bruger_obj.profil.initialer)
 
                 return render(request, 'system/gruppe.html', {
                     "bruger_rettigheder": rettigheder(request.user),
-                    "navn": _gruppe.navn,
+                    "navn": _gruppe_obj.navn,
                     "tildelte_rettigheder": sorted(_tildelte_rettigheder),
                     "tildelte_brugere": sorted(_tildelte_brugere),
                     "ny": False,
@@ -58,15 +58,13 @@ def gruppe_view(request, navn=None):
         _ny = request.POST['ny'] if 'ny' in request.POST else 'False'
         _navn = request.POST['navn'].upper().strip() if 'navn' in request.POST else None
 
-        _gruppe = None
-
         if _navn:
 
             if Gruppe.objects.filter(navn=_navn).exists():
 
                 if 'slet' in request.POST and tjek_rettigheder(request.user, {'system_gruppe_slet'}):
-                    _gruppe = Gruppe.objects.get(navn=_navn)
-                    _gruppe.delete()
+                    _gruppe_obj = Gruppe.objects.get(navn=_navn)
+                    _gruppe_obj.delete()
 
                     messages.warning(request, f"Gruppen '{_navn}' blev slettet.")
                     return redirect('grupper_view')
@@ -81,28 +79,26 @@ def gruppe_view(request, navn=None):
                     })
 
                 if _ny == 'False':
-                    _gruppe = Gruppe.objects.get(navn=_navn)
-                    _gruppe.navn = _navn if _navn != '' else _gruppe.navn
+                    _gruppe_obj = Gruppe.objects.get(navn=_navn)
+                    _gruppe_obj.navn = _navn if _navn != '' else _gruppe_obj.navn
 
                     _rettigheder = []
-                    for rettighed in list(Rettighed._meta.get_field('navn').choices):
-                        _rettigheder.append(rettighed[1])
+                    for _rettighed in list(Rettighed._meta.get_field('navn').choices):
+                        _rettigheder.append(_rettighed[1])
 
-                    for _r in _rettigheder:
-                        _post_rettighed = request.POST[_r] if _r in request.POST else None
-                        _rettighed = None
+                    for _rettighed in _rettigheder:
+                        _post_rettighed = request.POST[_rettighed] if _rettighed in request.POST else None
 
                         if _post_rettighed:
-                            _rettighed = Rettighed.objects.filter(navn=_r, gruppe=_gruppe).first()
-                            if not _rettighed:
-                                Rettighed.objects.create(navn=_r, gruppe=_gruppe)
+                            if not Rettighed.objects.filter(navn=_rettighed, gruppe=_gruppe_obj).first():
+                                Rettighed.objects.create(navn=_rettighed, gruppe=_gruppe_obj)
 
                         if not _post_rettighed:
-                            _rettighed = Rettighed.objects.filter(navn=_r, gruppe=_gruppe).first()
-                            if _rettighed:
-                                _rettighed.delete()
+                            _rettighed_obj = Rettighed.objects.filter(navn=_rettighed, gruppe=_gruppe_obj).first()
+                            if _rettighed_obj:
+                                _rettighed_obj.delete()
 
-                    _gruppe.save()
+                    _gruppe_obj.save()
 
                     messages.success(request, f"Gruppen '{_navn}' blev gemt.")
                     return redirect('grupper_view')

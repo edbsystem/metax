@@ -13,9 +13,9 @@ def tjek(user):
 @user_passes_test(tjek, login_url='/', redirect_field_name=None)
 def brugere_view(request):
 
-    _brugere_objs = Bruger.objects.all().order_by(Lower('profil'))
+    _brugere = sorted(Bruger.objects.all(), key=lambda _bruger: _bruger.profil.initialer)
 
     return render(request, 'system/brugere.html', {
         "bruger_rettigheder": rettigheder(request.user),
-        "brugere": _brugere_objs,
+        "brugere": _brugere,
     })

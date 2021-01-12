@@ -17,19 +17,19 @@ def profil_view(request, initialer=None):
     if request.method == 'GET':
 
         if Profil.objects.filter(initialer=request.user.username).exists():
-            profil = Profil.objects.get(initialer=request.user.username)
+            profil_obj = Profil.objects.get(initialer=request.user.username)
 
             return render(request, 'system/profil.html', {
                 "bruger_rettigheder": rettigheder(request.user),
-                "profil": profil
+                "profil": profil_obj
             })
 
     if request.method == 'POST' and tjek_rettigheder(request.user, {'system_profil_rediger'}):
 
         if Profil.objects.filter(initialer=request.user.username).exists():
 
-            _profil = Profil.objects.get(initialer=request.user.username)
-            _bruger = User.objects.get(username=request.user.username)
+            _profil_obj = Profil.objects.get(initialer=request.user.username)
+            _user_obj = User.objects.get(username=request.user.username)
 
             _nuvaerende_adgangskode = request.POST['nuvaerende_adgangskode'] if 'nuvaerende_adgangskode' in request.POST else None
             _ny_adgangskode = request.POST['ny_adgangskode'] if 'ny_adgangskode' in request.POST else None
@@ -39,7 +39,7 @@ def profil_view(request, initialer=None):
             _check_ny_og_bekraeft_adgangskode = False
 
             if _nuvaerende_adgangskode:
-                if _bruger.check_password(_nuvaerende_adgangskode):
+                if _user_obj.check_password(_nuvaerende_adgangskode):
                     _check_nuvaerende_adgangskode = True
                 else:
                     messages.error(request, "'Nuværende' adgangkode er forkert.")
@@ -59,13 +59,13 @@ def profil_view(request, initialer=None):
                     messages.error(request, "'Ny' afgangskode og 'Bekræft' adgangskode stemmer ikke overens.")
 
             if _check_nuvaerende_adgangskode and _check_ny_og_bekraeft_adgangskode:
-                _bruger.set_password(_ny_adgangskode)
-                _bruger.save()
+                _user_obj.set_password(_ny_adgangskode)
+                _user_obj.save()
                 return redirect('login_view')
 
             return render(request, 'system/profil.html', {
                 "bruger_rettigheder": rettigheder(request.user),
-                "profil": _profil,
+                "profil": _profil_obj,
                 "nuvaerende_adgangskode": _nuvaerende_adgangskode,
                 "ny_adgangskode": _ny_adgangskode,
                 "bekraeft_adgangskode": _bekraeft_adgangskode,
