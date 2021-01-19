@@ -1,7 +1,23 @@
 <div class="row left">
   <div class="col l12">
-    <a class="modal-trigger" href="#hjaelp" style="margin-right: 30px;">
+    <a class="modal-trigger" href="#hjaelp" style="margin-right: 20px;">
       <h6 class="white-text" style="display: inline-block;">Hjælp</h6>
     </a>
+
+    {% if 'hardware_maskiner_se' in bruger_rettigheder or 'hardware_medier_se' in bruger_rettigheder %}
+    <span style="margin-right: 20px;">|</span>
+    {% endif %}
+
+    {% if 'hardware_maskiner_se' in bruger_rettigheder and request.resolver_match.view_name != 'maskiner_view' %}
+    <a href="{% url 'maskiner_view' %}" style="margin-right: 30px;">
+      <h6 class="white-text" style="display: inline-block;">Maskiner</h6>
+    </a>
+    {% endif %}
+
+    {% if 'hardware_medier_se' in bruger_rettigheder and request.resolver_match.view_name != 'medier_view' %}
+    <a href="#" style="margin-right: 20px;">
+      <h6 class="white-text" style="display: inline-block;">Medier</h6>
+    </a>
+    {% endif %}
   </div>
 </div>

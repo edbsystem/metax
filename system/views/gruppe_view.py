@@ -18,6 +18,11 @@ def gruppe_view(request, navn=None):
 
         if navn:
 
+            _slet = True
+
+            if navn == 'SUPERUSER':
+                _slet = False
+
             if Gruppe.objects.filter(navn=navn).exists():
                 _gruppe_obj = Gruppe.objects.get(navn=navn)
 
@@ -35,7 +40,7 @@ def gruppe_view(request, navn=None):
                     "tildelte_rettigheder": sorted(_tildelte_rettigheder),
                     "tildelte_brugere": sorted(_tildelte_brugere),
                     "ny": False,
-                    "slet": True,
+                    "slet": _slet,
                 })
 
             if not Gruppe.objects.filter(navn=navn).exists():
