@@ -17,18 +17,19 @@ def medie_view(request, pk=None):
 
         if pk:
             if Medie.objects.filter(pk=pk).exists():
-                _medie = Medie.objects.get(pk=pk)
+                _medie_obj = Medie.objects.get(pk=pk)
 
                 return render(request, 'hardware/medie.html', {
                     "bruger_rettigheder": rettigheder(request.user),
-                    "pk": _medie.pk,
-                    "navn": _medie.navn,
-                    "producent": _medie.producent,
-                    "kapacitet": _medie.kapacitet,
-                    "medie_type": _medie.type,
+                    "pk": _medie_obj.pk,
+                    "navn": _medie_obj.navn,
+                    "producent": _medie_obj.producent,
+                    "kapacitet": _medie_obj.kapacitet,
+                    "medie_type": _medie_obj.type,
                     "ny": False,
                 })
-            else:
+
+            if not Medie.objects.filter(pk=pk).exists():
                 messages.error(request, "Det angivet medie findes ikke.")
                 return redirect('medier_view')
 
@@ -48,7 +49,7 @@ def medie_view(request, pk=None):
         _medie_type = request.POST['medie_type'] if 'medie_type' in request.POST else None
 
         if _pk:
-            _medie = None
+            _medie_obj = None
             _tjek_navn = False
             _tjek_kapacitet = False
 
@@ -59,19 +60,19 @@ def medie_view(request, pk=None):
                 return redirect('medier_view')
 
             if Medie.objects.filter(pk=_pk).exists():
-                _medie = Medie.objects.get(pk=_pk)
+                _medie_obj = Medie.objects.get(pk=_pk)
             else:
                 messages.error(request, f"Det angivet medie findes ikke.")
                 return redirect('medier_view')
 
             if 'slet' in request.POST and tjek_rettigheder(request.user, {'hardware_medie_slet'}):
-                messages.warning(request, f"Mediet '{_medie.navn}' blev slettet.")
-                _medie.delete()
+                messages.warning(request, f"Mediet '{_medie_obj.navn}' blev slettet.")
+                _medie_obj.delete()
                 return redirect('medier_view')
 
             if _navn != '' and Medie.objects.filter(navn=_navn).exists():
-                _navn_medie = Medie.objects.filter(navn=_navn).first()
-                if _medie.pk == _navn_medie.pk:
+                _navn_medie_obj = Medie.objects.filter(navn=_navn).first()
+                if _medie_obj.pk == _navn_medie_obj.pk:
                     _tjek_navn = True
                 else:
                     _tjek_navn = False
@@ -101,25 +102,25 @@ def medie_view(request, pk=None):
                     "ny": False,
                 })
 
-            _medie.navn = _navn.strip()
-            _medie.producent = _producent.strip()
-            _medie.kapacitet = _kapacitet
-            _medie.type = _medie_type
-            _medie.save()
+            _medie_obj.navn = _navn.strip()
+            _medie_obj.producent = _producent.strip()
+            _medie_obj.kapacitet = _kapacitet
+            _medie_obj.type = _medie_type
+            _medie_obj.save()
 
-            messages.success(request, f"Mediet '{_medie.navn}' blev gemt.")
+            messages.success(request, f"Mediet '{_medie_obj.navn}' blev gemt.")
             return redirect('medier_view')
 
         if not _pk and tjek_rettigheder(request.user, {'hardware_medie_opret'}):
-            _medie = Medie.objects.create()
+            _medie_obj = Medie.objects.create()
             messages.success(request, "Nyt medie blev oprettet.")
             return render(request, 'hardware/medie.html', {
                 "bruger_rettigheder": rettigheder(request.user),
-                "pk": _medie.pk,
-                "navn": _medie.navn,
-                "producent": _medie.producent,
-                "kapacitet": _medie.kapacitet,
-                "medie_type": _medie.type,
+                "pk": _medie_obj.pk,
+                "navn": _medie_obj.navn,
+                "producent": _medie_obj.producent,
+                "kapacitet": _medie_obj.kapacitet,
+                "medie_type": _medie_obj.type,
                 "ny": True,
             })
 

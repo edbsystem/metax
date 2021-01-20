@@ -12,9 +12,9 @@ def tjek(user):
 @user_passes_test(tjek, login_url='/', redirect_field_name=None)
 def maskiner_view(request):
 
-    _maskiner = sorted(Maskine.objects.all(), key=lambda _maskine: _maskine.navn)
+    _maskiner_objs = sorted(Maskine.objects.all(), key=lambda _maskine: _maskine.navn)
 
     return render(request, 'hardware/maskiner.html', {
         "bruger_rettigheder": rettigheder(request.user),
-        "maskiner": _maskiner,
+        "maskiner": _maskiner_objs,
     })

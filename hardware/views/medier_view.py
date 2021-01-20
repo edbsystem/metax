@@ -13,9 +13,9 @@ def tjek(user):
 @user_passes_test(tjek, login_url='/', redirect_field_name=None)
 def medier_view(request):
 
-    _medier = sorted(Medie.objects.all(), key=lambda _medie: _medie.navn)
+    _medier_objs = sorted(Medie.objects.all(), key=lambda _medie: _medie.navn)
 
     return render(request, 'hardware/medier.html', {
         "bruger_rettigheder": rettigheder(request.user),
-        "medier": _medier,
+        "medier": _medier_objs,
     })
