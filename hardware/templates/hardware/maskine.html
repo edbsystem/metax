@@ -18,7 +18,7 @@
                 <div class="form-group">
                   <label for="navn" class="col-form-label left" style="color: #4C566A;">Navn</label>
                   {% if 'hardware_maskine_rediger' in bruger_rettigheder %}
-                  <input type="text" name="navn" id="navn" class="form-control" value="{{ navn | upper | default_if_none:'' }}" oninput="this.value = this.value.toUpperCase()" spellcheck="false">
+                  <input type="text" name="navn" id="navn" class="form-control" value="{{ navn | default_if_none:'' }}" oninput="this.value = this.value.toUpperCase()" spellcheck="false">
                   {% else %}
                   <input type="text" name="navn" id="navn" class="form-control" value="{{ navn | default_if_none:'' }}" style="cursor: default !important; border-bottom: 1px dotted #2E3440; box-shadow: 0 0px 0 0 #2E3440;" spellcheck="false" readonly>
                   {% endif %}
@@ -54,9 +54,9 @@
                 <div class="form-group">
                   <label for="arbejdshukommelse" class="col-form-label left" style="color: #4C566A;">Arbejdshukommelse i GB</label>
                   {% if 'hardware_maskine_rediger' in bruger_rettigheder %}
-                  <input type="text" name="arbejdshukommelse" id="arbejdshukommelse" class="form-control" value="{{ arbejdshukommelse | default_if_none:'' }}" spellcheck="false" onkeypress="return onlyNumberKey(event)">
+                  <input type="text" name="arbejdshukommelse" id="arbejdshukommelse" class="form-control" value="{{ arbejdshukommelse | default_if_none:'0' }}" spellcheck="false" onkeypress="return onlyNumberKey(event)">
                   {% else %}
-                  <input type="text" name="arbejdshukommelse" id="arbejdshukommelse" class="form-control" value="{{ arbejdshukommelse | default_if_none:'' }}" style="cursor: default !important; border-bottom: 1px dotted #2E3440; box-shadow: 0 0px 0 0 #2E3440;" spellcheck="false" readonly>
+                  <input type="text" name="arbejdshukommelse" id="arbejdshukommelse" class="form-control" value="{{ arbejdshukommelse | default_if_none:'0' }}" style="cursor: default !important; border-bottom: 1px dotted #2E3440; box-shadow: 0 0px 0 0 #2E3440;" spellcheck="false" readonly>
                   {% endif %}
                 </div>
               </div>

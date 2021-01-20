@@ -13,8 +13,8 @@
             <thead>
               <tr style="color: #4C566A;">
                 <th>
-                  {% if 'hardware_medie_se' in bruger_rettigheder and 'hardware_maskine_opret' in bruger_rettigheder %}
-                  <form action="#" method="POST">
+                  {% if 'hardware_medie_se' in bruger_rettigheder and 'hardware_medie_opret' in bruger_rettigheder %}
+                  <form action="{% url 'medie_view' %}" method="POST">
                     {% csrf_token %}
                     <Button type="submit" class="btn-flat"><i class="material-icons" style="color: #4C566A;">add</i></a>
                   </form>
@@ -29,11 +29,11 @@
             <tbody>
               {% for medie in medier %}
               {% if 'hardware_medie_se' in bruger_rettigheder and 'hardware_medie_rediger' in bruger_rettigheder %}
-              <tr style="line-height: 1; cursor: pointer;" class='clickable-row' data-href="#">
-                <td><a href="#"><i class="material-icons" style="color: #4C566A;">edit</i></a></td>
+              <tr style="line-height: 1; cursor: pointer;" class='clickable-row' data-href="{% url 'medie_view' medie.pk %}">
+                <td><a href="{% url 'medie_view' medie.pk %}"><i class="material-icons" style="color: #4C566A;">edit</i></a></td>
                 {% elif 'hardware_medie_se' in bruger_rettigheder %}
-              <tr style="line-height: 1; cursor: pointer;" class='clickable-row' data-href="#">
-                <td><a href="#"><i class="material-icons" style="color: #4C566A;">visibility</i></a></td>
+              <tr style="line-height: 1; cursor: pointer;" class='clickable-row' data-href="{% url 'medie_view' medie.pk %}">
+                <td><a href="{% url 'medie_view' medie.pk %}"><i class="material-icons" style="color: #4C566A;">visibility</i></a></td>
                 {% else %}
               <tr style="line-height: 1; cursor: default;">
                 {% endif %}

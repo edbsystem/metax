@@ -1,0 +1,132 @@
+{% extends 'base.html' %}
+
+{% block title %}Meta X - Medie {% endblock %}
+
+{% block content %}
+
+<section class="section center">
+  <div class="row">
+    <div class="col l4 offset-l4">
+      <div class="card z-depth-0">
+        <div class="card-content">
+          <form action="{% url 'medie_view' %}" method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="pk" id="pk" value="{{ pk }}">
+            <div class="row">
+              <div class="input-field col l12">
+                <div class="form-group">
+                  <label for="navn" class="col-form-label left" style="color: #4C566A;">Navn</label>
+                  {% if 'hardware_medie_rediger' in bruger_rettigheder %}
+                  <input type="text" name="navn" id="navn" class="form-control" value="{{ navn | default_if_none:'' }}" oninput="this.value = this.value.toUpperCase()" spellcheck="false">
+                  {% else %}
+                  <input type="text" name="navn" id="navn" class="form-control" value="{{ navn | default_if_none:'' }}" style="cursor: default !important; border-bottom: 1px dotted #2E3440; box-shadow: 0 0px 0 0 #2E3440;" spellcheck="false" readonly>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="input-field col l12">
+                <div class="form-group">
+                  <label for="producent" class="col-form-label left" style="color: #4C566A;">Producent</label>
+                  {% if 'hardware_medie_rediger' in bruger_rettigheder %}
+                  <input type="text" name="producent" id="producent" class="form-control" value="{{ producent | default_if_none:'' }}" spellcheck="false">
+                  {% else %}
+                  <input type="text" name="producent" id="producent" class="form-control" value="{{ producent | default_if_none:'' }}" style="cursor: default !important; border-bottom: 1px dotted #2E3440; box-shadow: 0 0px 0 0 #2E3440;" spellcheck="false" readonly>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="input-field col l12">
+                <div class="form-group">
+                  <label for="kapacitet" class="col-form-label left" style="color: #4C566A;">Kapacitet i GB</label>
+                  {% if 'hardware_medie_rediger' in bruger_rettigheder %}
+                  <input type="text" name="kapacitet" id="kapacitet" class="form-control" value="{{ kapacitet | default_if_none:'0' }}" onkeypress="return onlyNumberKey(event)" spellcheck="false">
+                  {% else %}
+                  <input type="text" name="kapacitet" id="kapacitet" class="form-control" value="{{ kapacitet | default_if_none:'0'}}" style="cursor: default !important; border-bottom: 1px dotted #2E3440; box-shadow: 0 0px 0 0 #2E3440;" spellcheck="false" readonly>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="input-field col l12" id="medie_type_select">
+                <div class="form-group">
+                  <label for="medie_type" class=" col-form-label left" style="color: #4C566A;">Type</label>
+                  {% if 'hardware_medie_rediger' in bruger_rettigheder %}
+                  <select name="medie_type" id="medie_type">
+                    {% else %}
+                    <select name="medie_type" id="medie_type" disabled>
+                      {% endif %}
+                      {% if medie_type == None %}
+                      <option value="" selected></option>
+                      {% else%}
+                      <option value=""></option>
+                      {% endif %}
+                      {% for m in medie_typer %}
+                      {% if m == medie_type %}
+                      <option value="{{ medie_type }}" selected>{{ medie_type }}</option>
+                      {% else %}
+                      <option value="{{ m }}">{{ m }}</option>
+                      {% endif %}
+                      {% endfor %}
+                    </select>
+                </div>
+              </div>
+            </div>
+
+            {% if 'hardware_medie_rediger' in bruger_rettigheder %}
+            <div class="row">
+              <div class="card-action col l12">
+                <div class="col right" style="padding: 0; padding-top: 30px; margin: 0;">
+                  <button class="btn waves-effect waves-light z-depth-0" style="margin-right: -15px; background-color: #4C566A; color: #D8DEE9;" type="submit" id="gem" name="gem">Gem</button>
+                </div>
+                {% if not ny %}
+                <div class="col right" style="padding: 0; padding-top: 30px; margin: 0;">
+                  <button class="btn waves-effect waves-light z-depth-0" style="margin-right: 20px; background-color: #4C566A; color: #D8DEE9;" type="submit" id="fortryd" name="fortryd">Fortryd</button>
+                </div>
+                {% endif %}
+                {% if 'hardware_medie_slet' in bruger_rettigheder%}
+                <div class="col left" style="padding: 0; padding-top: 30px; margin: 0;">
+                  <button class="btn waves-effect waves-light z-depth-0" style="margin-left: -13px; background-color: #BF616A; color: #D8DEE9;" type="submit" id="slet" name="slet">Slet</button>
+                </div>
+                {% endif %}
+              </div>
+            </div>
+            {% endif %}
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  {% if navn %}
+  $(document).ready(function () {
+    var input = $("#producent");
+    var len = input.val().length;
+    input[0].focus();
+    input[0].setSelectionRange(len, len);
+  });
+  {% else %}
+  $(document).ready(function () {
+    var input = $("#navn");
+    var len = input.val().length;
+    input[0].focus();
+    input[0].setSelectionRange(len, len);
+  });
+  {% endif %}
+
+  function onlyNumberKey(evt) {
+    var ASCIICode = (evt.which) ? evt.which : evt.keyCode
+    if (ASCIICode > 31 && (ASCIICode < 48 || ASCIICode > 57))
+      return false;
+    return true;
+  }
+</script>
+
+{% endblock content %}
+
+{% block footer %}
+{% include 'hardware/footer.html' %}
+{% endblock footer %}

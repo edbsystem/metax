@@ -150,3 +150,7 @@ def maskine_view(request, pk=None):
                 "kommentar": _maskine.kommentar,
                 "ny": True,
             })
+
+        return redirect('maskiner_view')
+
+    return redirect('maskiner_view')
