@@ -15,7 +15,7 @@
     {% endif %}
 
     {% if 'hardware_medier_se' in bruger_rettigheder and request.resolver_match.view_name != 'medier_view' %}
-    <a href="#" style="margin-right: 20px;">
+    <a href="{% url 'medier_view' %}" style="margin-right: 20px;">
       <h6 class="white-text" style="display: inline-block;">Medier</h6>
     </a>
     {% endif %}

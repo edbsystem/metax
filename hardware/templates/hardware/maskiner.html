@@ -12,17 +12,13 @@
           <table style="margin-top: -14px;">
             <thead>
               <tr style="color: #4C566A;">
-                {% if 'hardware_maskine_se' in bruger_rettigheder and 'hardware_maskine_opret' in bruger_rettigheder %}
                 <th>
+                  {% if 'hardware_maskine_se' in bruger_rettigheder and 'hardware_maskine_opret' in bruger_rettigheder %}
                   <form action="{% url 'maskine_view' %}" method="POST">
                     {% csrf_token %}
                     <Button type="submit" class="btn-flat"><i class="material-icons" style="color: #4C566A;">add</i></a>
                   </form>
-                </th>
-                {% elif 'hardware_maskine_se' in bruger_rettigheder %}
-                <th></th>
-                {% else %}
-                {% endif %}
+                  {% endif %}
                 </th>
                 <th style="cursor: default !important;">Navn</th>
                 <th style="cursor: default !important;">Type</th>
