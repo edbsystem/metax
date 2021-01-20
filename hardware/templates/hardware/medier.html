@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}Meta X - Medier {% endblock %}
+{% block title %}Hardware/Medier{% endblock %}
 
 {% block content %}
 
@@ -36,6 +36,7 @@
                 <td><a href="{% url 'medie_view' medie.pk %}"><i class="material-icons" style="color: #4C566A;">visibility</i></a></td>
                 {% else %}
               <tr style="line-height: 1; cursor: default;">
+                <td></td>
                 {% endif %}
                 <td>{{ medie.navn }}</td>
                 <td>{{ medie.producent }}</td>

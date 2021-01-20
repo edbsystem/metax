@@ -1,7 +1,29 @@
 <div class="row left">
   <div class="col l12">
-    <a class="modal-trigger" href="#hjaelp" style="margin-right: 30px;">
+    <a class="modal-trigger" href="#hjaelp" style="margin-right: 20px;">
       <h6 class="white-text" style="display: inline-block;">Hjælp</h6>
     </a>
+
+    <span style="margin-right: 20px;">|</span>
+
+    <a href="#" style="margin-right: 30px;">
+      <h6 class="white-text" style="display: inline-block;">Søg</h6>
+    </a>
+
+    {% if 'arkiveringsversioner_leverandører_se' in bruger_rettigheder or 'arkiveringsversioner_typer_se' in bruger_rettigheder %}
+    <span style="margin-right: 20px;">|</span>
+    {% endif %}
+
+    {% if 'arkiveringsversioner_leverandører_se' in bruger_rettigheder and request.resolver_match.view_name != 'leverandoerer_view' %}
+    <a href="{% url 'leverandoerer_view' %}" style="margin-right: 30px;">
+      <h6 class="white-text" style="display: inline-block;">Leverandører</h6>
+    </a>
+    {% endif %}
+
+    {% if 'arkiveringsversioner_typer_se' in bruger_rettigheder and request.resolver_match.view_name != 'typer_view' %}
+    <a href="{% url 'typer_view' %}" style="margin-right: 20px;">
+      <h6 class="white-text" style="display: inline-block;">Typer</h6>
+    </a>
+    {% endif %}
   </div>
 </div>

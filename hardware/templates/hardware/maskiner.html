@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}Meta X - Maskiner {% endblock %}
+{% block title %}Hardware/Maskiner{% endblock %}
 
 {% block content %}
 
@@ -38,6 +38,7 @@
                 <td><a href="{% url 'maskine_view' maskine.pk %}"><i class="material-icons" style="color: #4C566A;">visibility</i></a></td>
                 {% else %}
               <tr style="line-height: 1; cursor: default;">
+                <td></td>
                 {% endif %}
                 <td>{{ maskine.navn }}</td>
                 <td>{{ maskine.type }}</td>

@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}Meta X - Brugere {% endblock %}
+{% block title %}System/Brugere{% endblock %}
 
 {% block content %}
 
@@ -17,6 +17,7 @@
                 {% elif 'system_bruger_se' in bruger_rettigheder %}
                 <th></th>
                 {% else %}
+                <th></th>
                 {% endif %}
                 <th style="cursor: default !important;">Initialer</th>
                 <th style="cursor: default !important;">Fornavn</th>
@@ -34,6 +35,7 @@
                 <td><a href="{% url 'bruger_view' bruger.profil.initialer %}"><i class="material-icons" style="color: #4C566A;">visibility</i></a></td>
                 {% else %}
               <tr style="line-height: 1; cursor: default;"></tr>
+              <td></td>
               {% endif %}
               <td>{{ bruger.profil.initialer | upper }}</td>
               <td>{{ bruger.profil.fornavn | default_if_none:'' }}</td>

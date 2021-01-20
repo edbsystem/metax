@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}Meta X - Profil {% endblock %}
+{% block title %}System/Profil/{{ profil.initialer | default_if_none:'' }}{% endblock %}
 
 {% block content %}
 

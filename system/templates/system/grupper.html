@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}Meta X - Grupper {% endblock %}
+{% block title %}System/Grupper{% endblock %}
 
 {% block content %}
 
@@ -17,6 +17,7 @@
                 {% elif 'system_gruppe_se' in bruger_rettigheder %}
                 <th></th>
                 {% else %}
+                <th></th>
                 {% endif %}
                 <th style="cursor: default !important;">Navn</th>
               </tr>
@@ -31,6 +32,7 @@
                 <td><a href="{% url 'gruppe_view' gruppe.navn %}"><i class="material-icons" style="color: #4C566A;">visibility</i></a></td>
                 {% else %}
               <tr style="line-height: 1; cursor: default;">
+                <td></td>
                 {% endif %}
                 <td>{{ gruppe.navn }}</td>
               </tr>

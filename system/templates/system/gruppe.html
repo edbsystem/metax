@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}Meta X - Gruppe{% endblock %}
+{% block title %}System/Gruppe/{{ navn | default_if_none:'' }}{% endblock %}
 
 {% block content %}
 <section class="section center">

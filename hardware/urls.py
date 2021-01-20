@@ -12,7 +12,6 @@ urlpatterns = [
 
 
     path('medier/', medier_view, name='medier_view'),
-
     path('medie/', medie_view, name='medie_view'),
     path('medie/<str:pk>/', medie_view, name='medie_view'),
 
