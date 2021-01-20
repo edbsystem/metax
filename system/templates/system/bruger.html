@@ -24,7 +24,7 @@
                   {% if ny %}
                   <input type="text" name="initialer" id="initialer" class="form-control" value="{{ initialer | upper  | default_if_none:'' }}" oninput="this.value = this.value.toUpperCase()">
                   {% else %}
-                  <input type="text" name="initialer" id="initialer" class="form-control" value="{{ initialer | upper  | default_if_none:'' }}" style="cursor: default !important;" readonly>
+                  <input type="text" name="initialer" id="initialer" class="form-control" value="{{ initialer | upper  | default_if_none:'' }}" style="cursor: default !important; border-bottom: 1px dotted #2E3440; box-shadow: 0 0px 0 0 #2E3440;" readonly>
                   {% endif %}
                 </div>
               </div>
@@ -36,7 +36,7 @@
                   {% if 'system_bruger_rediger' in bruger_rettigheder%}
                   <input type="text" name="fornavn" id="fornavn" class="form-control" value="{{ fornavn | default_if_none:'' }}">
                   {% else %}
-                  <input type="text" name="fornavn" id="fornavn" class="form-control" value="{{ fornavn | default_if_none:'' }}" style="cursor: default !important;" readonly>
+                  <input type="text" name="fornavn" id="fornavn" class="form-control" value="{{ fornavn | default_if_none:'' }}" style="cursor: default !important; border-bottom: 1px dotted #2E3440; box-shadow: 0 0px 0 0 #2E3440;" readonly>
                   {% endif %}
                 </div>
               </div>
@@ -48,7 +48,7 @@
                   {% if 'system_bruger_rediger' in bruger_rettigheder%}
                   <input type="text" name="mellemnavn" id="mellemnavn" class="form-control" value="{{ mellemnavn | default_if_none:'' }}">
                   {% else %}
-                  <input type="text" name="mellemnavn" id="mellemnavn" class="form-control" value="{{ mellemnavn | default_if_none:'' }}" style="cursor: default !important;" readonly>
+                  <input type="text" name="mellemnavn" id="mellemnavn" class="form-control" value="{{ mellemnavn | default_if_none:'' }}" style="cursor: default !important; border-bottom: 1px dotted #2E3440; box-shadow: 0 0px 0 0 #2E3440;" readonly>
                   {% endif %}
                 </div>
               </div>
@@ -60,7 +60,7 @@
                   {% if 'system_bruger_rediger' in bruger_rettigheder%}
                   <input type="text" name="efternavn" id="efternavn" class="form-control" value="{{ efternavn | default_if_none:'' }}">
                   {% else%}
-                  <input type="text" name="efternavn" id="efternavn" class="form-control" value="{{ efternavn | default_if_none:'' }}" style="cursor: default !important;" readonly>
+                  <input type="text" name="efternavn" id="efternavn" class="form-control" value="{{ efternavn | default_if_none:'' }}" style="cursor: default !important; border-bottom: 1px dotted #2E3440; box-shadow: 0 0px 0 0 #2E3440;" readonly>
                   {% endif %}
                 </div>
               </div>

@@ -13,7 +13,12 @@
             <thead>
               <tr style="color: #4C566A;">
                 {% if 'hardware_maskine_se' in bruger_rettigheder and 'hardware_maskine_opret' in bruger_rettigheder %}
-                <th><a href="#"><i class="material-icons" style="color: #4C566A;">add</i></a></th>
+                <th>
+                  <form action="{% url 'maskine_view' %}" method="POST">
+                    {% csrf_token %}
+                    <Button type="submit" class="btn-flat"><i class="material-icons" style="color: #4C566A;">add</i></a>
+                  </form>
+                </th>
                 {% elif 'hardware_maskine_se' in bruger_rettigheder %}
                 <th></th>
                 {% else %}
@@ -30,11 +35,11 @@
             <tbody>
               {% for maskine in maskiner %}
               {% if 'hardware_maskine_se' in bruger_rettigheder and 'hardware_maskine_rediger' in bruger_rettigheder %}
-              <tr style="line-height: 1; cursor: pointer;" class='clickable-row' data-href="#">
-                <td><a href="#"><i class="material-icons" style="color: #4C566A;">edit</i></a></td>
+              <tr style="line-height: 1; cursor: pointer;" class='clickable-row' data-href="{% url 'maskine_view' maskine.pk %}">
+                <td><a href="{% url 'maskine_view' maskine.pk %}"><i class="material-icons" style="color: #4C566A;">edit</i></a></td>
                 {% elif 'hardware_maskine_se' in bruger_rettigheder %}
-              <tr style="line-height: 1; cursor: pointer;" class='clickable-row' data-href="#">
-                <td><a href="#"><i class="material-icons" style="color: #4C566A;">visibility</i></a></td>
+              <tr style="line-height: 1; cursor: pointer;" class='clickable-row' data-href="{% url 'maskine_view' maskine.pk %}">
+                <td><a href="{% url 'maskine_view' maskine.pk %}"><i class="material-icons" style="color: #4C566A;">visibility</i></a></td>
                 {% else %}
               <tr style="line-height: 1; cursor: default;">
                 {% endif %}

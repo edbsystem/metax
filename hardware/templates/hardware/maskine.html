@@ -1,0 +1,248 @@
+{% extends 'base.html' %}
+
+{% block title %}Meta X - Maskine {% endblock %}
+
+{% block content %}
+
+<section class="section center">
+  <form action="{% url 'maskine_view' %}" method="POST">
+    {% csrf_token %}
+    <input type="hidden" name="pk" id="pk" value="{{ pk }}">
+
+    <div class="row">
+      <div class="col l4 offset-l2">
+        <div class="card z-depth-0">
+          <div class="card-content">
+            <div class="row">
+              <div class="input-field col l12">
+                <div class="form-group">
+                  <label for="navn" class="col-form-label left" style="color: #4C566A;">Navn</label>
+                  {% if 'hardware_maskine_rediger' in bruger_rettigheder %}
+                  <input type="text" name="navn" id="navn" class="form-control" value="{{ navn | default_if_none:'' }}" spellcheck="false">
+                  {% else %}
+                  <input type="text" name="navn" id="navn" class="form-control" value="{{ navn | default_if_none:'' }}" style="cursor: default !important; border-bottom: 1px dotted #2E3440; box-shadow: 0 0px 0 0 #2E3440;" spellcheck="false" readonly>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="input-field col l12">
+                <div class="form-group">
+                  <label for="processor" class="col-form-label left" style="color: #4C566A;">Processor</label>
+                  {% if 'hardware_maskine_rediger' in bruger_rettigheder %}
+                  <input type="text" name="processor" id="processor" class="form-control" value="{{ processor | default_if_none:'' }}" spellcheck="false">
+                  {% else %}
+                  <input type="text" name="processor" id="processor" class="form-control" value="{{ processor | default_if_none:'' }}" style="cursor: default !important; border-bottom: 1px dotted #2E3440; box-shadow: 0 0px 0 0 #2E3440;" spellcheck="false" readonly>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="input-field col l12">
+                <div class="form-group">
+                  <label for="bundkort" class="col-form-label left" style="color: #4C566A;">Bundkort</label>
+                  {% if 'hardware_maskine_rediger' in bruger_rettigheder %}
+                  <input type="text" name="bundkort" id="bundkort" class="form-control" value="{{ bundkort | default_if_none:'' }}" spellcheck="false">
+                  {% else %}
+                  <input type="text" name="bundkort" id="bundkort" class="form-control" value="{{ bundkort | default_if_none:'' }}" style="cursor: default !important; border-bottom: 1px dotted #2E3440; box-shadow: 0 0px 0 0 #2E3440;" spellcheck="false" readonly>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="input-field col l12">
+                <div class="form-group">
+                  <label for="arbejdshukommelse" class="col-form-label left" style="color: #4C566A;">Arbejdshukommelse i GB</label>
+                  {% if 'hardware_maskine_rediger' in bruger_rettigheder %}
+                  <input type="text" name="arbejdshukommelse" id="arbejdshukommelse" class="form-control" value="{{ arbejdshukommelse | default_if_none:'' }}" spellcheck="false" onkeypress="return onlyNumberKey(event)">
+                  {% else %}
+                  <input type="text" name="arbejdshukommelse" id="arbejdshukommelse" class="form-control" value="{{ arbejdshukommelse | default_if_none:'' }}" style="cursor: default !important; border-bottom: 1px dotted #2E3440; box-shadow: 0 0px 0 0 #2E3440;" spellcheck="false" readonly>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col l4">
+        <div class="card z-depth-0">
+          <div class="card-content">
+            <div class="row">
+              <div class="input-field col l12" id="maskine_type_select">
+                <div class="form-group">
+                  <label for="maskine_type" class=" col-form-label left" style="color: #4C566A;">Type</label>
+                  {% if 'hardware_maskine_rediger' in bruger_rettigheder %}
+                  <select name="maskine_type" id="maskine_type">
+                    {% else %}
+                    <select name="maskine_type" id="maskine_type" disabled>
+                      {% endif %}
+                      {% if maskine_type == None %}
+                      <option value="" selected></option>
+                      {% else%}
+                      <option value=""></option>
+                      {% endif %}
+                      {% for m in maskine_typer %}
+                      {% if m == maskine_type %}
+                      <option value="{{ m }}" selected>{{ m }}</option>
+                      {% else %}
+                      <option value="{{ m }}">{{ m }}</option>
+                      {% endif %}
+                      {% endfor %}
+                    </select>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="input-field col l12" id="lokation_select">
+                <div class="form-group">
+                  <label for="lokation" class=" col-form-label left" style="color: #4C566A;">Lokation</label>
+                  {% if 'hardware_maskine_rediger' in bruger_rettigheder %}
+                  <select name="lokation" id="lokation">
+                    {% else %}
+                    <select name="lokation" id="lokation" disabled>
+                      {% endif %}
+                      {% if lokation == None %}
+                      <option value="" selected></option>
+                      {% else%}
+                      <option value=""></option>
+                      {% endif %}
+                      {% for l in lokationer %}
+                      {% if l == lokation %}
+                      <option value="{{ l }}" selected>{{ l }}</option>
+                      {% else %}
+                      <option value="{{ l }}">{{ l }}</option>
+                      {% endif %}
+                      {% endfor %}
+                    </select>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="input-field col l12" id="lokale_select">
+                <div class="form-group">
+                  <label for="lokale" class=" col-form-label left" style="color: #4C566A;">Lokale</label>
+                  {% if 'hardware_maskine_rediger' in bruger_rettigheder %}
+                  <select name="lokale" id="lokale">
+                    {% else %}
+                    <select name="lokale" id="lokale" disabled>
+                      {% endif %}
+                      {% if lokale == None %}
+                      <option value="" selected></option>
+                      {% else%}
+                      <option value=""></option>
+                      {% endif %}
+                      {% for l in lokaler %}
+                      {% if l == lokale %}
+                      <option value="{{ l }}" selected>{{ l }}</option>
+                      {% else %}
+                      <option value="{{ l }}">{{ l }}</option>
+                      {% endif %}
+                      {% endfor %}
+                    </select>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="input-field col l12" id="netvaerk_select">
+                <div class="form-group">
+                  <label for="netvaerk" class="col-form-label left" style="color: #4C566A;">Netværk</label>
+                  {% if 'hardware_maskine_rediger' in bruger_rettigheder %}
+                  <select name="netvaerk" id="netvaerk">
+                    {% else %}
+                    <select name="netvaerk" id="netvaerk" disabled>
+                      {% endif %}
+                      {% if netvaerk == None %}
+                      <option value="" selected></option>
+                      {% else%}
+                      <option value=""></option>
+                      {% endif %}
+                      {% for n in netvaerker %}
+                      {% if n == netvaerk %}
+                      <option value="{{ n }}" selected>{{ n }}</option>
+                      {% else %}
+                      <option value="{{ n }}">{{ n }}</option>
+                      {% endif %}
+                      {% endfor %}
+                    </select>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="input-field col l12">
+                <div class="form-group">
+                  <label for="kommentar" class="col-form-label left" style="color: #4C566A;">Kommentar</label>
+                  {% if 'hardware_maskine_rediger' in bruger_rettigheder %}
+                  <textarea name="kommentar" id="kommentar" class="materialize-textarea">{{ kommentar }}</textarea>
+                  {% else %}
+                  <textarea name="kommentar" id="kommentar" class="materialize-textarea" style="cursor: default !important; border-bottom: 1px dotted #2E3440; box-shadow: 0 0px 0 0 #2E3440;" spellcheck="false" readonly>{{ kommentar }}</textarea>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {% if 'hardware_maskine_rediger' in bruger_rettigheder %}
+    <div class="row">
+      <div class="col l8 offset-l2">
+        <div class="card z-depth-0">
+          <div class="card-content">
+            <div class="row">
+              <div class="card-action col l12">
+                <div class="col right" style="padding: 0; padding-top: 30px; margin: 0;">
+                  <button class="btn waves-effect waves-light z-depth-0" style="margin-right: -15px; background-color: #4C566A; color: #D8DEE9;" type="submit" id="gem" name="gem">Gem</button>
+                </div>
+                {% if not ny %}
+                <div class="col right" style="padding: 0; padding-top: 30px; margin: 0;">
+                  <button class="btn waves-effect waves-light z-depth-0" style="margin-right: 20px; background-color: #4C566A; color: #D8DEE9;" type="submit" id="fortryd" name="fortryd">Fortryd</button>
+                </div>
+                {% endif %}
+                {% if 'hardware_maskine_slet' in bruger_rettigheder%}
+                <div class="col left" style="padding: 0; padding-top: 30px; margin: 0;">
+                  <button class="btn waves-effect waves-light z-depth-0" style="margin-left: -13px; background-color: #BF616A; color: #D8DEE9;" type="submit" id="slet" name="slet">Slet</button>
+                </div>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endif %}
+
+  </form>
+</section>
+
+<script>
+  {% if navn %}
+  $(document).ready(function () {
+    var input = $("#processor");
+    var len = input.val().length;
+    input[0].focus();
+    input[0].setSelectionRange(len, len);
+  });
+  {% else %}
+  $(document).ready(function () {
+    var input = $("#navn");
+    var len = input.val().length;
+    input[0].focus();
+    input[0].setSelectionRange(len, len);
+  });
+  {% endif %}
+
+  function onlyNumberKey(evt) {
+    var ASCIICode = (evt.which) ? evt.which : evt.keyCode
+    if (ASCIICode > 31 && (ASCIICode < 48 || ASCIICode > 57))
+      return false;
+    return true;
+  }
+</script>
+
+{% endblock content %}
+
+{% block footer %}
+{% include 'hardware/footer.html' %}
+{% endblock footer %}

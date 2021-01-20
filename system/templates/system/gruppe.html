@@ -28,10 +28,10 @@
                     {% if ny %}
                     <input type="text" name="navn" id="navn" class="form-control" value="{{ navn | default_if_none:'' }}" oninput="this.value = this.value.toUpperCase()">
                     {% else %}
-                    <input type="text" name="navn" id="navn" class="form-control" value="{{ navn | default_if_none:'' }}" style="cursor: default !important;" readonly>
+                    <input type="text" name="navn" id="navn" class="form-control" value="{{ navn | default_if_none:'' }}" style="cursor: default !important; border-bottom: 1px dotted #2E3440; box-shadow: 0 0px 0 0 #2E3440;" readonly>
                     {% endif %}
                     {% else %}
-                    <input type="text" name="navn" id="navn" class="form-control" value="{{ navn | default_if_none:'' }}" style="cursor: default !important;" readonly>
+                    <input type="text" name="navn" id="navn" class="form-control" value="{{ navn | default_if_none:'' }}" style="cursor: default !important; border-bottom: 1px dotted #2E3440; box-shadow: 0 0px 0 0 #2E3440;" readonly>
                     {% endif %}
                   </div>
                 </div>
