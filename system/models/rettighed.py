@@ -5,7 +5,11 @@ from system.models import Gruppe
 
 class Rettighed(models.Model):
     RETTIGHED = (
-        ('arkiveringsversioner_se',                 'arkiveringsversioner_se'),
+        ('arkiveringsversioner_se',                         'arkiveringsversioner_se'),
+        ('arkiveringsversioner_arkiveringsversion_se',      'arkiveringsversioner_arkiveringsversion_se'),
+        ('arkiveringsversioner_arkiveringsversion_rediger', 'arkiveringsversioner_arkiveringsversion_rediger'),
+        ('arkiveringsversioner_arkiveringsversion_opret',   'arkiveringsversioner_arkiveringsversion_opret'),
+        ('arkiveringsversioner_arkiveringsversion_slet',    'arkiveringsversioner_arkiveringsversion_slet'),
 
         ('arkiveringsversioner_leverandører_se',    'arkiveringsversioner_leverandører_se'),
         ('arkiveringsversioner_leverandør_se',      'arkiveringsversioner_leverandør_se'),

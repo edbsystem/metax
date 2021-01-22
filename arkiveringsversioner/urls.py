@@ -1,9 +1,12 @@
 from django.urls import path
 
-from .views import arkiveringsversioner_view, leverandoerer_view, typer_view, leverandoer_view
+from .views import arkiveringsversioner_view, leverandoerer_view, typer_view, leverandoer_view, arkiveringsversion_view
 
 urlpatterns = [
     path('', arkiveringsversioner_view, name='arkiveringsversioner_view'),
+
+
+    path('arkiveringsversion', arkiveringsversion_view, name='arkiveringsversion_view'),
 
 
     path('leverandoerer/', leverandoerer_view, name='leverandoerer_view'),
