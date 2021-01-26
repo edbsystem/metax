@@ -1,6 +1,6 @@
 from django.urls import path
 
-from .views import arkiveringsversioner_view, leverandoerer_view, typer_view, leverandoer_view, arkiveringsversion_view
+from .views import arkiveringsversioner_view, leverandoerer_view, typer_view, leverandoer_view, type_view, arkiveringsversion_view
 
 urlpatterns = [
     path('', arkiveringsversioner_view, name='arkiveringsversioner_view'),
@@ -15,7 +15,7 @@ urlpatterns = [
 
 
     path('typer/', typer_view, name='typer_view'),
-    #path('typer/', medie_view, name='typer_view'),
-    #path('typer/<str:pk>/', medie_view, name='typer_view'),
+    path('type/', type_view, name='type_view'),
+    path('type/<str:pk>/', type_view, name='type_view'),
 
 ]
