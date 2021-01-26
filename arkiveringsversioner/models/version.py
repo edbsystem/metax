@@ -83,6 +83,23 @@ class Version(models.Model):
         blank=True,
     )
 
+    kvitteret = models.BooleanField(
+        default=False,
+    )
+
+    journaliseret = models.BooleanField(
+        default=False,
+    )
+
+    kopieret = models.BooleanField(
+        default=False,
+    )
+
+    stoerrelse = models.IntegerField(
+        default=0,
+        verbose_name="Størrelse i GB"
+    )
+
     def __str__(self):
         return str(self.nummer)
 

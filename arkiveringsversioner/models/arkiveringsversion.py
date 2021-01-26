@@ -24,14 +24,19 @@ class Arkiveringsversion(models.Model):
         ('Grønland', 'Grønland')
     )
 
-    avid = models.CharField(
-        max_length=5,
+    avid = models.IntegerField(
         blank=False,
-        null=False
+        null=False,
     )
 
     jnr = models.CharField(
         max_length=32,
+        blank=True,
+        unique=True
+    )
+
+    public = models.CharField(
+        max_length=255,
         blank=True,
         unique=True
     )
