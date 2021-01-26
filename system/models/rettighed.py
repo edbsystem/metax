@@ -68,7 +68,7 @@ class Rettighed(models.Model):
     )
 
     gruppe = models.ForeignKey(
-        to=Gruppe,
+        Gruppe,
         blank=True,
         null=True,
         on_delete=models.CASCADE

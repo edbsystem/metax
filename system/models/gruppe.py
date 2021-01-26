@@ -1,6 +1,6 @@
 from django.db import models
 
-from system.models import Bruger
+from .bruger import Bruger
 
 
 class Gruppe(models.Model):

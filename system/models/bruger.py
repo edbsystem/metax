@@ -1,6 +1,6 @@
 from django.db import models
 
-from system.models import Profil
+from .profil import Profil
 
 
 class Bruger(models.Model):

@@ -1,5 +1,7 @@
 from django.db import models
 
+from .titel import Titel
+
 
 class Profil(models.Model):
     initialer = models.CharField(
@@ -29,6 +31,13 @@ class Profil(models.Model):
         blank=True,
         null=True,
         verbose_name='efternavn'
+    )
+
+    titel = models.ForeignKey(
+        Titel,
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
     )
 
     def __str__(self):
