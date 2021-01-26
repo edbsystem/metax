@@ -2,6 +2,7 @@ from django.db import models
 
 
 class Status(models.Model):
+
     navn = models.CharField(
         max_length=255,
     )
@@ -13,7 +14,7 @@ class Status(models.Model):
     )
 
     def __str__(self):
-        return self.navn
+        return str(self.navn)
 
     class Meta:
         verbose_name_plural = "Statusser"

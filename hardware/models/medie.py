@@ -34,7 +34,7 @@ class Medie(models.Model):
     )
 
     def __str__(self):
-        return self.navn
+        return str(self.navn)
 
     class Meta:
         verbose_name_plural = "Medier"
