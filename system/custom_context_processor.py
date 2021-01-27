@@ -30,6 +30,6 @@ def subject_renderer(request):
 
     return {
         "grupper": sorted(_grupper),
-        "rettigheder": sorted(_rettigheder),
+        "rettigheder": _rettigheder,
         "brugere": sorted(_brugere, key=lambda _bruger: _bruger[0]),
     }

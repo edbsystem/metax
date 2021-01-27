@@ -10,7 +10,7 @@ class Arkiveringsversion(models.Model):
         ('Statslig', 'Statslig'),
         ('Kommunal', 'Kommunal'),
         ('Privat', 'Privat'),
-        ('Forskningsdata', 'Forskningsdata')
+        ('Forskning', 'Forskning')
     )
 
     KLASSIFIKATION = (

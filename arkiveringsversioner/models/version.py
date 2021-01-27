@@ -3,6 +3,7 @@ from django.db import models
 from .arkiveringsversion import Arkiveringsversion
 from .status import Status
 from .leverandoer import Leverandoer
+from system.models import Bruger
 
 
 class Version(models.Model):
@@ -51,6 +52,22 @@ class Version(models.Model):
         on_delete=models.SET_NULL,
     )
 
+    tester = models.ForeignKey(
+        Bruger,
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='tester',
+    )
+
+    arkivar = models.ForeignKey(
+        Bruger,
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='arkivar',
+    )
+
     leverandoer = models.ForeignKey(
         Leverandoer,
         null=True,
@@ -81,18 +98,6 @@ class Version(models.Model):
     svar = models.DateField(
         null=True,
         blank=True,
-    )
-
-    kvitteret = models.BooleanField(
-        default=False,
-    )
-
-    journaliseret = models.BooleanField(
-        default=False,
-    )
-
-    kopieret = models.BooleanField(
-        default=False,
     )
 
     stoerrelse = models.IntegerField(

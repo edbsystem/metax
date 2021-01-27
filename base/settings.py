@@ -52,6 +52,7 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'system.custom_context_processor.subject_renderer',
                 'hardware.custom_context_processor.subject_renderer',
+                'arkiveringsversioner.custom_context_processor.subject_renderer',
             ],
         },
     },

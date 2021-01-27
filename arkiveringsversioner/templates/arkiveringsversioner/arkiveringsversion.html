@@ -8,7 +8,6 @@
 
   <div class="row">
 
-
     <div class="col l6">
       <div class="card z-depth-0" style="margin-top: -2px;">
         <div class="card-content" style="padding: 0;">
@@ -17,8 +16,23 @@
             <div class="card-action col l12" style="margin-bottom: -27px;">
               <div class="col left" style="margin-left: -15px; margin-bottom: -7px;">
               </div>
-              <div class="col right" style="margin-right: -15px; margin-bottom: -7px;">
-                <button class="btn waves-effect waves-light grey white-text z-depth-0" style="margin-right: 4px;" type="submit" id="public" name="public">Public 360</button>
+              <div class="col right" style="margin-right: -15px; margin-bottom: -7px; ">
+                <button class="btn waves-effect waves-light z-depth-0" style="margin-right: 4px; background-color: #4C566A; color: #D8DEE9;" type="submit" id="public" name="public">Public 360</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col l12">
+              <div class="input-field col l12">
+                <div class="form-group">
+                  <label for="public_link" class="col-form-label left" style="color: #4C566A;">Public Link</label>
+                  {% if 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder and 'arkiveringsversioner_public_rediger' in bruger_rettigheder %}
+                  <input type="text" name="public_link" id="public_link" class="form-control" spellcheck="false" value="{{ public | default_if_none:'' }}">
+                  {% else %}
+                  <input type="text" name="public_link" id="public_link" class="form-control" spellcheck="false" value="{{ public | default_if_none:'' }}" style="cursor: default !important; border-bottom: 1px dotted #2E3440; box-shadow: 0 0px 0 0 #2E3440;" readonly>
+                  {% endif %}
+                </div>
               </div>
             </div>
           </div>
@@ -27,20 +41,32 @@
             <div class="col l12">
               <div class="input-field col l1">
                 <div class="form-group">
-                  <label for="avid" class="col-form-label left grey-text text-darken-2">AVID</label>
-                  <input type="text" name="avid" id="avid" class="form-control" value="22111" readonly>
+                  <label for="avid" class="col-form-label left" style="color: #4C566A;">AVID</label>
+                  {% if 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder and 'arkiveringsversioner_avid_rediger' in bruger_rettigheder %}
+                  <input type="text" name="avid" id="avid" class="form-control" spellcheck="false" value="{{ avid | default_if_none:'' }}">
+                  {% else %}
+                  <input type="text" name="avid" id="avid" class="form-control" spellcheck="false" value="{{ avid | default_if_none:'' }}" style="cursor: default !important; border-bottom: 1px dotted #2E3440; box-shadow: 0 0px 0 0 #2E3440;" readonly>
+                  {% endif %}
                 </div>
               </div>
               <div class="input-field col l2">
                 <div class="form-group">
-                  <label for="jnr" class="col-form-label left grey-text text-darken-2">J.nr.</label>
-                  <input type="text" name="jnr" id="jnr" class="form-control" value="21/15489" readonly>
+                  <label for="jnr" class="col-form-label left" style="color: #4C566A;">J.nr.</label>
+                  {% if 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder and 'arkiveringsversioner_jnr_rediger' in bruger_rettigheder %}
+                  <input type="text" name="jnr" id="jnr" class="form-control" spellcheck="false" value="{{ jnr | default_if_none:'' }}">
+                  {% else %}
+                  <input type="text" name="jnr" id="jnr" class="form-control" spellcheck="false" value="{{ jnr | default_if_none:'' }}" style="cursor: default !important; border-bottom: 1px dotted #2E3440; box-shadow: 0 0px 0 0 #2E3440;" readonly>
+                  {% endif %}
                 </div>
               </div>
               <div class="input-field col l9">
                 <div class="form-group">
-                  <label for="titel" class="col-form-label left grey-text text-darken-2">Titel</label>
-                  <input type="text" name="titel" id="titel" class="form-control" value="Coronaministeriet - Døde mink" readonly>
+                  <label for="titel" class="col-form-label left" style="color: #4C566A;">Titel</label>
+                  {% if 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder and 'arkiveringsversioner_titel_rediger' in bruger_rettigheder %}
+                  <input type="text" name="titel" id="titel" class="form-control" spellcheck="false" value="{{ titel | default_if_none:'' }}">
+                  {% else %}
+                  <input type="text" name="titel" id="titel" class="form-control" spellcheck="false" value="{{ titel | default_if_none:'' }}" style="cursor: default !important; border-bottom: 1px dotted #2E3440; box-shadow: 0 0px 0 0 #2E3440;" readonly>
+                  {% endif %}
                 </div>
               </div>
             </div>
@@ -50,26 +76,89 @@
             <div class="col l12">
               <div class="input-field col l3">
                 <div class="form-group">
-                  <label for="kategori" class="col-form-label left grey-text text-darken-2">Kategori</label>
-                  <input type="text" name="kategori" id="kategori" class="form-control" value="Stat" readonly>
+                  <label for="kategori" class="col-form-label left" style="color: #4C566A;">Kategori</label>
+                  {% if 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder and 'arkiveringsversioner_kategori_rediger' in bruger_rettigheder %}
+                  <select name="kategori" id="kategori">
+                    {% else %}
+                    <select name="kategori" id="kategori" disabled>
+                      {% endif %}
+                      {% if kategori == None %}
+                      <option value="" selected></option>
+                      {% else%}
+                      <option value=""></option>
+                      {% endif %}
+                      {% for k in kategorier %}
+                      {% if k == kategori %}
+                      <option value="{{ k }}" selected>{{ k }}</option>
+                      {% else %}
+                      <option value="{{ k }}">{{ k }}</option>
+                      {% endif %}
+                      {% endfor %}
+                    </select>
                 </div>
               </div>
               <div class="input-field col l3">
                 <div class="form-group">
-                  <label for="klassifikation" class="col-form-label left grey-text text-darken-2">Klassifikation</label>
-                  <input type="text" name="klassifikation" id="klassifikation" class="form-control" value="Andet" readonly>
+                  <label for="klassifikation" class="col-form-label left" style="color: #4C566A;">Klassifikation</label>
+                  {% if 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder and 'arkiveringsversioner_klassifikation_rediger' in bruger_rettigheder %}
+                  <select name="klassifikation" id="klassifikation">
+                    {% else %}
+                    <select name="klassifikation" id="klassifikation" disabled>
+                      {% endif %}
+                      {% if klassifikation == None %}
+                      <option value="" selected></option>
+                      {% else%}
+                      <option value=""></option>
+                      {% endif %}
+                      {% for k in klassifikationer %}
+                      {% if k == klassifikation %}
+                      <option value="{{ k }}" selected>{{ k }}</option>
+                      {% else %}
+                      <option value="{{ k }}">{{ k }}</option>
+                      {% endif %}
+                      {% endfor %}
+                    </select>
                 </div>
               </div>
               <div class="input-field col l3">
                 <div class="form-group">
-                  <label for="type" class="col-form-label left grey-text text-darken-2">Type</label>
-                  <input type="text" name="type" id="type" class="form-control" value="ESDH" readonly>
+                  <label for="type" class="col-form-label left" style="color: #4C566A;">Type</label>
+                  {% if 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder and 'arkiveringsversioner_typeav_rediger' in bruger_rettigheder %}
+                  <select name="type" id="type">
+                    {% else %}
+                    <select name="type" id="type" disabled>
+                      {% endif %}
+                      {% if type == None %}
+                      <option value="" selected></option>
+                      {% else%}
+                      <option value=""></option>
+                      {% endif %}
+                      {% for t in typer %}
+                      {% if t == type %}
+                      <option value="{{ t }}" selected>{{ t }}</option>
+                      {% else %}
+                      <option value="{{ t }}">{{ t }}</option>
+                      {% endif %}
+                      {% endfor %}
+                    </select>
                 </div>
               </div>
               <div class="input-field col l3">
                 <div class="form-group">
-                  <label for="land" class="col-form-label left grey-text text-darken-2">Land</label>
-                  <input type="text" name="land" id="land" class="form-control" value="Danmark" readonly>
+                  <label for="land" class="col-form-label left" style="color: #4C566A;">Land</label>
+                  {% if 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder and 'arkiveringsversioner_land_rediger' in bruger_rettigheder %}
+                  <select name="land" id="land">
+                    {% else %}
+                    <select name="land" id="land" disabled>
+                      {% endif %}
+                      {% for l in lande %}
+                      {% if l == land %}
+                      <option value="{{ l }}" selected>{{ l }}</option>
+                      {% else %}
+                      <option value="{{ l }}">{{ l }}</option>
+                      {% endif %}
+                      {% endfor %}
+                    </select>
                 </div>
               </div>
             </div>
@@ -79,104 +168,22 @@
             <div class="col l12">
               <div class="input-field col l12">
                 <div class="form-group">
-                  <label for="noterfraarkivar" class="col-form-label left grey-text text-darken-2">Noter fra arkivar</label>
-                  <textarea id="noterfraarkivar" class="materialize-textarea" placeholder="Det er aftalt med myndighed..."></textarea>
+                  <label for="noterfraarkivar" class="col-form-label left" style="color: #4C566A;">Noter fra arkivar</label>
+                  {% if 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder and 'arkiveringsversioner_arkivarnoter_rediger' in bruger_rettigheder %}
+                  <textarea id="noterfraarkivar" class="materialize-textarea" spellcheck="false">{{ noterfraarkivar | default_if_none:'' }}</textarea>
+                  {% else %}
+                  <textarea id="noterfraarkivar" class="materialize-textarea" spellcheck="false" style="cursor: default !important; border-bottom: 1px dotted #2E3440; box-shadow: 0 0px 0 0 #2E3440;" readonly>{{ noterfraarkivar | default_if_none:'' }}</textarea>
+                  {% endif %}
                 </div>
               </div>
               <div class="input-field col l12">
                 <div class="form-group">
-                  <label for="noterfratester" class="col-form-label left grey-text text-darken-2">Noter fra tester</label>
-                  <textarea id="noterfratester" class="materialize-textarea" placeholder="Det er aftalt med leverandør..."></textarea>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="row" style="padding: 0; margin-top: 0">
-            <div class="col l12" style="margin-bottom: -50px;">
-              <div class="input-field col l6">
-                <div class="file-field input-field">
-                  <div class="btn waves-effect waves-light grey white-text z-depth-0">
-                    <span><i class="material-icons">backup</i></span>
-                    <input type="file" multiple>
-                  </div>
-                  <div class="file-path-wrapper">
-                    <input class="file-path validate" type="text" placeholder="afleveringsbestemmelse.pdf" readonly>
-                  </div>
-                </div>
-              </div>
-              <div class="input-field col l2">
-                <button class="btn waves-effect waves-light grey white-text z-depth-0" style="height: 45px; width: 50px; margin-bottom: -49px;" type="submit" id="public" name="public">
-                  <i class="material-icons">delete</i>
-                </button>
-                <button class="btn waves-effect waves-light grey white-text z-depth-0" style="height: 45px; width: 50px; margin-bottom: -49px;" type="submit" id="public" name="public">
-                  <i class="material-icons">cloud_download</i>
-                </button>
-              </div>
-              <div class="input-field col l4">
-                <div class="form-group">
-                  <br>
-                  <p></p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="row" style="padding: 0; margin-top: 0">
-            <div class="col l12" style="margin-bottom: -50px;">
-              <div class="input-field col l6">
-                <div class="file-field input-field">
-                  <div class="btn waves-effect waves-light grey white-text z-depth-0">
-                    <span><i class="material-icons">backup</i></span>
-                    <input type="file" multiple>
-                  </div>
-                  <div class="file-path-wrapper">
-                    <input class="file-path validate" type="text" placeholder="archiveIndex.xml" readonly>
-                  </div>
-                </div>
-              </div>
-              <div class="input-field col l2">
-                <button class="btn waves-effect waves-light grey white-text z-depth-0" style="height: 45px; width: 50px; margin-bottom: -49px;" type="submit" id="public" name="public">
-                  <i class="material-icons">delete</i>
-                </button>
-                <button class="btn waves-effect waves-light grey white-text z-depth-0" style="height: 45px; width: 50px; margin-bottom: -49px;" type="submit" id="public" name="public">
-                  <i class="material-icons">cloud_download</i>
-                </button>
-              </div>
-              <div class="input-field col l4">
-                <div class="form-group">
-                  <br>
-                  <p>536848FE9FEDFE8F58C3B61E2925D3A3</p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="row" style="padding: 0; margin-top: 0">
-            <div class="col l12">
-              <div class="input-field col l6">
-                <div class=" file-field input-field">
-                  <div class="btn waves-effect waves-light grey white-text z-depth-0">
-                    <span><i class="material-icons">backup</i></span>
-                    <input type="file" multiple>
-                  </div>
-                  <div class="file-path-wrapper">
-                    <input class="file-path validate" type="text" placeholder="contextDocumentationIndex.xml" readonly>
-                  </div>
-                </div>
-              </div>
-              <div class="input-field col l2">
-                <button class="btn waves-effect waves-light grey white-text z-depth-0" style="height: 45px; width: 50px; margin-bottom: -49px;" type="submit" id="public" name="public">
-                  <i class="material-icons">delete</i>
-                </button>
-                <button class="btn waves-effect waves-light grey white-text z-depth-0" style="height: 45px; width: 50px; margin-bottom: -49px;" type="submit" id="public" name="public">
-                  <i class="material-icons">cloud_download</i>
-                </button>
-              </div>
-              <div class="input-field col l4">
-                <div class="form-group">
-                  <br>
-                  <p>536848FE9FEDFE8F58C3B61E2925D3A3</p>
+                  <label for="noterfratester" class="col-form-label left" style="color: #4C566A;">Noter fra tester</label>
+                  {% if 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder and 'arkiveringsversioner_testernoter_rediger' in bruger_rettigheder %}
+                  <textarea id="noterfratester" class="materialize-textarea" spellcheck="false">{{ noterfratester | default_if_none:'' }}</textarea>
+                  {% else %}
+                  <textarea id="noterfratester" class="materialize-textarea" spellcheck="false" style="cursor: default !important; border-bottom: 1px dotted #2E3440; box-shadow: 0 0px 0 0 #2E3440;" readonly>{{ noterfratester | default_if_none:'' }}</textarea>
+                  {% endif %}
                 </div>
               </div>
             </div>
@@ -185,7 +192,6 @@
         </div>
       </div>
     </div>
-
 
     <div class="col l6">
       <div class="card z-depth-0" style="margin-top: -2px;">
@@ -194,10 +200,10 @@
           <div class="row">
             <div class="card-action col l12" style="margin-bottom: -27px;">
               <div class="col right" style="margin-bottom: -7px;">
-                <button class="btn waves-effect waves-light grey lighten-1 black-text z-depth-0" style="margin-right: 6px;" type="submit" id="1" name="1">1</button>
-                <button class="btn waves-effect waves-light grey lighten-1 black-text z-depth-0" style="margin-right: 6px;" type="submit" id="2" name="2">2</button>
-                <button class="btn waves-effect waves-light grey lighten-1 black-text z-depth-0" style="margin-right: 6px;" type="submit" id="3" name="3">3</button>
-                <button class="btn waves-effect waves-light grey white-text z-depth-0" style="margin-right: -12px;" type="submit" id="4" name="4">4</button>
+                <button class="btn waves-effect waves-light z-depth-0" style="margin-right: 6px; background-color: #81A1C1; color: #D8DEE9;" type="submit" id="1" name="1">1</button>
+                <button class="btn waves-effect waves-light z-depth-0" style="margin-right: 6px; background-color: #81A1C1; color: #D8DEE9;" type="submit" id="2" name="2">2</button>
+                <button class="btn waves-effect waves-light z-depth-0" style="margin-right: 6px; background-color: #81A1C1; color: #D8DEE9;" type="submit" id="3" name="3">3</button>
+                <button class="btn waves-effect waves-light z-depth-0" style="margin-right: -12px; background-color: #4C566A; color: #D8DEE9;" type="submit" id="4" name="4">4</button>
               </div>
             </div>
           </div>
@@ -206,20 +212,20 @@
             <div class="col l12">
               <div class="input-field col l4">
                 <div class="form-group">
-                  <label for="jnr" class="col-form-label left grey-text text-darken-2">Tester</label>
-                  <input type="text" name="jnr" id="jnr" class="form-control" value="Ib Hald Andersen" readonly>
+                  <label for="tester" class="col-form-label left" style="color: #4C566A;">Tester</label>
+                  <input type="text" name="tester" id="tester" class="form-control" spellcheck="false" value="{{ tester | default_if_none:'' }}">
                 </div>
               </div>
               <div class="input-field col l4">
                 <div class="form-group">
-                  <label for="titel" class="col-form-label left grey-text text-darken-2">Arkivar</label>
-                  <input type="text" name="titel" id="titel" class="form-control" value="Lars Martin Pedersen" readonly>
+                  <label for="arkivar" class="col-form-label left" style="color: #4C566A;">Arkivar</label>
+                  <input type="text" name="arkivar" id="arkivar" class="form-control" spellcheck="false" value="{{ arkivar | default_if_none:'' }}">
                 </div>
               </div>
               <div class="input-field col l4">
                 <div class="form-group">
-                  <label for="avid" class="col-form-label left grey-text text-darken-2">Leverandør</label>
-                  <input type="text" name="avid" id="avid" class="form-control" value="Tieto A/S" readonly>
+                  <label for="leverandoer" class="col-form-label left" style="color: #4C566A;">Leverandør</label>
+                  <input type="text" name="leverandoer" id="leverandoer" class="form-control" spellcheck="false" value="{{ leverandoer | default_if_none:'' }}">
                 </div>
               </div>
             </div>
@@ -227,74 +233,36 @@
 
           <div class="row">
             <div class="col l12">
-              <div class="input-field col l3">
+              <div class="input-field col l2">
                 <div class="form-group">
-                  <label for="avid" class="col-form-label left grey-text text-darken-2">Modtaget</label>
-                  <input type="text" name="avid" id="avid" class="form-control" value="01-01-2021" readonly>
-                </div>
-              </div>
-              <div class="input-field col l3">
-                <div class="form-group">
-                  <label for="jnr" class="col-form-label left grey-text text-darken-2">Adgang</label>
-                  <input type="text" name="jnr" id="jnr" class="form-control" value="01-01-2021" readonly>
-                </div>
-              </div>
-              <div class="input-field col l3">
-                <div class="form-group">
-                  <label for="titel" class="col-form-label left grey-text text-darken-2">Svarfrist</label>
-                  <input type="text" name="titel" id="titel" class="form-control" value="01-01-2021" readonly>
-                </div>
-              </div>
-              <div class="input-field col l3">
-                <div class="form-group">
-                  <label for="titel" class="col-form-label left grey-text text-darken-2">Svar</label>
-                  <input type="text" name="titel" id="titel" class="form-control" value="01-01-2021" readonly>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="col l12">
-              <div class="input-field col l4">
-                <div class="form-group">
-                  <label for="jnr" class="col-form-label left grey-text text-darken-2">Status</label>
-                  <input type="text" name="jnr" id="jnr" class="form-control" value="Modtaget" readonly>
+                  <label for="afleveringsfrist" class="col-form-label left" style="color: #4C566A;">Afleveringsfrist</label>
+                  <input type="text" name="afleveringsfrist" id="afleveringsfrist" class="form-control" value="01-01-2021">
                 </div>
               </div>
               <div class="input-field col l2">
-                <div class="form-group"><br>
-                  <label for="bliv">
-                    <input type="checkbox" name="bliv" id="bliv" />
-                    <span class="grey-text text-darken-2">Kvitteret</span>
-                  </label>
+                <div class="form-group">
+                  <label for="modtaget" class="col-form-label left" style="color: #4C566A;">Modtaget</label>
+                  <input type="text" name="modtaget" id="modtaget" class="form-control" value="01-01-2021">
                 </div>
               </div>
               <div class="input-field col l2">
-                <div class="form-group"><br>
-                  <label for="bliv">
-                    <input type="checkbox" name="bliv" id="bliv" />
-                    <span class="grey-text text-darken-2">Kodeord</span>
-                  </label>
+                <div class="form-group">
+                  <label for="adgang" class="col-form-label left" style="color: #4C566A;">Adgang</label>
+                  <input type="text" name="adgang" id="adgang" class="form-control" value="01-01-2021">
                 </div>
               </div>
               <div class="input-field col l2">
-                <div class="form-group"><br>
-                  <label for="bliv">
-                    <input type="checkbox" name="bliv" id="bliv" />
-                    <span class="grey-text text-darken-2">Journaliseret</span>
-                  </label>
+                <div class="form-group">
+                  <label for="svarfrist" class="col-form-label left" style="color: #4C566A;">Svarfrist</label>
+                  <input type="text" name="svarfrist" id="svarfrist" class="form-control" value="01-01-2021">
                 </div>
               </div>
               <div class="input-field col l2">
-                <div class="form-group"><br>
-                  <label for="bliv">
-                    <input type="checkbox" name="bliv" id="bliv" />
-                    <span class="grey-text text-darken-2">Kopieret</span>
-                  </label>
+                <div class="form-group">
+                  <label for="svar" class="col-form-label left" style="color: #4C566A;">Svar</label>
+                  <input type="text" name="svar" id="svar" class="form-control" value="01-01-2021">
                 </div>
               </div>
-
             </div>
           </div>
 
@@ -302,12 +270,8 @@
       </div>
     </div>
 
-
   </div>
 
-  </div>
-
-  </div>
 </section>
 
 {% endblock content %}
