@@ -22,13 +22,14 @@ def subject_renderer(request):
     for _land in list(Arkiveringsversion._meta.get_field('land').choices):
         _lande.append(_land[1])
 
-    _typer = []
-    for _type_obj in Type.objects.all():
-        _typer.append(_type_obj.navn)
+    _leverandoerer = []
+    for _leverandoer_obj in Leverandoer.objects.all():
+        _leverandoerer.append(_leverandoer_obj.navn)
 
     return {
         "kategorier": _kategorier,
         "klassifikationer": _klassifikationer,
         "typer": sorted(_typer, key=lambda _type: _type[0]),
         "lande": _lande,
+        "leverandoerer": sorted(_leverandoerer, key=lambda _leverandoer: _leverandoer[0]),
     }

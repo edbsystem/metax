@@ -78,7 +78,12 @@ def arkiveringsversion_view(request, avid, version=0):
                 "version": int(version),
                 "tester": _tester_fuldenavn,
                 "arkivar": _arkivar_fuldenavn,
-                "leverandoer": _version_obj.leverandoer,
+                "leverandoer": str(_version_obj.leverandoer),
+                "afleveringsfrist": _version_obj.afleveringsfrist,
+                "modtaget": _version_obj.modtaget,
+                "adgang": _version_obj.adgang,
+                "svarfrist": _version_obj.svarfrist,
+                "svar": _version_obj.svar,
             })
 
         if not Arkiveringsversion.objects.filter(avid=avid).exists():

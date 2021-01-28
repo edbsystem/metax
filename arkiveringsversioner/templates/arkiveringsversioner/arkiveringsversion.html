@@ -286,7 +286,24 @@
               <div class="input-field col l4">
                 <div class="form-group">
                   <label for="leverandoer" class="col-form-label left" style="color: #4C566A;">Leverandør</label>
-                  <input type="text" name="leverandoer" id="leverandoer" class="form-control" spellcheck="false" value="{{ leverandoer | default_if_none:'' }}">
+                  {% if 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder and 'arkiveringsversioner_leverandør_rediger' in bruger_rettigheder %}
+                  <select name="leverandoer" id="leverandoer">
+                    {% else %}
+                    <select name="leverandoer" id="leverandoer" disabled>
+                      {% endif %}
+                      {% if leverandoer == None %}
+                      <option value="" selected></option>
+                      {% else%}
+                      <option value=""></option>
+                      {% endif %}
+                      {% for k in leverandoerer %}
+                      {% if k == leverandoer %}
+                      <option value="{{ k }}" selected>{{ k }}</option>
+                      {% else %}
+                      <option value="{{ k }}">{{ k }}</option>
+                      {% endif %}
+                      {% endfor %}
+                    </select>
                 </div>
               </div>
             </div>
@@ -297,31 +314,51 @@
               <div class="input-field col l2">
                 <div class="form-group">
                   <label for="afleveringsfrist" class="col-form-label left" style="color: #4C566A;">Afleveringsfrist</label>
-                  <input type="text" name="afleveringsfrist" id="afleveringsfrist" class="form-control" value="01-01-2021">
+                  {% if 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder and 'arkiveringsversioner_afleveringsfrist_rediger' in bruger_rettigheder %}
+                  <input type="text" name="afleveringsfrist" id="afleveringsfrist" class="form-control" value="{{ afleveringsfrist | date:'d-m-Y' | default_if_none:'' }}">
+                  {% else %}
+                  <input type="text" name="afleveringsfrist" id="afleveringsfrist" class="form-control" style="cursor: default !important; border-bottom: 1px dotted #2E3440; box-shadow: 0 0px 0 0 #2E3440;" value="{{ afleveringsfrist | date:'d-m-Y' | default_if_none:'' }}" readonly>
+                  {% endif %}
                 </div>
               </div>
               <div class="input-field col l2">
                 <div class="form-group">
                   <label for="modtaget" class="col-form-label left" style="color: #4C566A;">Modtaget</label>
-                  <input type="text" name="modtaget" id="modtaget" class="form-control" value="01-01-2021">
+                  {% if 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder and 'arkiveringsversioner_modtaget_rediger' in bruger_rettigheder %}
+                  <input type="text" name="modtaget" id="modtaget" class="form-control" value="{{ modtaget | date:'d-m-Y' | default_if_none:'' }}">
+                  {% else %}
+                  <input type="text" name="modtaget" id="modtaget" class="form-control" style="cursor: default !important; border-bottom: 1px dotted #2E3440; box-shadow: 0 0px 0 0 #2E3440;" value="{{ modtaget | date:'d-m-Y' | default_if_none:'' }}" readonly>
+                  {% endif %}
                 </div>
               </div>
               <div class="input-field col l2">
                 <div class="form-group">
                   <label for="adgang" class="col-form-label left" style="color: #4C566A;">Adgang</label>
-                  <input type="text" name="adgang" id="adgang" class="form-control" value="01-01-2021">
+                  {% if 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder and 'arkiveringsversioner_adgang_rediger' in bruger_rettigheder %}
+                  <input type="text" name="adgang" id="adgang" class="form-control" value="{{ adgang | date:'d-m-Y' | default_if_none:'' }}">
+                  {% else %}
+                  <input type="text" name="adgang" id="adgang" class="form-control" style="cursor: default !important; border-bottom: 1px dotted #2E3440; box-shadow: 0 0px 0 0 #2E3440;" value="{{ adgang | date:'d-m-Y' | default_if_none:'' }}" readonly>
+                  {% endif %}
                 </div>
               </div>
               <div class="input-field col l2">
                 <div class="form-group">
                   <label for="svarfrist" class="col-form-label left" style="color: #4C566A;">Svarfrist</label>
-                  <input type="text" name="svarfrist" id="svarfrist" class="form-control" value="01-01-2021">
+                  {% if 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder and 'arkiveringsversioner_svarfrist_rediger' in bruger_rettigheder %}
+                  <input type="text" name="svarfrist" id="svarfrist" class="form-control" value="{{ svarfrist | date:'d-m-Y' | default_if_none:'' }}">
+                  {% else %}
+                  <input type="text" name="svarfrist" id="svarfrist" class="form-control" style="cursor: default !important; border-bottom: 1px dotted #2E3440; box-shadow: 0 0px 0 0 #2E3440;" value="{{ svarfrist | date:'d-m-Y' | default_if_none:'' }}" readonly>
+                  {% endif %}
                 </div>
               </div>
               <div class="input-field col l2">
                 <div class="form-group">
                   <label for="svar" class="col-form-label left" style="color: #4C566A;">Svar</label>
-                  <input type="text" name="svar" id="svar" class="form-control" value="01-01-2021">
+                  {% if 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder and 'arkiveringsversioner_svar_rediger' in bruger_rettigheder %}
+                  <input type="text" name="svar" id="svar" class="form-control" value="{{ svar | date:'d-m-Y' | default_if_none:'' }}">
+                  {% else %}
+                  <input type="text" name="svar" id="svar" class="form-control" style="cursor: default !important; border-bottom: 1px dotted #2E3440; box-shadow: 0 0px 0 0 #2E3440;" value="{{ svar | date:'d-m-Y' | default_if_none:'' }}" readonly>
+                  {% endif %}
                 </div>
               </div>
             </div>
