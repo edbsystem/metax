@@ -31,5 +31,5 @@ def subject_renderer(request):
         "klassifikationer": _klassifikationer,
         "typer": sorted(_typer, key=lambda _type: _type[0]),
         "lande": _lande,
-        "leverandoerer": sorted(_leverandoerer, key=lambda _leverandoer: _leverandoer[0]),
+        "leverandoerer": _leverandoerer,
     }

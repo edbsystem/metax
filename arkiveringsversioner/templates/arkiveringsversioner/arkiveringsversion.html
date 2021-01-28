@@ -14,7 +14,7 @@
         <div class="card-content" style="padding: 0;">
 
           <div class="row">
-            <div class="card-action col l12" style="margin-bottom: -27px;">
+            <div class="card-action col l12">
               <div class="col left" style="margin-left: -15px; margin-bottom: -7px;">
               </div>
               <div class="col right" style="margin-right: -15px; margin-bottom: -7px; ">
@@ -26,7 +26,7 @@
           </div>
 
           {% if 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder and 'arkiveringsversioner_public_rediger' in bruger_rettigheder %}
-          <div class="row" style="margin-top: 100px;">
+          <div class="row">
             <div class="col l12">
               <div class="input-field col l12">
                 <div class="form-group">
@@ -199,7 +199,7 @@
         <div class="card-content" style="padding: 0;">
 
           <div class="row">
-            <div class="card-action col l12" style="margin-bottom: -27px;">
+            <div class="card-action col l12">
               <div class="col right" style="margin-bottom: -7px;">
                 {% for _ in versioner %}
                 {% if version == forloop.counter %}
@@ -237,29 +237,6 @@
 
           <div class="row">
             <div class="col l12">
-              <div class="input-field col l4">
-                <div class="form-group">
-                  <label for="tester" class="col-form-label left" style="color: #4C566A;">Tester</label>
-                  {% if 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder and 'arkiveringsversioner_tester_rediger' in bruger_rettigheder %}
-                  <select name="tester" id="tester">
-                    {% else %}
-                    <select name="tester" id="tester" disabled>
-                      {% endif %}
-                      {% if tester == None %}
-                      <option value="" selected></option>
-                      {% else%}
-                      <option value=""></option>
-                      {% endif %}
-                      {% for k in testere %}
-                      {% if k == tester %}
-                      <option value="{{ k }}" selected>{{ k }}</option>
-                      {% else %}
-                      <option value="{{ k }}">{{ k }}</option>
-                      {% endif %}
-                      {% endfor %}
-                    </select>
-                </div>
-              </div>
               <div class="input-field col l4">
                 <div class="form-group">
                   <label for="arkivar" class="col-form-label left" style="color: #4C566A;">Arkivar</label>
@@ -306,11 +283,47 @@
                     </select>
                 </div>
               </div>
+              <div class="input-field col l4">
+                <div class="form-group">
+                  <label for="tester" class="col-form-label left" style="color: #4C566A;">Tester</label>
+                  {% if 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder and 'arkiveringsversioner_tester_rediger' in bruger_rettigheder %}
+                  <select name="tester" id="tester">
+                    {% else %}
+                    <select name="tester" id="tester" disabled>
+                      {% endif %}
+                      {% if tester == None %}
+                      <option value="" selected></option>
+                      {% else%}
+                      <option value=""></option>
+                      {% endif %}
+                      {% for k in testere %}
+                      {% if k == tester %}
+                      <option value="{{ k }}" selected>{{ k }}</option>
+                      {% else %}
+                      <option value="{{ k }}">{{ k }}</option>
+                      {% endif %}
+                      {% endfor %}
+                    </select>
+                </div>
+              </div>
             </div>
           </div>
 
           <div class="row">
             <div class="col l12">
+              {% if status != 'Afventer genaflevering' %}
+              <div class="input-field col l4">
+                <div class="form-group">
+                  <label for="stoerrelse" class="col-form-label left" style="color: #4C566A;">Størrelse</label>
+                  {% if 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder and 'arkiveringsversioner_størrelse_rediger' in bruger_rettigheder %}
+                  <input type="text" name="stoerrelse" id="stoerrelse" class="form-control" spellcheck="false" value="{{ stoerrelse | default:0 }}">
+                  {% else %}
+                  <input type="text" name="stoerrelse" id="stoerrelse" class="form-control" spellcheck="false" value="{{ stoerrelse | default:0 }}" style="cursor: default !important; border-bottom: 1px dotted #2E3440; box-shadow: 0 0px 0 0 #2E3440;" readonly>
+                  {% endif %}
+                </div>
+              </div>
+              {% endif %}
+              {% if status == 'Afventer genaflevering' %}
               <div class="input-field col l2">
                 <div class="form-group">
                   <label for="afleveringsfrist" class="col-form-label left" style="color: #4C566A;">Afleveringsfrist</label>
@@ -321,6 +334,8 @@
                   {% endif %}
                 </div>
               </div>
+              {% endif %}
+              {% if status != 'Afventer genaflevering' %}
               <div class="input-field col l2">
                 <div class="form-group">
                   <label for="modtaget" class="col-form-label left" style="color: #4C566A;">Modtaget</label>
@@ -359,6 +374,27 @@
                   {% else %}
                   <input type="text" name="svar" id="svar" class="form-control" style="cursor: default !important; border-bottom: 1px dotted #2E3440; box-shadow: 0 0px 0 0 #2E3440;" value="{{ svar | date:'d-m-Y' | default_if_none:'' }}" readonly>
                   {% endif %}
+                </div>
+              </div>
+              {% endif %}
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col l12">
+              <div class="input-field col l12">
+                <div class="form-group">
+                  <label for="status" class="col-form-label left" style="color: #4C566A;">Status</label>
+                  <input type="text" name="status" id="status" class="form-control" spellcheck="false" value="{{ status | default_if_none:'' }}" style="cursor: default !important; border-bottom: 1px dotted #2E3440; box-shadow: 0 0px 0 0 #2E3440;" readonly>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col l12">
+              <div class="input-field col l12">
+                <div class="form-group">
                 </div>
               </div>
             </div>
