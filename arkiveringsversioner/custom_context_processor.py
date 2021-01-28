@@ -1,6 +1,7 @@
 from django.db.models.functions import Lower
 
-from arkiveringsversioner.models import Arkiveringsversion, Type
+from arkiveringsversioner.models import Arkiveringsversion, Type, Leverandoer
+from system.models import Titel, Profil
 
 
 def subject_renderer(request):
@@ -20,6 +21,10 @@ def subject_renderer(request):
     _lande = []
     for _land in list(Arkiveringsversion._meta.get_field('land').choices):
         _lande.append(_land[1])
+
+    _typer = []
+    for _type_obj in Type.objects.all():
+        _typer.append(_type_obj.navn)
 
     return {
         "kategorier": _kategorier,

@@ -1,4 +1,4 @@
-from system.models import Gruppe, Rettighed, Bruger
+from system.models import Gruppe, Rettighed, Bruger, Titel, Profil
 
 
 def subject_renderer(request):
@@ -28,8 +28,44 @@ def subject_renderer(request):
 
         _brugere.append([_initialer, _fuldenavn])
 
+    _testere = []
+    _titel_obj = Titel.objects.get(navn='Tester')
+    for _profil_obj in Profil.objects.filter(titel=_titel_obj):
+
+        _fuldenavn = ''
+
+        if _profil_obj.fornavn != '' and _profil_obj.fornavn != None:
+            _fuldenavn += _profil_obj.fornavn
+        if _profil_obj.mellemnavn != '' and _profil_obj.mellemnavn != None:
+            _fuldenavn += ' '
+            _fuldenavn += _profil_obj.mellemnavn
+        if _profil_obj.efternavn != '' and _profil_obj.efternavn != None:
+            _fuldenavn += ' '
+            _fuldenavn += _profil_obj.efternavn
+
+        _testere.append(_fuldenavn)
+
+    _arkivarer = []
+    _titel_obj = Titel.objects.get(navn='Arkivar')
+    for _profil_obj in Profil.objects.filter(titel=_titel_obj):
+
+        _fuldenavn = ''
+
+        if _profil_obj.fornavn != '' and _profil_obj.fornavn != None:
+            _fuldenavn += _profil_obj.fornavn
+        if _profil_obj.mellemnavn != '' and _profil_obj.mellemnavn != None:
+            _fuldenavn += ' '
+            _fuldenavn += _profil_obj.mellemnavn
+        if _profil_obj.efternavn != '' and _profil_obj.efternavn != None:
+            _fuldenavn += ' '
+            _fuldenavn += _profil_obj.efternavn
+
+        _arkivarer.append(_fuldenavn)
+
     return {
         "grupper": sorted(_grupper),
         "rettigheder": _rettigheder,
         "brugere": sorted(_brugere, key=lambda _bruger: _bruger[0]),
+        "testere": sorted(_testere),
+        "arkivarer": sorted(_arkivarer),
     }

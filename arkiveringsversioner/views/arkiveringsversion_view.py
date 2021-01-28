@@ -11,7 +11,19 @@ def tjek(user):
 
 
 @user_passes_test(tjek, login_url='/', redirect_field_name=None)
-def arkiveringsversion_view(request, avid, version=1):
+def arkiveringsversion_view(request, avid, version=0):
+
+    try:
+        _avid = int(avid)
+    except ValueError:
+        messages.error(request, f"Det angivet AVID: '{avid}', overholder ikke reglerne for et sådant.")
+        return redirect('arkiveringsversioner_view')
+
+    try:
+        _version = int(version)
+    except ValueError:
+        messages.error(request, f"Den angivet version: '{version}', overholder ikke reglerne for et sådant.")
+        return redirect('arkiveringsversioner_view')
 
     if request.method == 'GET':
 
@@ -21,11 +33,13 @@ def arkiveringsversion_view(request, avid, version=1):
         if Arkiveringsversion.objects.filter(avid=avid).exists():
             _arkiveringsversion_obj = Arkiveringsversion.objects.get(avid=avid)
 
+            version = version if version != 0 else Version.objects.filter(avid=_arkiveringsversion_obj).count()
+
             if Version.objects.filter(nummer=version, avid=_arkiveringsversion_obj).exists():
                 _version_obj = Version.objects.get(nummer=version, avid=_arkiveringsversion_obj)
 
             if not Version.objects.filter(nummer=version, avid=_arkiveringsversion_obj).exists():
-                messages.error(request, f"Den angivet version af arkiveringsversion 'AVID.SA.{avid}' findes ikke.")
+                messages.error(request, f"Den angivet version af arkiveringsversionen 'AVID.SA.{avid}' findes ikke.")
                 return redirect('arkiveringsversioner_view')
 
             _tester_fuldenavn = ''
@@ -60,8 +74,8 @@ def arkiveringsversion_view(request, avid, version=1):
                 "land": _arkiveringsversion_obj.land,
                 "noterfraarkivar": _arkiveringsversion_obj.arkivar_noter,
                 "noterfratester": _arkiveringsversion_obj.tester_noter,
-                # "versioner": _versioner,
-                "version": version,
+                "versioner": [''] * Version.objects.filter(avid=_arkiveringsversion_obj).count(),
+                "version": int(version),
                 "tester": _tester_fuldenavn,
                 "arkivar": _arkivar_fuldenavn,
                 "leverandoer": _version_obj.leverandoer,
