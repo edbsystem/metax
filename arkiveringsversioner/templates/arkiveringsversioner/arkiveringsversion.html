@@ -16,11 +16,11 @@
           <div class="row">
             <div class="card-action col l12">
               <div class="col left" style="margin-left: -15px; margin-bottom: -7px;">
-              </div>
-              <div class="col right" style="margin-right: -15px; margin-bottom: -7px; ">
                 <a href="{{ public }}" target="_blank" style="margin: 0;">
                   <button class="btn waves-effect waves-light z-depth-0" style="margin-right: 4px; background-color: #4C566A; color: #D8DEE9;" type="submit" id="public" name="public">Public 360</button>
                 </a>
+              </div>
+              <div class="col right" style="margin-right: -15px; margin-bottom: -7px; ">
               </div>
             </div>
           </div>
@@ -190,6 +190,7 @@
             </div>
           </div>
 
+
         </div>
       </div>
     </div>
@@ -200,6 +201,9 @@
 
           <div class="row">
             <div class="card-action col l12">
+              <div class="col left" style="margin-left: -15px; margin-bottom: -7px;">
+                <button class="btn waves-effect waves-light z-depth-0" style="margin-right: 6px; background-color: #4C566A; color: #D8DEE9;" type="submit" id="public" name="public">Start Test</button>
+              </div>
               <div class="col right" style="margin-bottom: -7px;">
                 {% for _ in versioner %}
                 {% if version == forloop.counter %}
@@ -382,7 +386,7 @@
 
           <div class="row">
             <div class="col l12">
-              <div class="input-field col l12" style="margin-bottom: 15px;">
+              <div class="input-field col l12">
                 <div class="form-group">
                   <label for="status" class="col-form-label left" style="color: #4C566A;">Status</label>
                   <input type="text" name="status" id="status" class="form-control" spellcheck="false" value="{{ status | default_if_none:'' }}" style="cursor: default !important; border-bottom: 1px dotted #2E3440; box-shadow: 0 0px 0 0 #2E3440;" readonly>
@@ -391,13 +395,14 @@
             </div>
           </div>
 
+          {% if status == 'Modtaget' %}
           <div class="row">
             <div class="col l12">
-              <div class="input-field col l12" style="margin: 0;">
+              <div class="input-field col l12" style="margin: 0px; padding-bottom: 5px; margin-top: -15px;">
                 <div class=" form-group">
                   <label class="col l3">
-                    <input type="checkbox" class="radio" value="kvitteret" name="kvitteret" />
-                    <span style="color: #4C566A;">Kvitteret</span>
+                    <input type="checkbox" class="radio" value="modtaget_kvitteret" name="modtaget_kvitteret" />
+                    <span style="color: #2E3440;">Kvitteret</span>
                   </label>
                 </div>
               </div>
@@ -406,11 +411,17 @@
 
           <div class="row">
             <div class="col l12">
-              <div class="input-field col l12" style="margin: 0;">
+              <div class="divider col l9" style="border-top: 1px dotted #4C566A; margin-left: 10px;"></div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col l12">
+              <div class="input-field col l12" style="margin: 0px; padding-bottom: 5px; margin-top: 5px;">
                 <div class="form-group">
                   <label class="col l3">
-                    <input type="checkbox" class="radio" value="journaliseret" name="journaliseret" />
-                    <span style="color: #4C566A;">Journaliseret</span>
+                    <input type="checkbox" class="radio" value="modtaget_journaliseret" name="modtaget_journaliseret" />
+                    <span style="color: #2E3440;">Journaliseret</span>
                   </label>
                 </div>
               </div>
@@ -419,15 +430,25 @@
 
           <div class="row">
             <div class="col l12">
-              <div class="input-field col l12" style="margin: 0;">
+              <div class="divider col l9" style="border-top: 1px dotted #4C566A; margin-left: 10px;"></div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col l12">
+              <div class="input-field col l12" style="margin: 0; padding-bottom: 5px; margin-top: 5px;">
                 <div class="form-group">
                   <label class="col l3">
-                    <input type="checkbox" class="radio" value="kodeord" name="kodeord" />
-                    <span style="color: #4C566A;">Kodeord</span>
+                    <input type="checkbox" class="radio" value="modtaget_kodeord" name="modtaget_kodeord" />
+                    <span style="color: #2E3440;">Kodeord</span>
                   </label>
                   <label class="col l3">
-                    <input type="checkbox" class="radio" value="kodeord_mangler" name="kodeord" />
-                    <span style="color: #4C566A;">Kodeord mangler</span>
+                    <input type="checkbox" class="radio" value="modtaget_mangler_kodeord" name="modtaget_kodeord" />
+                    <span style="color: #2E3440;">Kodeord mangler</span>
+                  </label>
+                  <label class="col l3">
+                    <input type="checkbox" class="radio" value="modtaget_ikke_krypteret" name="modtaget_kodeord" />
+                    <span style="color: #2E3440;">Ikke krypteret</span>
                   </label>
                 </div>
               </div>
@@ -436,11 +457,17 @@
 
           <div class="row">
             <div class="col l12">
-              <div class="input-field col l12" style="margin: 0;">
+              <div class="divider col l9" style="border-top: 1px dotted #4C566A; margin-left: 10px;"></div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col l12">
+              <div class="input-field col l12" style="margin: 0; padding-bottom: 0px; margin-top: 5px;">
                 <div class="form-group">
                   <label class="col l3">
-                    <input type="checkbox" class="radio" value="kopieret" name="kopieret" />
-                    <span style="color: #4C566A;">Kopieret</span>
+                    <input type="checkbox" class="radio" value="modtaget_kopieret" name="modtaget_kopieret" />
+                    <span style="color: #2E3440;">Kopieret</span>
                   </label>
                 </div>
               </div>
@@ -449,15 +476,21 @@
 
           <div class="row">
             <div class="col l12">
-              <div class="input-field col l12" style="margin: 0;">
+              <div class="divider col l9" style="border-top: 1px dotted #4C566A; margin-left: 10px;"></div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col l12">
+              <div class="input-field col l12" style="margin: 0; padding-bottom: 5px; margin-top: 5px;">
                 <div class="form-group">
                   <label class="col l3">
-                    <input type="checkbox" class="radio" value="modtagelse_godkendt" name="modtagelse" />
-                    <span style="color: #4C566A;">Modtagelse godkendt</span>
+                    <input type="checkbox" class="radio" value="modtaget_modtagelse_godkendt" name="modtaget_modtagelse" />
+                    <span style="color: #2E3440;">Modtagelse godkendt</span>
                   </label>
                   <label class="col l3">
-                    <input type="checkbox" class="radio" value="modtagelse_afvist" name="modtagelse" />
-                    <span style="color: #4C566A;">Modtagelse afvist</span>
+                    <input type="checkbox" class="radio" value="modtaget_modtagelse_afvist" name="modtaget_modtagelse" />
+                    <span style="color: #2E3440;">Modtagelse afvist</span>
                   </label>
                 </div>
               </div>
@@ -466,11 +499,17 @@
 
           <div class="row">
             <div class="col l12">
-              <div class="input-field col l12" style="margin: 0;">
+              <div class="divider col l9" style="border-top: 1px dotted #4C566A; margin-left: 10px;"></div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col l12">
+              <div class="input-field col l12" style="margin: 0; padding-bottom: 5px; margin-top: 5px;">
                 <div class="form-group">
                   <label class="col l3">
-                    <input type="checkbox" class="radio" value="fileindex_kopieret" name="fileindex_kopieret" />
-                    <span style="color: #4C566A;">Filindeks kopieret</span>
+                    <input type="checkbox" class="radio" value="modtaget_fileindex_kopieret" name="modtaget_fileindex_kopieret" />
+                    <span style="color: #2E3440;">Filindeks kopieret</span>
                   </label>
                 </div>
               </div>
@@ -479,25 +518,52 @@
 
           <div class="row">
             <div class="col l12">
-              <div class="input-field col l12" style="margin: 0;">
+              <div class="divider col l9" style="border-top: 1px dotted #4C566A; margin-left: 10px;"></div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col l12">
+              <div class="input-field col l12" style="margin: 0; padding-bottom: 5px; margin-top: 5px;">
                 <div class="form-group">
                   <label class="col l3">
-                    <input type="checkbox" class="radio" value="afvikler_ada" name="ada" />
-                    <span style="color: #4C566A;">Afvikler ADA</span>
+                    <input type="checkbox" class="radio" value="modtaget_afvikler_ada" name="modtaget_ada" />
+                    <span style="color: #2E3440;">Afvikler ADA</span>
                   </label>
                   <label class="col l3">
-                    <input type="checkbox" class="radio" value="ada_fejlet" name="ada" />
-                    <span style="color: #4C566A;">ADA fejlet</span>
+                    <input type="checkbox" class="radio" value="modtaget_ada_fejlet" name="modtaget_ada" />
+                    <span style="color: #2E3440;">ADA fejlet</span>
                   </label>
                   <label class="col l3">
-                    <input type="checkbox" class="radio" value="klar_til_test" name="ada" />
-                    <span style="color: #4C566A;">Klar til test</span>
+                    <input type="checkbox" class="radio" value="modtaget_klar_til_test" name="modtaget_ada" />
+                    <span style="color: #2E3440;">Klar til test</span>
                   </label>
                 </div>
               </div>
             </div>
           </div>
 
+          <div class="row">
+            <div class="col l12">
+              <div class="divider col l9" style="border-top: 1px dotted #4C566A; margin-left: 10px;"></div>
+            </div>
+          </div>
+          {% endif %}
+
+        </div>
+      </div>
+    </div>
+
+    <div class="col l12">
+      <div class="card z-depth-0">
+        <div class="card-content" style="padding: 0;">
+          <div class="row" style="margin-top: 30px;">
+            <div class="card-action col l12">
+              <div class="col right" style="margin-right: -15px;">
+                <button class="btn waves-effect waves-light z-depth-0" style="margin-right: 4px; background-color: #4C566A; color: #D8DEE9;" type="submit" id="public" name="public">Gem</button>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

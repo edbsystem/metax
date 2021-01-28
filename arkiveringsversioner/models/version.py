@@ -31,6 +31,16 @@ class Version(models.Model):
         (20, 20),
     )
 
+    STATUS = (
+        ('Afventer aflevering', 'Afventer aflevering'),
+        ('Modtaget', 'Modtaget'),
+        ('Under test', 'Under test'),
+        ('Tilbagemeldt', 'Tilbagemeldt'),
+        ('Afventer genaflevering', 'Afventer genaflevering'),
+        ('Godkendt af tester', 'Godkendt af tester'),
+        ('Godkendt', 'Godkendt'),
+    )
+
     nummer = models.IntegerField(
         blank=False,
         null=False,
@@ -45,11 +55,12 @@ class Version(models.Model):
         on_delete=models.CASCADE,
     )
 
-    status = models.ForeignKey(
-        Status,
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
+    status = models.CharField(
+        max_length=32,
+        null=False,
+        blank=False,
+        choices=STATUS,
+        default='Afventer aflevering',
     )
 
     tester = models.ForeignKey(
@@ -103,6 +114,102 @@ class Version(models.Model):
     stoerrelse = models.IntegerField(
         default=0,
         verbose_name="Størrelse i GB"
+    )
+
+    modtaget_kvitteret = models.BooleanField(
+        default=False,
+    )
+
+    modtaget_journaliseret = models.BooleanField(
+        default=False,
+    )
+
+    modtaget_kodeord = models.BooleanField(
+        default=False,
+    )
+
+    modtaget_mangler_kodeord = models.BooleanField(
+        default=False,
+    )
+
+    modtaget_ikke_krypteret = models.BooleanField(
+        default=False,
+    )
+
+    modtaget_kopieret = models.BooleanField(
+        default=False,
+    )
+
+    modtaget_modtagelse_godkendt = models.BooleanField(
+        default=False,
+    )
+
+    modtaget_modtagelse_afvist = models.BooleanField(
+        default=False,
+    )
+
+    modtaget_fileindex_kopieret = models.BooleanField(
+        default=False,
+    )
+
+    modtaget_afvikler_ada = models.BooleanField(
+        default=False,
+    )
+
+    modtaget_ada_fejlet = models.BooleanField(
+        default=False,
+    )
+
+    modtaget_klar_til_test = models.BooleanField(
+        default=False,
+    )
+
+    tilbagemeldt_nedpakket = models.BooleanField(
+        default=False,
+    )
+
+    tilbagemeldt_maskine_renset = models.BooleanField(
+        default=False,
+    )
+
+    godkendt_af_tester_fileindex_godkendt = models.BooleanField(
+        default=False,
+    )
+
+    godkendt_af_tester_afvikler_dea = models.BooleanField(
+        default=False,
+    )
+
+    godkendt_af_tester_afleveret_til_dea = models.BooleanField(
+        default=False,
+    )
+
+    godkendt_af_tester_retur_fra_dea = models.BooleanField(
+        default=False,
+    )
+
+    godkendt_af_tester_mary_kontrol = models.BooleanField(
+        default=False,
+    )
+
+    godkendt_af_tester_meta_opdateret = models.BooleanField(
+        default=False,
+    )
+
+    godkendt_af_tester_public_opdateret = models.BooleanField(
+        default=False,
+    )
+
+    godkendt_af_tester_nedpakket = models.BooleanField(
+        default=False,
+    )
+
+    godkendt_af_tester_maskine_renset = models.BooleanField(
+        default=False,
+    )
+
+    godkendt_af_tester_parat_til_godkendelse = models.BooleanField(
+        default=False,
     )
 
     def __str__(self):
