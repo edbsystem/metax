@@ -382,7 +382,7 @@
 
           <div class="row">
             <div class="col l12">
-              <div class="input-field col l12">
+              <div class="input-field col l12" style="margin-bottom: 15px;">
                 <div class="form-group">
                   <label for="status" class="col-form-label left" style="color: #4C566A;">Status</label>
                   <input type="text" name="status" id="status" class="form-control" spellcheck="false" value="{{ status | default_if_none:'' }}" style="cursor: default !important; border-bottom: 1px dotted #2E3440; box-shadow: 0 0px 0 0 #2E3440;" readonly>
@@ -393,8 +393,106 @@
 
           <div class="row">
             <div class="col l12">
-              <div class="input-field col l12">
+              <div class="input-field col l12" style="margin: 0;">
+                <div class=" form-group">
+                  <label class="col l3">
+                    <input type="checkbox" class="radio" value="kvitteret" name="kvitteret" />
+                    <span style="color: #4C566A;">Kvitteret</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col l12">
+              <div class="input-field col l12" style="margin: 0;">
                 <div class="form-group">
+                  <label class="col l3">
+                    <input type="checkbox" class="radio" value="journaliseret" name="journaliseret" />
+                    <span style="color: #4C566A;">Journaliseret</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col l12">
+              <div class="input-field col l12" style="margin: 0;">
+                <div class="form-group">
+                  <label class="col l3">
+                    <input type="checkbox" class="radio" value="kodeord" name="kodeord" />
+                    <span style="color: #4C566A;">Kodeord</span>
+                  </label>
+                  <label class="col l3">
+                    <input type="checkbox" class="radio" value="kodeord_mangler" name="kodeord" />
+                    <span style="color: #4C566A;">Kodeord mangler</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col l12">
+              <div class="input-field col l12" style="margin: 0;">
+                <div class="form-group">
+                  <label class="col l3">
+                    <input type="checkbox" class="radio" value="kopieret" name="kopieret" />
+                    <span style="color: #4C566A;">Kopieret</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col l12">
+              <div class="input-field col l12" style="margin: 0;">
+                <div class="form-group">
+                  <label class="col l3">
+                    <input type="checkbox" class="radio" value="modtagelse_godkendt" name="modtagelse" />
+                    <span style="color: #4C566A;">Modtagelse godkendt</span>
+                  </label>
+                  <label class="col l3">
+                    <input type="checkbox" class="radio" value="modtagelse_afvist" name="modtagelse" />
+                    <span style="color: #4C566A;">Modtagelse afvist</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col l12">
+              <div class="input-field col l12" style="margin: 0;">
+                <div class="form-group">
+                  <label class="col l3">
+                    <input type="checkbox" class="radio" value="fileindex_kopieret" name="fileindex_kopieret" />
+                    <span style="color: #4C566A;">Filindeks kopieret</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col l12">
+              <div class="input-field col l12" style="margin: 0;">
+                <div class="form-group">
+                  <label class="col l3">
+                    <input type="checkbox" class="radio" value="afvikler_ada" name="ada" />
+                    <span style="color: #4C566A;">Afvikler ADA</span>
+                  </label>
+                  <label class="col l3">
+                    <input type="checkbox" class="radio" value="ada_fejlet" name="ada" />
+                    <span style="color: #4C566A;">ADA fejlet</span>
+                  </label>
+                  <label class="col l3">
+                    <input type="checkbox" class="radio" value="klar_til_test" name="ada" />
+                    <span style="color: #4C566A;">Klar til test</span>
+                  </label>
                 </div>
               </div>
             </div>
@@ -407,6 +505,19 @@
   </div>
 
 </section>
+
+<script>
+  $("input:checkbox").on('click', function () {
+    var $box = $(this);
+    if ($box.is(":checked")) {
+      var group = "input:checkbox[name='" + $box.attr("name") + "']";
+      $(group).prop("checked", false);
+      $box.prop("checked", true);
+    } else {
+      $box.prop("checked", false);
+    }
+  });
+</script>
 
 {% endblock content %}
 
