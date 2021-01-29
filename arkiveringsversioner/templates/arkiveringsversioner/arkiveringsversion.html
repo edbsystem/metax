@@ -45,7 +45,7 @@
                   <div class="form-group">
                     <label for="avid" class="col-form-label left" style="color: #4C566A;">AVID</label>
                     {% if 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder and 'arkiveringsversioner_avid_rediger' in bruger_rettigheder %}
-                    <input type="text" name="avid" id="avid" class="form-control" spellcheck="false" value="{{ avid | default_if_none:'' }}" oninput="updateAvid()">
+                    <input type="text" name="avid" id="avid" class="form-control number" maxlength="5" spellcheck="false" value="{{ avid | default_if_none:'' }}" oninput="updateAvid()">
                     {% else %}
                     <input type=" text" name="avid" id="avid" class="form-control" spellcheck="false" value="{{ avid | default_if_none:'' }}" style="cursor: default !important; border-bottom: 1px dotted #2E3440; box-shadow: 0 0px 0 0 #2E3440;" readonly>
                     {% endif %}
@@ -55,7 +55,7 @@
                   <div class="form-group">
                     <label for="jnr" class="col-form-label left" style="color: #4C566A;">J.nr.</label>
                     {% if 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder and 'arkiveringsversioner_jnr_rediger' in bruger_rettigheder %}
-                    <input type="text" name="jnr" id="jnr" class="form-control" spellcheck="false" value="{{ jnr | default_if_none:'' }}" oninput="updateJnr()">
+                    <input type="text" name="jnr" id="jnr" class="form-control jnr" spellcheck="false" value="{{ jnr | default_if_none:'' }}" oninput="updateJnr()">
                     {% else %}
                     <input type="text" name="jnr" id="jnr" class="form-control" spellcheck="false" value="{{ jnr | default_if_none:'' }}" style="cursor: default !important; border-bottom: 1px dotted #2E3440; box-shadow: 0 0px 0 0 #2E3440;" readonly>
                     {% endif %}
@@ -103,7 +103,7 @@
                   <div class="form-group">
                     <label for="klassifikation" class="col-form-label left" style="color: #4C566A;">Klassifikation</label>
                     {% if 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder and 'arkiveringsversioner_klassifikation_rediger' in bruger_rettigheder %}
-                    <select name="klassifikation" id="klassifikation">
+                    <select name="klassifikation" id="klassifikation" onchange="updateKlassifikation()">
                       {% else %}
                       <select name="klassifikation" id="klassifikation" disabled>
                         {% endif %}
@@ -126,7 +126,7 @@
                   <div class="form-group">
                     <label for="type" class="col-form-label left" style="color: #4C566A;">Type</label>
                     {% if 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder and 'arkiveringsversioner_typeav_rediger' in bruger_rettigheder %}
-                    <select name="type" id="type">
+                    <select name="type" id="type" onchange="updateType()">
                       {% else %}
                       <select name="type" id="type" disabled>
                         {% endif %}
@@ -149,7 +149,7 @@
                   <div class="form-group">
                     <label for="land" class="col-form-label left" style="color: #4C566A;">Land</label>
                     {% if 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder and 'arkiveringsversioner_land_rediger' in bruger_rettigheder %}
-                    <select name="land" id="land">
+                    <select name="land" id="land" onchange="updateLand()">
                       {% else %}
                       <select name="land" id="land" disabled>
                         {% endif %}
@@ -172,7 +172,7 @@
                   <div class="form-group">
                     <label for="noterfraarkivar" class="col-form-label left" style="color: #4C566A;">Noter fra arkivar</label>
                     {% if 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder and 'arkiveringsversioner_arkivarnoter_rediger' in bruger_rettigheder %}
-                    <textarea id="noterfraarkivar" class="materialize-textarea" spellcheck="false">{{ noterfraarkivar | default_if_none:'' }}</textarea>
+                    <textarea id="noterfraarkivar" class="materialize-textarea" spellcheck="false" oninput="updateNoterfraarkivar()">{{ noterfraarkivar | default_if_none:'' }}</textarea>
                     {% else %}
                     <textarea id="noterfraarkivar" class="materialize-textarea" spellcheck="false" style="cursor: default !important; border-bottom: 1px dotted #2E3440; box-shadow: 0 0px 0 0 #2E3440;" readonly>{{ noterfraarkivar | default_if_none:'' }}</textarea>
                     {% endif %}
@@ -182,7 +182,7 @@
                   <div class="form-group">
                     <label for="noterfratester" class="col-form-label left" style="color: #4C566A;">Noter fra tester</label>
                     {% if 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder and 'arkiveringsversioner_testernoter_rediger' in bruger_rettigheder %}
-                    <textarea id="noterfratester" class="materialize-textarea" spellcheck="false">{{ noterfratester | default_if_none:'' }}</textarea>
+                    <textarea id="noterfratester" class="materialize-textarea" spellcheck="false" oninput="updateNoterfratester()">{{ noterfratester | default_if_none:'' }}</textarea>
                     {% else %}
                     <textarea id="noterfratester" class="materialize-textarea" spellcheck="false" style="cursor: default !important; border-bottom: 1px dotted #2E3440; box-shadow: 0 0px 0 0 #2E3440;" readonly>{{ noterfratester | default_if_none:'' }}</textarea>
                     {% endif %}
@@ -246,7 +246,7 @@
                   <div class="form-group">
                     <label for="arkivar" class="col-form-label left" style="color: #4C566A;">Arkivar</label>
                     {% if 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder and 'arkiveringsversioner_arkivar_rediger' in bruger_rettigheder %}
-                    <select name="arkivar" id="arkivar">
+                    <select name="arkivar" id="arkivar" onchange="updateArkivar()">
                       {% else %}
                       <select name="arkivar" id="arkivar" disabled>
                         {% endif %}
@@ -269,7 +269,7 @@
                   <div class="form-group">
                     <label for="leverandoer" class="col-form-label left" style="color: #4C566A;">Leverandør</label>
                     {% if 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder and 'arkiveringsversioner_leverandør_rediger' in bruger_rettigheder %}
-                    <select name="leverandoer" id="leverandoer">
+                    <select name="leverandoer" id="leverandoer" onchange="updateLeverandoer()">
                       {% else %}
                       <select name="leverandoer" id="leverandoer" disabled>
                         {% endif %}
@@ -292,7 +292,7 @@
                   <div class="form-group">
                     <label for="tester" class="col-form-label left" style="color: #4C566A;">Tester</label>
                     {% if 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder and 'arkiveringsversioner_tester_rediger' in bruger_rettigheder %}
-                    <select name="tester" id="tester">
+                    <select name="tester" id="tester" onchange="updateTester()">
                       {% else %}
                       <select name="tester" id="tester" disabled>
                         {% endif %}
@@ -321,7 +321,7 @@
                   <div class="form-group">
                     <label for="afleveringsfrist" class="col-form-label left" style="color: #4C566A;">Afleveringsfrist</label>
                     {% if 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder and 'arkiveringsversioner_afleveringsfrist_rediger' in bruger_rettigheder %}
-                    <input type="text" name="afleveringsfrist" id="afleveringsfrist" class="form-control" value="{{ afleveringsfrist | date:'d-m-Y' | default_if_none:'' }}">
+                    <input type="text" name="afleveringsfrist" id="afleveringsfrist" class="form-control date" value="{{ afleveringsfrist | default_if_none:'' }}" oninput="updateAfleveringsfrist()">
                     {% else %}
                     <input type="text" name="afleveringsfrist" id="afleveringsfrist" class="form-control" style="cursor: default !important; border-bottom: 1px dotted #2E3440; box-shadow: 0 0px 0 0 #2E3440;" value="{{ afleveringsfrist | date:'d-m-Y' | default_if_none:'' }}" readonly>
                     {% endif %}
@@ -333,7 +333,7 @@
                   <div class="form-group">
                     <label for="modtaget" class="col-form-label left" style="color: #4C566A;">Modtaget</label>
                     {% if 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder and 'arkiveringsversioner_modtaget_rediger' in bruger_rettigheder %}
-                    <input type="text" name="modtaget" id="modtaget" class="form-control" value="{{ modtaget | date:'d-m-Y' | default_if_none:'' }}">
+                    <input type="text" name="modtaget" id="modtaget" class="form-control date" value="{{ modtaget | default_if_none:'' }}" oninput="updateModtaget()">
                     {% else %}
                     <input type="text" name="modtaget" id="modtaget" class="form-control" style="cursor: default !important; border-bottom: 1px dotted #2E3440; box-shadow: 0 0px 0 0 #2E3440;" value="{{ modtaget | date:'d-m-Y' | default_if_none:'' }}" readonly>
                     {% endif %}
@@ -343,7 +343,7 @@
                   <div class="form-group">
                     <label for="adgang" class="col-form-label left" style="color: #4C566A;">Adgang</label>
                     {% if 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder and 'arkiveringsversioner_adgang_rediger' in bruger_rettigheder %}
-                    <input type="text" name="adgang" id="adgang" class="form-control" value="{{ adgang | date:'d-m-Y' | default_if_none:'' }}">
+                    <input type="text" name="adgang" id="adgang" class="form-control date" value="{{ adgang | default_if_none:'' }}" oninput="updateAdgang()">
                     {% else %}
                     <input type="text" name="adgang" id="adgang" class="form-control" style="cursor: default !important; border-bottom: 1px dotted #2E3440; box-shadow: 0 0px 0 0 #2E3440;" value="{{ adgang | date:'d-m-Y' | default_if_none:'' }}" readonly>
                     {% endif %}
@@ -353,7 +353,7 @@
                   <div class="form-group">
                     <label for="svarfrist" class="col-form-label left" style="color: #4C566A;">Svarfrist</label>
                     {% if 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder and 'arkiveringsversioner_svarfrist_rediger' in bruger_rettigheder %}
-                    <input type="text" name="svarfrist" id="svarfrist" class="form-control" value="{{ svarfrist | date:'d-m-Y' | default_if_none:'' }}">
+                    <input type="text" name="svarfrist" id="svarfrist" class="form-control date" value="{{ svarfrist | default_if_none:'' }}" oninput="updateSvarfrist()">
                     {% else %}
                     <input type="text" name="svarfrist" id="svarfrist" class="form-control" style="cursor: default !important; border-bottom: 1px dotted #2E3440; box-shadow: 0 0px 0 0 #2E3440;" value="{{ svarfrist | date:'d-m-Y' | default_if_none:'' }}" readonly>
                     {% endif %}
@@ -363,7 +363,7 @@
                   <div class="form-group">
                     <label for="svar" class="col-form-label left" style="color: #4C566A;">Svar</label>
                     {% if 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder and 'arkiveringsversioner_svar_rediger' in bruger_rettigheder %}
-                    <input type="text" name="svar" id="svar" class="form-control" value="{{ svar | date:'d-m-Y' | default_if_none:'' }}">
+                    <input type="text" name="svar" id="svar" class="form-control date" value="{{ svar | default_if_none:'' }}" oninput="updateSvar()">
                     {% else %}
                     <input type="text" name="svar" id="svar" class="form-control" style="cursor: default !important; border-bottom: 1px dotted #2E3440; box-shadow: 0 0px 0 0 #2E3440;" value="{{ svar | date:'d-m-Y' | default_if_none:'' }}" readonly>
                     {% endif %}
@@ -396,7 +396,7 @@
                   <div class="form-group">
                     <label for="stoerrelse" class="col-form-label left" style="color: #4C566A;">Størrelse</label>
                     {% if 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder and 'arkiveringsversioner_størrelse_rediger' in bruger_rettigheder %}
-                    <input type="text" name="stoerrelse" id="stoerrelse" class="form-control" spellcheck="false" value="{{ stoerrelse | default:0 }}">
+                    <input type="text" name="stoerrelse" id="stoerrelse" class="form-control number" spellcheck="false" value="{{ stoerrelse | default:0 }}" oninput="updateStoerrelse()">
                     {% else %}
                     <input type="text" name="stoerrelse" id="stoerrelse" class="form-control" spellcheck="false" value="{{ stoerrelse | default:0 }}" style="cursor: default !important; border-bottom: 1px dotted #2E3440; box-shadow: 0 0px 0 0 #2E3440;" readonly>
                     {% endif %}
@@ -418,7 +418,7 @@
                         <div class=" form-group">
                           <label class="col l3" id="kvitteret" onchange="updateKvitteret()">
                             <input type="checkbox" class="radio" name="kvitteret" value="kvitteret" />
-                            <span style="color: #2E3440;">Kvitteret</span>
+                            <span style="color: #2E3440;">Kvittering afsendt</span>
                           </label>
                         </div>
                       </div>
@@ -437,7 +437,7 @@
                         <div class="form-group">
                           <label class="col l3" id="journaliseret" onchange="updateJournaliseret()">
                             <input type="checkbox" class="radio" name="journaliseret" value="journaliseret" />
-                            <span style="color: #2E3440;">Journaliseret</span>
+                            <span style="color: #2E3440;">Følgeseddel journaliseret</span>
                           </label>
                         </div>
                       </div>
@@ -458,13 +458,13 @@
                             <input type="checkbox" class="radio" name="kodeord" value="modtaget" />
                             <span style="color: #2E3440;">Kodeord modtaget</span>
                           </label>
-                          <label class="col l3" onchange="updateKodeord_mangler()">
+                          <label class="col l4" onchange="updateKodeord_mangler()">
                             <input type="checkbox" class="radio" name="kodeord" value="mangler" />
-                            <span style="color: #2E3440;">Kodeord mangler</span>
+                            <span style="color: #2E3440;">Kodeord mangler (rykker afsendt)</span>
                           </label>
-                          <label class="col l3" onchange="updateIkke_krypteret()">
+                          <label class="col l4" onchange="updateIkke_krypteret()">
                             <input type="checkbox" class="radio" name="kodeord" value="ikke_krypteret" />
-                            <span style="color: #2E3440;">Ikke krypteret</span>
+                            <span style="color: #2E3440;">Afleveringsmedie er ikke krypteret</span>
                           </label>
                         </div>
                       </div>
@@ -481,9 +481,9 @@
                     <div class="col l12">
                       <div class="input-field col l12" style="margin: 0; padding-bottom: 4px; margin-top: 4px;">
                         <div class="form-group">
-                          <label class="col l3" onchange="updateKopieret()">
+                          <label class="col l6" onchange="updateKopieret()">
                             <input type="checkbox" class="radio" name="kopieret" value="kopieret" />
-                            <span style="color: #2E3440;">Kopieret</span>
+                            <span style="color: #2E3440;">Kopieret til testmedie</span>
                           </label>
                         </div>
                       </div>
@@ -587,6 +587,24 @@
     }
   });
 
+  Array.from(document.getElementsByClassName('number')).forEach(elem => {
+    elem.addEventListener('input', event => {
+      event.target.value = event.target.value.replace(/[^0-9]/g, '');
+    });
+  });
+
+  Array.from(document.getElementsByClassName('date')).forEach(elem => {
+    elem.addEventListener('input', event => {
+      event.target.value = event.target.value.replace(/[^0-9\\-]/g, '');
+    });
+  });
+
+  Array.from(document.getElementsByClassName('jnr')).forEach(elem => {
+    elem.addEventListener('input', event => {
+      event.target.value = event.target.value.replace(/[^0-9\/\-]/g, '');
+    });
+  });
+
   let submit_clicked = false
 
   $('form').submit(function (event) {
@@ -598,6 +616,20 @@
   let jnr = '{{ jnr }}'
   let titel = '{{ titel }}'
   let kategori = '{{ kategori }}'
+  let klassifikation = '{{ klassifikation }}'
+  let type = '{{ type }}'
+  let land = '{{ land }}'
+  let noterfraarkivar = '{{ noterfraarkivar }}'
+  let noterfratester = '{{ noterfratester }}'
+  let arkivar = '{{ arkivar }}'
+  let leverandoer = '{{ leverandoer }}'
+  let tester = '{{ tester }}'
+  let afleveringsfrist = '{{ afleveringsfrist }}'
+  let modtaget = '{{ modtaget }}'
+  let adgang = '{{ adgang }}'
+  let svarfrist = '{{ svarfrist }}'
+  let svar = '{{ svar }}'
+  let stoerrelse = '{{ stoerrelse }}'
   let kvitteret = undefined
   let kvitteret_start = undefined
   let journaliseret = undefined
@@ -714,6 +746,20 @@
   updateJnr = () => jnr = document.getElementById('jnr').value
   updateTitel = () => titel = document.getElementById('titel').value
   updateKategori = () => kategori = document.getElementById('kategori').value
+  updateKlassifikation = () => klassifikation = document.getElementById('klassifikation').value
+  updateType = () => type = document.getElementById('type').value
+  updateLand = () => land = document.getElementById('land').value
+  updateNoterfraarkivar = () => noterfraarkivar = document.getElementById('noterfraarkivar').value
+  updateNoterfratester = () => noterfratester = document.getElementById('noterfratester').value
+  updateArkivar = () => arkivar = document.getElementById('arkivar').value
+  updateLeverandoer = () => leverandoer = document.getElementById('leverandoer').value
+  updateTester = () => tester = document.getElementById('tester').value
+  updateAfleveringsfrist = () => afleveringsfrist = document.getElementById('afleveringsfrist').value
+  updateModtaget = () => modtaget = document.getElementById('modtaget').value
+  updateAdgang = () => adgang = document.getElementById('adgang').value
+  updateSvarfrist = () => svarfrist = document.getElementById('svarfrist').value
+  updateSvar = () => svar = document.getElementById('svar').value
+  updateStoerrelse = () => stoerrelse = document.getElementById('stoerrelse').value
   updateKvitteret = () => kvitteret = !kvitteret
   updateJournaliseret = () => journaliseret = !journaliseret
   updateKodeord_modtaget = () => kodeord = !kodeord
@@ -728,7 +774,7 @@
 
   window.addEventListener('beforeunload',
     function (e) {
-
+      console.log(afleveringsfrist)
       if (
         (
           public != '{{ public }}' ||
@@ -736,6 +782,20 @@
           jnr != '{{ jnr }}' ||
           titel != '{{ titel }}' ||
           kategori != '{{ kategori }}' ||
+          klassifikation != '{{ klassifikation }}' ||
+          type != '{{ type }}' ||
+          land != '{{ land }}' ||
+          noterfraarkivar != '{{ noterfraarkivar }}' ||
+          noterfratester != '{{ noterfratester }}' ||
+          arkivar != '{{ arkivar }}' ||
+          leverandoer != '{{ leverandoer }}' ||
+          tester != '{{ tester }}' ||
+          afleveringsfrist != '{{ afleveringsfrist }}' ||
+          modtaget != '{{ modtaget }}' ||
+          adgang != '{{ adgang }}' ||
+          svarfrist != '{{ svarfrist }}' ||
+          svar != '{{ svar }}' ||
+          stoerrelse != '{{ stoerrelse }}' ||
           kvitteret !== kvitteret_start ||
           journaliseret !== journaliseret_start ||
           kodeord !== kodeord_start ||
