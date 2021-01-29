@@ -34,6 +34,7 @@ class Version(models.Model):
     STATUS = (
         ('Afventer aflevering', 'Afventer aflevering'),
         ('Modtaget', 'Modtaget'),
+        ('Klar til test', 'Klar til test'),
         ('Under test', 'Under test'),
         ('Tilbagemeldt', 'Tilbagemeldt'),
         ('Afventer genaflevering', 'Afventer genaflevering'),
@@ -152,15 +153,11 @@ class Version(models.Model):
         default=False,
     )
 
-    modtaget_afvikler_ada = models.BooleanField(
+    modtaget_adatest_godkendt = models.BooleanField(
         default=False,
     )
 
-    modtaget_ada_fejlet = models.BooleanField(
-        default=False,
-    )
-
-    modtaget_klar_til_test = models.BooleanField(
+    modtaget_adatest_afvist = models.BooleanField(
         default=False,
     )
 

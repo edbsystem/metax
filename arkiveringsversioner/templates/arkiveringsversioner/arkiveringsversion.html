@@ -4,572 +4,577 @@
 
 {% block content %}
 
+{{ modtaget_kvitteret }}
 
 <section class="section">
+  <form action="#" method="POST">
+    {% csrf_token %}
+    <div class="row">
 
-  <div class="row">
+      <div class="col l6">
+        <div class="card z-depth-0" style="margin-top: -2px;">
+          <div class="card-content" style="padding: 0;">
 
-    <div class="col l6">
-      <div class="card z-depth-0" style="margin-top: -2px;">
-        <div class="card-content" style="padding: 0;">
-
-          <div class="row">
-            <div class="card-action col l12">
-              <div class="col left" style="margin-left: -15px; margin-bottom: -7px;">
-                <a href="{{ public }}" target="_blank" style="margin: 0;">
-                  <button class="btn waves-effect waves-light z-depth-0" style="margin-right: 4px; background-color: #4C566A; color: #D8DEE9;" type="submit" id="public" name="public">Public 360</button>
-                </a>
-              </div>
-              <div class="col right" style="margin-right: -15px; margin-bottom: -7px; ">
-              </div>
-            </div>
-          </div>
-
-          {% if 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder and 'arkiveringsversioner_public_rediger' in bruger_rettigheder %}
-          <div class="row">
-            <div class="col l12">
-              <div class="input-field col l12">
-                <div class="form-group">
-                  <label for="public_link" class="col-form-label left" style="color: #4C566A;">Public Link</label>
-                  <input type="text" name="public_link" id="public_link" class="form-control" spellcheck="false" value="{{ public | default_if_none:'' }}">
+            <div class="row">
+              <div class="card-action col l12">
+                <div class="col left" style="margin-left: -15px; margin-bottom: -7px;">
+                  <a href="{{ public }}" target="_blank" style="margin: 0;">
+                    <button class="btn waves-effect waves-light z-depth-0" style="margin-right: 4px; background-color: #4C566A; color: #D8DEE9;" type="button" id="public" name="public">Public 360</button>
+                  </a>
+                </div>
+                <div class="col right" style="margin-right: -15px; margin-bottom: -7px; ">
+                  <button class="btn waves-effect waves-light z-depth-0" style="margin-right: 4px; background-color: #4C566A; color: #D8DEE9;" type="submit" id="public" name="public">Gem Ændringer</button>
                 </div>
               </div>
             </div>
-          </div>
-          {% endif %}
 
-          <div class="row">
-            <div class="col l12">
-              <div class="input-field col l1">
-                <div class="form-group">
-                  <label for="avid" class="col-form-label left" style="color: #4C566A;">AVID</label>
-                  {% if 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder and 'arkiveringsversioner_avid_rediger' in bruger_rettigheder %}
-                  <input type="text" name="avid" id="avid" class="form-control" spellcheck="false" value="{{ avid | default_if_none:'' }}">
-                  {% else %}
-                  <input type="text" name="avid" id="avid" class="form-control" spellcheck="false" value="{{ avid | default_if_none:'' }}" style="cursor: default !important; border-bottom: 1px dotted #2E3440; box-shadow: 0 0px 0 0 #2E3440;" readonly>
-                  {% endif %}
-                </div>
-              </div>
-              <div class="input-field col l2">
-                <div class="form-group">
-                  <label for="jnr" class="col-form-label left" style="color: #4C566A;">J.nr.</label>
-                  {% if 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder and 'arkiveringsversioner_jnr_rediger' in bruger_rettigheder %}
-                  <input type="text" name="jnr" id="jnr" class="form-control" spellcheck="false" value="{{ jnr | default_if_none:'' }}">
-                  {% else %}
-                  <input type="text" name="jnr" id="jnr" class="form-control" spellcheck="false" value="{{ jnr | default_if_none:'' }}" style="cursor: default !important; border-bottom: 1px dotted #2E3440; box-shadow: 0 0px 0 0 #2E3440;" readonly>
-                  {% endif %}
-                </div>
-              </div>
-              <div class="input-field col l9">
-                <div class="form-group">
-                  <label for="titel" class="col-form-label left" style="color: #4C566A;">Titel</label>
-                  {% if 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder and 'arkiveringsversioner_titel_rediger' in bruger_rettigheder %}
-                  <input type="text" name="titel" id="titel" class="form-control" spellcheck="false" value="{{ titel | default_if_none:'' }}">
-                  {% else %}
-                  <input type="text" name="titel" id="titel" class="form-control" spellcheck="false" value="{{ titel | default_if_none:'' }}" style="cursor: default !important; border-bottom: 1px dotted #2E3440; box-shadow: 0 0px 0 0 #2E3440;" readonly>
-                  {% endif %}
+            {% if 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder and 'arkiveringsversioner_public_rediger' in bruger_rettigheder %}
+            <div class="row">
+              <div class="col l12">
+                <div class="input-field col l12">
+                  <div class="form-group">
+                    <label for="public_link" class="col-form-label left" style="color: #4C566A;">Public Link</label>
+                    <input type="text" name="public_link" id="public_link" class="form-control" spellcheck="false" value="{{ public | default_if_none:'' }}" oninput="updatePublic()">
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
+            {% endif %}
 
-          <div class="row">
-            <div class="col l12">
-              <div class="input-field col l3">
-                <div class="form-group">
-                  <label for="kategori" class="col-form-label left" style="color: #4C566A;">Kategori</label>
-                  {% if 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder and 'arkiveringsversioner_kategori_rediger' in bruger_rettigheder %}
-                  <select name="kategori" id="kategori">
+            <div class="row">
+              <div class="col l12">
+                <div class="input-field col l1">
+                  <div class="form-group">
+                    <label for="avid" class="col-form-label left" style="color: #4C566A;">AVID</label>
+                    {% if 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder and 'arkiveringsversioner_avid_rediger' in bruger_rettigheder %}
+                    <input type="text" name="avid" id="avid" class="form-control" spellcheck="false" value="{{ avid | default_if_none:'' }}" oninput="updateAvid()">
                     {% else %}
-                    <select name="kategori" id="kategori" disabled>
-                      {% endif %}
-                      {% if kategori == None %}
-                      <option value="" selected></option>
-                      {% else%}
-                      <option value=""></option>
-                      {% endif %}
-                      {% for k in kategorier %}
-                      {% if k == kategori %}
-                      <option value="{{ k }}" selected>{{ k }}</option>
-                      {% else %}
-                      <option value="{{ k }}">{{ k }}</option>
-                      {% endif %}
-                      {% endfor %}
-                    </select>
+                    <input type=" text" name="avid" id="avid" class="form-control" spellcheck="false" value="{{ avid | default_if_none:'' }}" style="cursor: default !important; border-bottom: 1px dotted #2E3440; box-shadow: 0 0px 0 0 #2E3440;" readonly>
+                    {% endif %}
+                  </div>
                 </div>
-              </div>
-              <div class="input-field col l3">
-                <div class="form-group">
-                  <label for="klassifikation" class="col-form-label left" style="color: #4C566A;">Klassifikation</label>
-                  {% if 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder and 'arkiveringsversioner_klassifikation_rediger' in bruger_rettigheder %}
-                  <select name="klassifikation" id="klassifikation">
+                <div class="input-field col l2">
+                  <div class="form-group">
+                    <label for="jnr" class="col-form-label left" style="color: #4C566A;">J.nr.</label>
+                    {% if 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder and 'arkiveringsversioner_jnr_rediger' in bruger_rettigheder %}
+                    <input type="text" name="jnr" id="jnr" class="form-control" spellcheck="false" value="{{ jnr | default_if_none:'' }}" oninput="updateJnr()">
                     {% else %}
-                    <select name="klassifikation" id="klassifikation" disabled>
-                      {% endif %}
-                      {% if klassifikation == None %}
-                      <option value="" selected></option>
-                      {% else%}
-                      <option value=""></option>
-                      {% endif %}
-                      {% for k in klassifikationer %}
-                      {% if k == klassifikation %}
-                      <option value="{{ k }}" selected>{{ k }}</option>
-                      {% else %}
-                      <option value="{{ k }}">{{ k }}</option>
-                      {% endif %}
-                      {% endfor %}
-                    </select>
+                    <input type="text" name="jnr" id="jnr" class="form-control" spellcheck="false" value="{{ jnr | default_if_none:'' }}" style="cursor: default !important; border-bottom: 1px dotted #2E3440; box-shadow: 0 0px 0 0 #2E3440;" readonly>
+                    {% endif %}
+                  </div>
                 </div>
-              </div>
-              <div class="input-field col l3">
-                <div class="form-group">
-                  <label for="type" class="col-form-label left" style="color: #4C566A;">Type</label>
-                  {% if 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder and 'arkiveringsversioner_typeav_rediger' in bruger_rettigheder %}
-                  <select name="type" id="type">
+                <div class="input-field col l9">
+                  <div class="form-group">
+                    <label for="titel" class="col-form-label left" style="color: #4C566A;">Titel</label>
+                    {% if 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder and 'arkiveringsversioner_titel_rediger' in bruger_rettigheder %}
+                    <input type="text" name="titel" id="titel" class="form-control" spellcheck="false" value="{{ titel | default_if_none:'' }}" oninput="updateTitel()">
                     {% else %}
-                    <select name="type" id="type" disabled>
-                      {% endif %}
-                      {% if type == None %}
-                      <option value="" selected></option>
-                      {% else%}
-                      <option value=""></option>
-                      {% endif %}
-                      {% for t in typer %}
-                      {% if t == type %}
-                      <option value="{{ t }}" selected>{{ t }}</option>
-                      {% else %}
-                      <option value="{{ t }}">{{ t }}</option>
-                      {% endif %}
-                      {% endfor %}
-                    </select>
-                </div>
-              </div>
-              <div class="input-field col l3">
-                <div class="form-group">
-                  <label for="land" class="col-form-label left" style="color: #4C566A;">Land</label>
-                  {% if 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder and 'arkiveringsversioner_land_rediger' in bruger_rettigheder %}
-                  <select name="land" id="land">
-                    {% else %}
-                    <select name="land" id="land" disabled>
-                      {% endif %}
-                      {% for l in lande %}
-                      {% if l == land %}
-                      <option value="{{ l }}" selected>{{ l }}</option>
-                      {% else %}
-                      <option value="{{ l }}">{{ l }}</option>
-                      {% endif %}
-                      {% endfor %}
-                    </select>
+                    <input type="text" name="titel" id="titel" class="form-control" spellcheck="false" value="{{ titel | default_if_none:'' }}" style="cursor: default !important; border-bottom: 1px dotted #2E3440; box-shadow: 0 0px 0 0 #2E3440;" readonly>
+                    {% endif %}
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
 
-          <div class="row">
-            <div class="col l12">
-              <div class="input-field col l12">
-                <div class="form-group">
-                  <label for="noterfraarkivar" class="col-form-label left" style="color: #4C566A;">Noter fra arkivar</label>
-                  {% if 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder and 'arkiveringsversioner_arkivarnoter_rediger' in bruger_rettigheder %}
-                  <textarea id="noterfraarkivar" class="materialize-textarea" spellcheck="false">{{ noterfraarkivar | default_if_none:'' }}</textarea>
-                  {% else %}
-                  <textarea id="noterfraarkivar" class="materialize-textarea" spellcheck="false" style="cursor: default !important; border-bottom: 1px dotted #2E3440; box-shadow: 0 0px 0 0 #2E3440;" readonly>{{ noterfraarkivar | default_if_none:'' }}</textarea>
-                  {% endif %}
+            <div class="row">
+              <div class="col l12">
+                <div class="input-field col l3">
+                  <div class="form-group">
+                    <label for="kategori" class="col-form-label left" style="color: #4C566A;">Kategori</label>
+                    {% if 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder and 'arkiveringsversioner_kategori_rediger' in bruger_rettigheder %}
+                    <select name="kategori" id="kategori" onchange="updateKategori()">
+                      {% else %}
+                      <select name="kategori" id="kategori" disabled>
+                        {% endif %}
+                        {% if kategori == None %}
+                        <option value="" selected></option>
+                        {% else%}
+                        <option value=""></option>
+                        {% endif %}
+                        {% for k in kategorier %}
+                        {% if k == kategori %}
+                        <option value="{{ k }}" selected>{{ k }}</option>
+                        {% else %}
+                        <option value="{{ k }}">{{ k }}</option>
+                        {% endif %}
+                        {% endfor %}
+                      </select>
+                  </div>
                 </div>
-              </div>
-              <div class="input-field col l12">
-                <div class="form-group">
-                  <label for="noterfratester" class="col-form-label left" style="color: #4C566A;">Noter fra tester</label>
-                  {% if 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder and 'arkiveringsversioner_testernoter_rediger' in bruger_rettigheder %}
-                  <textarea id="noterfratester" class="materialize-textarea" spellcheck="false">{{ noterfratester | default_if_none:'' }}</textarea>
-                  {% else %}
-                  <textarea id="noterfratester" class="materialize-textarea" spellcheck="false" style="cursor: default !important; border-bottom: 1px dotted #2E3440; box-shadow: 0 0px 0 0 #2E3440;" readonly>{{ noterfratester | default_if_none:'' }}</textarea>
-                  {% endif %}
+                <div class="input-field col l3">
+                  <div class="form-group">
+                    <label for="klassifikation" class="col-form-label left" style="color: #4C566A;">Klassifikation</label>
+                    {% if 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder and 'arkiveringsversioner_klassifikation_rediger' in bruger_rettigheder %}
+                    <select name="klassifikation" id="klassifikation">
+                      {% else %}
+                      <select name="klassifikation" id="klassifikation" disabled>
+                        {% endif %}
+                        {% if klassifikation == None %}
+                        <option value="" selected></option>
+                        {% else%}
+                        <option value=""></option>
+                        {% endif %}
+                        {% for k in klassifikationer %}
+                        {% if k == klassifikation %}
+                        <option value="{{ k }}" selected>{{ k }}</option>
+                        {% else %}
+                        <option value="{{ k }}">{{ k }}</option>
+                        {% endif %}
+                        {% endfor %}
+                      </select>
+                  </div>
+                </div>
+                <div class="input-field col l3">
+                  <div class="form-group">
+                    <label for="type" class="col-form-label left" style="color: #4C566A;">Type</label>
+                    {% if 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder and 'arkiveringsversioner_typeav_rediger' in bruger_rettigheder %}
+                    <select name="type" id="type">
+                      {% else %}
+                      <select name="type" id="type" disabled>
+                        {% endif %}
+                        {% if type == None %}
+                        <option value="" selected></option>
+                        {% else%}
+                        <option value=""></option>
+                        {% endif %}
+                        {% for t in typer %}
+                        {% if t == type %}
+                        <option value="{{ t }}" selected>{{ t }}</option>
+                        {% else %}
+                        <option value="{{ t }}">{{ t }}</option>
+                        {% endif %}
+                        {% endfor %}
+                      </select>
+                  </div>
+                </div>
+                <div class="input-field col l3">
+                  <div class="form-group">
+                    <label for="land" class="col-form-label left" style="color: #4C566A;">Land</label>
+                    {% if 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder and 'arkiveringsversioner_land_rediger' in bruger_rettigheder %}
+                    <select name="land" id="land">
+                      {% else %}
+                      <select name="land" id="land" disabled>
+                        {% endif %}
+                        {% for l in lande %}
+                        {% if l == land %}
+                        <option value="{{ l }}" selected>{{ l }}</option>
+                        {% else %}
+                        <option value="{{ l }}">{{ l }}</option>
+                        {% endif %}
+                        {% endfor %}
+                      </select>
+                  </div>
                 </div>
               </div>
             </div>
+
+            <div class="row">
+              <div class="col l12">
+                <div class="input-field col l12">
+                  <div class="form-group">
+                    <label for="noterfraarkivar" class="col-form-label left" style="color: #4C566A;">Noter fra arkivar</label>
+                    {% if 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder and 'arkiveringsversioner_arkivarnoter_rediger' in bruger_rettigheder %}
+                    <textarea id="noterfraarkivar" class="materialize-textarea" spellcheck="false">{{ noterfraarkivar | default_if_none:'' }}</textarea>
+                    {% else %}
+                    <textarea id="noterfraarkivar" class="materialize-textarea" spellcheck="false" style="cursor: default !important; border-bottom: 1px dotted #2E3440; box-shadow: 0 0px 0 0 #2E3440;" readonly>{{ noterfraarkivar | default_if_none:'' }}</textarea>
+                    {% endif %}
+                  </div>
+                </div>
+                <div class="input-field col l12">
+                  <div class="form-group">
+                    <label for="noterfratester" class="col-form-label left" style="color: #4C566A;">Noter fra tester</label>
+                    {% if 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder and 'arkiveringsversioner_testernoter_rediger' in bruger_rettigheder %}
+                    <textarea id="noterfratester" class="materialize-textarea" spellcheck="false">{{ noterfratester | default_if_none:'' }}</textarea>
+                    {% else %}
+                    <textarea id="noterfratester" class="materialize-textarea" spellcheck="false" style="cursor: default !important; border-bottom: 1px dotted #2E3440; box-shadow: 0 0px 0 0 #2E3440;" readonly>{{ noterfratester | default_if_none:'' }}</textarea>
+                    {% endif %}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
           </div>
-
-
         </div>
       </div>
-    </div>
 
-    <div class="col l6">
-      <div class="card z-depth-0" style="margin-top: -2px;">
-        <div class="card-content" style="padding: 0;">
+      <div class="col l6">
+        <div class="card z-depth-0" style="margin-top: -2px;">
+          <div class="card-content" style="padding: 0;">
 
-          <div class="row">
-            <div class="card-action col l12">
-              <div class="col left" style="margin-left: -15px; margin-bottom: -7px;">
-                <button class="btn waves-effect waves-light z-depth-0" style="margin-right: 6px; background-color: #4C566A; color: #D8DEE9;" type="submit" id="public" name="public">Start Test</button>
-              </div>
-              <div class="col right" style="margin-bottom: -7px;">
-                {% for _ in versioner %}
-                {% if version == forloop.counter %}
-                <a href="{% url 'arkiveringsversion_view' avid forloop.counter %}" style="margin: 0;">
+            <div class="row">
+              <div class="card-action col l12">
+                <div class="col left" style="margin-left: -15px; margin-bottom: -7px;">
+                  <button class="btn waves-effect waves-light z-depth-0" style="margin-right: 6px; background-color: #4C566A; color: #D8DEE9;" type="submit" id="public" name="public">Klar til test</button>
+                </div>
+                <div class="col right" style="margin-bottom: -7px;">
+                  {% for _ in versioner %}
+                  {% if version == forloop.counter %}
+                  <a href="{% url 'arkiveringsversion_view' avid forloop.counter %}" style="margin: 0;">
+                    {% if versioner|length == forloop.counter %}
+                    <button class="btn waves-effect waves-light z-depth-0" style="background-color: #4C566A; color: #D8DEE9;" type="button" id="{{ forloop.counter }}" name="{{ forloop.counter }}">{{ forloop.counter }}</button>
+                    {% else %}
+                    <button class="btn waves-effect waves-light z-depth-0" style="background-color: #4C566A; color: #D8DEE9;" type="button" id="{{ forloop.counter }}" name="{{ forloop.counter }}">{{ forloop.counter }}</button>
+                    {% endif %}
+                  </a>
                   {% if versioner|length == forloop.counter %}
-                  <button class="btn waves-effect waves-light z-depth-0" style="background-color: #4C566A; color: #D8DEE9;" id="{{ forloop.counter }}" name="{{ forloop.counter }}">{{ forloop.counter }}</button>
+                  <span style="margin-right: -12px;"></span>
                   {% else %}
-                  <button class="btn waves-effect waves-light z-depth-0" style="background-color: #4C566A; color: #D8DEE9;" id="{{ forloop.counter }}" name="{{ forloop.counter }}">{{ forloop.counter }}</button>
+                  <span style="margin-right: 6px;"></span>
                   {% endif %}
-                </a>
-                {% if versioner|length == forloop.counter %}
-                <span style="margin-right: -12px;"></span>
-                {% else %}
-                <span style="margin-right: 6px;"></span>
-                {% endif %}
-                {% else %}
-                <a href="{% url 'arkiveringsversion_view' avid forloop.counter %}" style="margin: 0;">
+                  {% else %}
+                  <a href="{% url 'arkiveringsversion_view' avid forloop.counter %}" style="margin: 0;">
+                    {% if versioner|length == forloop.counter %}
+                    <button class="btn waves-effect waves-light z-depth-0" style="background-color: #81A1C1; color: #D8DEE9;" type="button" id="{{ forloop.counter }}" name="{{ forloop.counter }}">{{ forloop.counter }}</button>
+                    {% else %}
+                    <button class="btn waves-effect waves-light z-depth-0" style="background-color: #81A1C1; color: #D8DEE9;" type="button" id="{{ forloop.counter }}" name="{{ forloop.counter }}">{{ forloop.counter }}</button>
+                    {% endif %}
+                  </a>
                   {% if versioner|length == forloop.counter %}
-                  <button class="btn waves-effect waves-light z-depth-0" style="background-color: #81A1C1; color: #D8DEE9;" id="{{ forloop.counter }}" name="{{ forloop.counter }}">{{ forloop.counter }}</button>
+                  <span style="margin-right: -12px;"></span>
                   {% else %}
-                  <button class="btn waves-effect waves-light z-depth-0" style="background-color: #81A1C1; color: #D8DEE9;" id="{{ forloop.counter }}" name="{{ forloop.counter }}">{{ forloop.counter }}</button>
+                  <span style="margin-right: 6px;"></span>
                   {% endif %}
-                </a>
-                {% if versioner|length == forloop.counter %}
-                <span style="margin-right: -12px;"></span>
-                {% else %}
-                <span style="margin-right: 6px;"></span>
+
+                  {% endif %}
+                  {% endfor %}
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col l12">
+                <div class="input-field col l4">
+                  <div class="form-group">
+                    <label for="arkivar" class="col-form-label left" style="color: #4C566A;">Arkivar</label>
+                    {% if 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder and 'arkiveringsversioner_arkivar_rediger' in bruger_rettigheder %}
+                    <select name="arkivar" id="arkivar">
+                      {% else %}
+                      <select name="arkivar" id="arkivar" disabled>
+                        {% endif %}
+                        {% if arkivar == None %}
+                        <option value="" selected></option>
+                        {% else%}
+                        <option value=""></option>
+                        {% endif %}
+                        {% for k in arkivarer %}
+                        {% if k == arkivar %}
+                        <option value="{{ k }}" selected>{{ k }}</option>
+                        {% else %}
+                        <option value="{{ k }}">{{ k }}</option>
+                        {% endif %}
+                        {% endfor %}
+                      </select>
+                  </div>
+                </div>
+                <div class="input-field col l4">
+                  <div class="form-group">
+                    <label for="leverandoer" class="col-form-label left" style="color: #4C566A;">Leverandør</label>
+                    {% if 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder and 'arkiveringsversioner_leverandør_rediger' in bruger_rettigheder %}
+                    <select name="leverandoer" id="leverandoer">
+                      {% else %}
+                      <select name="leverandoer" id="leverandoer" disabled>
+                        {% endif %}
+                        {% if leverandoer == None %}
+                        <option value="" selected></option>
+                        {% else%}
+                        <option value=""></option>
+                        {% endif %}
+                        {% for k in leverandoerer %}
+                        {% if k == leverandoer %}
+                        <option value="{{ k }}" selected>{{ k }}</option>
+                        {% else %}
+                        <option value="{{ k }}">{{ k }}</option>
+                        {% endif %}
+                        {% endfor %}
+                      </select>
+                  </div>
+                </div>
+                <div class="input-field col l4">
+                  <div class="form-group">
+                    <label for="tester" class="col-form-label left" style="color: #4C566A;">Tester</label>
+                    {% if 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder and 'arkiveringsversioner_tester_rediger' in bruger_rettigheder %}
+                    <select name="tester" id="tester">
+                      {% else %}
+                      <select name="tester" id="tester" disabled>
+                        {% endif %}
+                        {% if tester == None %}
+                        <option value="" selected></option>
+                        {% else%}
+                        <option value=""></option>
+                        {% endif %}
+                        {% for k in testere %}
+                        {% if k == tester %}
+                        <option value="{{ k }}" selected>{{ k }}</option>
+                        {% else %}
+                        <option value="{{ k }}">{{ k }}</option>
+                        {% endif %}
+                        {% endfor %}
+                      </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col l12">
+                {% if status == 'Afventer aflevering' %}
+                <div class="input-field col l3">
+                  <div class="form-group">
+                    <label for="afleveringsfrist" class="col-form-label left" style="color: #4C566A;">Afleveringsfrist</label>
+                    {% if 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder and 'arkiveringsversioner_afleveringsfrist_rediger' in bruger_rettigheder %}
+                    <input type="text" name="afleveringsfrist" id="afleveringsfrist" class="form-control" value="{{ afleveringsfrist | date:'d-m-Y' | default_if_none:'' }}">
+                    {% else %}
+                    <input type="text" name="afleveringsfrist" id="afleveringsfrist" class="form-control" style="cursor: default !important; border-bottom: 1px dotted #2E3440; box-shadow: 0 0px 0 0 #2E3440;" value="{{ afleveringsfrist | date:'d-m-Y' | default_if_none:'' }}" readonly>
+                    {% endif %}
+                  </div>
+                </div>
                 {% endif %}
-
+                {% if status != 'Afventer aflevering' %}
+                <div class="input-field col l3">
+                  <div class="form-group">
+                    <label for="modtaget" class="col-form-label left" style="color: #4C566A;">Modtaget</label>
+                    {% if 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder and 'arkiveringsversioner_modtaget_rediger' in bruger_rettigheder %}
+                    <input type="text" name="modtaget" id="modtaget" class="form-control" value="{{ modtaget | date:'d-m-Y' | default_if_none:'' }}">
+                    {% else %}
+                    <input type="text" name="modtaget" id="modtaget" class="form-control" style="cursor: default !important; border-bottom: 1px dotted #2E3440; box-shadow: 0 0px 0 0 #2E3440;" value="{{ modtaget | date:'d-m-Y' | default_if_none:'' }}" readonly>
+                    {% endif %}
+                  </div>
+                </div>
+                <div class="input-field col l3">
+                  <div class="form-group">
+                    <label for="adgang" class="col-form-label left" style="color: #4C566A;">Adgang</label>
+                    {% if 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder and 'arkiveringsversioner_adgang_rediger' in bruger_rettigheder %}
+                    <input type="text" name="adgang" id="adgang" class="form-control" value="{{ adgang | date:'d-m-Y' | default_if_none:'' }}">
+                    {% else %}
+                    <input type="text" name="adgang" id="adgang" class="form-control" style="cursor: default !important; border-bottom: 1px dotted #2E3440; box-shadow: 0 0px 0 0 #2E3440;" value="{{ adgang | date:'d-m-Y' | default_if_none:'' }}" readonly>
+                    {% endif %}
+                  </div>
+                </div>
+                <div class="input-field col l3">
+                  <div class="form-group">
+                    <label for="svarfrist" class="col-form-label left" style="color: #4C566A;">Svarfrist</label>
+                    {% if 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder and 'arkiveringsversioner_svarfrist_rediger' in bruger_rettigheder %}
+                    <input type="text" name="svarfrist" id="svarfrist" class="form-control" value="{{ svarfrist | date:'d-m-Y' | default_if_none:'' }}">
+                    {% else %}
+                    <input type="text" name="svarfrist" id="svarfrist" class="form-control" style="cursor: default !important; border-bottom: 1px dotted #2E3440; box-shadow: 0 0px 0 0 #2E3440;" value="{{ svarfrist | date:'d-m-Y' | default_if_none:'' }}" readonly>
+                    {% endif %}
+                  </div>
+                </div>
+                <div class="input-field col l3">
+                  <div class="form-group">
+                    <label for="svar" class="col-form-label left" style="color: #4C566A;">Svar</label>
+                    {% if 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder and 'arkiveringsversioner_svar_rediger' in bruger_rettigheder %}
+                    <input type="text" name="svar" id="svar" class="form-control" value="{{ svar | date:'d-m-Y' | default_if_none:'' }}">
+                    {% else %}
+                    <input type="text" name="svar" id="svar" class="form-control" style="cursor: default !important; border-bottom: 1px dotted #2E3440; box-shadow: 0 0px 0 0 #2E3440;" value="{{ svar | date:'d-m-Y' | default_if_none:'' }}" readonly>
+                    {% endif %}
+                  </div>
+                </div>
                 {% endif %}
-                {% endfor %}
               </div>
             </div>
-          </div>
 
-          <div class="row">
-            <div class="col l12">
-              <div class="input-field col l4">
-                <div class="form-group">
-                  <label for="arkivar" class="col-form-label left" style="color: #4C566A;">Arkivar</label>
-                  {% if 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder and 'arkiveringsversioner_arkivar_rediger' in bruger_rettigheder %}
-                  <select name="arkivar" id="arkivar">
+            <div class="row">
+              <div class="col l12">
+                <div class="input-field col l8">
+                  <div class="form-group">
+                    <label for="status" class="col-form-label left" style="color: #4C566A;">Status</label>
+                    <input type="text" name="status" id="status" class="form-control" spellcheck="false" value="{{ status | default_if_none:'' }}" style="cursor: default !important; border-bottom: 1px dotted #2E3440; box-shadow: 0 0px 0 0 #2E3440;" readonly>
+                  </div>
+                </div>
+                {% if status != 'Afventer aflevering' %}
+                <div class="input-field col l2">
+                  <div class="form-group">
+                    {% if 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder and 'arkiveringsversioner_maskine_se' in bruger_rettigheder %}
+                    <label for="maskine" class="col-form-label left" style="color: #4C566A;">Maskine</label>
+                    <input type="text" name="maskine" id="maskine" class="form-control" spellcheck="false" value="{{ maskine | default:'' }}" style="cursor: default !important; border-bottom: 1px dotted #2E3440; box-shadow: 0 0px 0 0 #2E3440;" readonly>
+                    {% endif %}
+                  </div>
+                </div>
+                {% endif %}
+                {% if status != 'Afventer aflevering' %}
+                <div class="input-field col l2">
+                  <div class="form-group">
+                    <label for="stoerrelse" class="col-form-label left" style="color: #4C566A;">Størrelse</label>
+                    {% if 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder and 'arkiveringsversioner_størrelse_rediger' in bruger_rettigheder %}
+                    <input type="text" name="stoerrelse" id="stoerrelse" class="form-control" spellcheck="false" value="{{ stoerrelse | default:0 }}">
                     {% else %}
-                    <select name="arkivar" id="arkivar" disabled>
-                      {% endif %}
-                      {% if arkivar == None %}
-                      <option value="" selected></option>
-                      {% else%}
-                      <option value=""></option>
-                      {% endif %}
-                      {% for k in arkivarer %}
-                      {% if k == arkivar %}
-                      <option value="{{ k }}" selected>{{ k }}</option>
-                      {% else %}
-                      <option value="{{ k }}">{{ k }}</option>
-                      {% endif %}
-                      {% endfor %}
-                    </select>
+                    <input type="text" name="stoerrelse" id="stoerrelse" class="form-control" spellcheck="false" value="{{ stoerrelse | default:0 }}" style="cursor: default !important; border-bottom: 1px dotted #2E3440; box-shadow: 0 0px 0 0 #2E3440;" readonly>
+                    {% endif %}
+                  </div>
                 </div>
-              </div>
-              <div class="input-field col l4">
-                <div class="form-group">
-                  <label for="leverandoer" class="col-form-label left" style="color: #4C566A;">Leverandør</label>
-                  {% if 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder and 'arkiveringsversioner_leverandør_rediger' in bruger_rettigheder %}
-                  <select name="leverandoer" id="leverandoer">
-                    {% else %}
-                    <select name="leverandoer" id="leverandoer" disabled>
-                      {% endif %}
-                      {% if leverandoer == None %}
-                      <option value="" selected></option>
-                      {% else%}
-                      <option value=""></option>
-                      {% endif %}
-                      {% for k in leverandoerer %}
-                      {% if k == leverandoer %}
-                      <option value="{{ k }}" selected>{{ k }}</option>
-                      {% else %}
-                      <option value="{{ k }}">{{ k }}</option>
-                      {% endif %}
-                      {% endfor %}
-                    </select>
-                </div>
-              </div>
-              <div class="input-field col l4">
-                <div class="form-group">
-                  <label for="tester" class="col-form-label left" style="color: #4C566A;">Tester</label>
-                  {% if 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder and 'arkiveringsversioner_tester_rediger' in bruger_rettigheder %}
-                  <select name="tester" id="tester">
-                    {% else %}
-                    <select name="tester" id="tester" disabled>
-                      {% endif %}
-                      {% if tester == None %}
-                      <option value="" selected></option>
-                      {% else%}
-                      <option value=""></option>
-                      {% endif %}
-                      {% for k in testere %}
-                      {% if k == tester %}
-                      <option value="{{ k }}" selected>{{ k }}</option>
-                      {% else %}
-                      <option value="{{ k }}">{{ k }}</option>
-                      {% endif %}
-                      {% endfor %}
-                    </select>
-                </div>
+                {% endif %}
               </div>
             </div>
-          </div>
 
-          <div class="row">
+            {% if status == 'Modtaget' %}
             <div class="col l12">
-              {% if status != 'Afventer genaflevering' %}
-              <div class="input-field col l4">
-                <div class="form-group">
-                  <label for="stoerrelse" class="col-form-label left" style="color: #4C566A;">Størrelse</label>
-                  {% if 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder and 'arkiveringsversioner_størrelse_rediger' in bruger_rettigheder %}
-                  <input type="text" name="stoerrelse" id="stoerrelse" class="form-control" spellcheck="false" value="{{ stoerrelse | default:0 }}">
-                  {% else %}
-                  <input type="text" name="stoerrelse" id="stoerrelse" class="form-control" spellcheck="false" value="{{ stoerrelse | default:0 }}" style="cursor: default !important; border-bottom: 1px dotted #2E3440; box-shadow: 0 0px 0 0 #2E3440;" readonly>
-                  {% endif %}
-                </div>
-              </div>
-              {% endif %}
-              {% if status == 'Afventer genaflevering' %}
-              <div class="input-field col l2">
-                <div class="form-group">
-                  <label for="afleveringsfrist" class="col-form-label left" style="color: #4C566A;">Afleveringsfrist</label>
-                  {% if 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder and 'arkiveringsversioner_afleveringsfrist_rediger' in bruger_rettigheder %}
-                  <input type="text" name="afleveringsfrist" id="afleveringsfrist" class="form-control" value="{{ afleveringsfrist | date:'d-m-Y' | default_if_none:'' }}">
-                  {% else %}
-                  <input type="text" name="afleveringsfrist" id="afleveringsfrist" class="form-control" style="cursor: default !important; border-bottom: 1px dotted #2E3440; box-shadow: 0 0px 0 0 #2E3440;" value="{{ afleveringsfrist | date:'d-m-Y' | default_if_none:'' }}" readonly>
-                  {% endif %}
-                </div>
-              </div>
-              {% endif %}
-              {% if status != 'Afventer genaflevering' %}
-              <div class="input-field col l2">
-                <div class="form-group">
-                  <label for="modtaget" class="col-form-label left" style="color: #4C566A;">Modtaget</label>
-                  {% if 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder and 'arkiveringsversioner_modtaget_rediger' in bruger_rettigheder %}
-                  <input type="text" name="modtaget" id="modtaget" class="form-control" value="{{ modtaget | date:'d-m-Y' | default_if_none:'' }}">
-                  {% else %}
-                  <input type="text" name="modtaget" id="modtaget" class="form-control" style="cursor: default !important; border-bottom: 1px dotted #2E3440; box-shadow: 0 0px 0 0 #2E3440;" value="{{ modtaget | date:'d-m-Y' | default_if_none:'' }}" readonly>
-                  {% endif %}
-                </div>
-              </div>
-              <div class="input-field col l2">
-                <div class="form-group">
-                  <label for="adgang" class="col-form-label left" style="color: #4C566A;">Adgang</label>
-                  {% if 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder and 'arkiveringsversioner_adgang_rediger' in bruger_rettigheder %}
-                  <input type="text" name="adgang" id="adgang" class="form-control" value="{{ adgang | date:'d-m-Y' | default_if_none:'' }}">
-                  {% else %}
-                  <input type="text" name="adgang" id="adgang" class="form-control" style="cursor: default !important; border-bottom: 1px dotted #2E3440; box-shadow: 0 0px 0 0 #2E3440;" value="{{ adgang | date:'d-m-Y' | default_if_none:'' }}" readonly>
-                  {% endif %}
-                </div>
-              </div>
-              <div class="input-field col l2">
-                <div class="form-group">
-                  <label for="svarfrist" class="col-form-label left" style="color: #4C566A;">Svarfrist</label>
-                  {% if 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder and 'arkiveringsversioner_svarfrist_rediger' in bruger_rettigheder %}
-                  <input type="text" name="svarfrist" id="svarfrist" class="form-control" value="{{ svarfrist | date:'d-m-Y' | default_if_none:'' }}">
-                  {% else %}
-                  <input type="text" name="svarfrist" id="svarfrist" class="form-control" style="cursor: default !important; border-bottom: 1px dotted #2E3440; box-shadow: 0 0px 0 0 #2E3440;" value="{{ svarfrist | date:'d-m-Y' | default_if_none:'' }}" readonly>
-                  {% endif %}
-                </div>
-              </div>
-              <div class="input-field col l2">
-                <div class="form-group">
-                  <label for="svar" class="col-form-label left" style="color: #4C566A;">Svar</label>
-                  {% if 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder and 'arkiveringsversioner_svar_rediger' in bruger_rettigheder %}
-                  <input type="text" name="svar" id="svar" class="form-control" value="{{ svar | date:'d-m-Y' | default_if_none:'' }}">
-                  {% else %}
-                  <input type="text" name="svar" id="svar" class="form-control" style="cursor: default !important; border-bottom: 1px dotted #2E3440; box-shadow: 0 0px 0 0 #2E3440;" value="{{ svar | date:'d-m-Y' | default_if_none:'' }}" readonly>
-                  {% endif %}
-                </div>
-              </div>
-              {% endif %}
-            </div>
-          </div>
+              <div class="card z-depth-0" style="margin-top: -2px;">
+                <div class="card-content" style="padding: 0;">
 
-          <div class="row">
-            <div class="col l12">
-              <div class="input-field col l12">
-                <div class="form-group">
-                  <label for="status" class="col-form-label left" style="color: #4C566A;">Status</label>
-                  <input type="text" name="status" id="status" class="form-control" spellcheck="false" value="{{ status | default_if_none:'' }}" style="cursor: default !important; border-bottom: 1px dotted #2E3440; box-shadow: 0 0px 0 0 #2E3440;" readonly>
-                </div>
-              </div>
-            </div>
-          </div>
 
-          {% if status == 'Modtaget' %}
-          <div class="row">
-            <div class="col l12">
-              <div class="input-field col l12" style="margin: 0px; padding-bottom: 5px; margin-top: -15px;">
-                <div class=" form-group">
-                  <label class="col l3">
-                    <input type="checkbox" class="radio" value="modtaget_kvitteret" name="modtaget_kvitteret" />
-                    <span style="color: #2E3440;">Kvitteret</span>
-                  </label>
-                </div>
-              </div>
-            </div>
-          </div>
+                  <div class="row">
+                    <div class="col l12">
+                      <div class="input-field col l12" style="margin: 0px; padding-bottom: 5px; margin-top: -21px;">
+                        <div class=" form-group">
+                          <label class="col l3" id="kvitteret" onchange="updateKvitteret()">
+                            <input type="checkbox" class="radio" value="{{ modtaget_kvitteret }}" name="modtaget_kvitteret" />
+                            <span style="color: #2E3440;">Kvitteret</span>
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
 
-          <div class="row">
-            <div class="col l12">
-              <div class="divider col l9" style="border-top: 1px dotted #4C566A; margin-left: 10px;"></div>
-            </div>
-          </div>
+                  <div class="row">
+                    <div class="col l12">
+                      <div class="divider" style="border-top: 1px solid #4C566A;"></div>
+                    </div>
+                  </div>
 
-          <div class="row">
-            <div class="col l12">
-              <div class="input-field col l12" style="margin: 0px; padding-bottom: 5px; margin-top: 5px;">
-                <div class="form-group">
-                  <label class="col l3">
-                    <input type="checkbox" class="radio" value="modtaget_journaliseret" name="modtaget_journaliseret" />
-                    <span style="color: #2E3440;">Journaliseret</span>
-                  </label>
-                </div>
-              </div>
-            </div>
-          </div>
+                  <div class="row">
+                    <div class="col l12">
+                      <div class="input-field col l12" style="margin: 0px; padding-bottom: 5px; margin-top: 5px;">
+                        <div class="form-group">
+                          <label class="col l3">
+                            <input type="checkbox" class="radio" value="modtaget_journaliseret" name="modtaget_journaliseret" />
+                            <span style="color: #2E3440;">Journaliseret</span>
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
 
-          <div class="row">
-            <div class="col l12">
-              <div class="divider col l9" style="border-top: 1px dotted #4C566A; margin-left: 10px;"></div>
-            </div>
-          </div>
+                  <div class="row">
+                    <div class="col l12">
+                      <div class="divider" style="border-top: 1px solid #4C566A;"></div>
+                    </div>
+                  </div>
 
-          <div class="row">
-            <div class="col l12">
-              <div class="input-field col l12" style="margin: 0; padding-bottom: 5px; margin-top: 5px;">
-                <div class="form-group">
-                  <label class="col l3">
-                    <input type="checkbox" class="radio" value="modtaget_kodeord" name="modtaget_kodeord" />
-                    <span style="color: #2E3440;">Kodeord</span>
-                  </label>
-                  <label class="col l3">
-                    <input type="checkbox" class="radio" value="modtaget_mangler_kodeord" name="modtaget_kodeord" />
-                    <span style="color: #2E3440;">Kodeord mangler</span>
-                  </label>
-                  <label class="col l3">
-                    <input type="checkbox" class="radio" value="modtaget_ikke_krypteret" name="modtaget_kodeord" />
-                    <span style="color: #2E3440;">Ikke krypteret</span>
-                  </label>
-                </div>
-              </div>
-            </div>
-          </div>
+                  <div class="row">
+                    <div class="col l12">
+                      <div class="input-field col l12" style="margin: 0; padding-bottom: 4px; margin-top: 4px;">
+                        <div class="form-group">
+                          <label class="col l3">
+                            <input type="checkbox" class="radio" value="modtaget_kodeord" name="modtaget_kodeord" />
+                            <span style="color: #2E3440;">Kodeord modtaget</span>
+                          </label>
+                          <label class="col l3">
+                            <input type="checkbox" class="radio" value="modtaget_mangler_kodeord" name="modtaget_kodeord" />
+                            <span style="color: #2E3440;">Kodeord mangler</span>
+                          </label>
+                          <label class="col l3">
+                            <input type="checkbox" class="radio" value="modtaget_ikke_krypteret" name="modtaget_kodeord" />
+                            <span style="color: #2E3440;">Ikke krypteret</span>
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
 
-          <div class="row">
-            <div class="col l12">
-              <div class="divider col l9" style="border-top: 1px dotted #4C566A; margin-left: 10px;"></div>
-            </div>
-          </div>
+                  <div class="row">
+                    <div class="col l12">
+                      <div class="divider" style="border-top: 1px solid #4C566A;"></div>
+                    </div>
+                  </div>
 
-          <div class="row">
-            <div class="col l12">
-              <div class="input-field col l12" style="margin: 0; padding-bottom: 0px; margin-top: 5px;">
-                <div class="form-group">
-                  <label class="col l3">
-                    <input type="checkbox" class="radio" value="modtaget_kopieret" name="modtaget_kopieret" />
-                    <span style="color: #2E3440;">Kopieret</span>
-                  </label>
-                </div>
-              </div>
-            </div>
-          </div>
+                  <div class="row">
+                    <div class="col l12">
+                      <div class="input-field col l12" style="margin: 0; padding-bottom: 4px; margin-top: 4px;">
+                        <div class="form-group">
+                          <label class="col l3">
+                            <input type="checkbox" class="radio" value="modtaget_kopieret" name="modtaget_kopieret" />
+                            <span style="color: #2E3440;">Kopieret</span>
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
 
-          <div class="row">
-            <div class="col l12">
-              <div class="divider col l9" style="border-top: 1px dotted #4C566A; margin-left: 10px;"></div>
-            </div>
-          </div>
+                  <div class="row">
+                    <div class="col l12">
+                      <div class="divider" style="border-top: 1px solid #4C566A;"></div>
+                    </div>
+                  </div>
 
-          <div class="row">
-            <div class="col l12">
-              <div class="input-field col l12" style="margin: 0; padding-bottom: 5px; margin-top: 5px;">
-                <div class="form-group">
-                  <label class="col l3">
-                    <input type="checkbox" class="radio" value="modtaget_modtagelse_godkendt" name="modtaget_modtagelse" />
-                    <span style="color: #2E3440;">Modtagelse godkendt</span>
-                  </label>
-                  <label class="col l3">
-                    <input type="checkbox" class="radio" value="modtaget_modtagelse_afvist" name="modtaget_modtagelse" />
-                    <span style="color: #2E3440;">Modtagelse afvist</span>
-                  </label>
+                  <div class="row">
+                    <div class="col l12">
+                      <div class="input-field col l12" style="margin: 0; padding-bottom: 4px; margin-top: 4px;">
+                        <div class="form-group">
+                          <label class="col l3">
+                            <input type="checkbox" class="radio" value="modtaget_modtagelse_godkendt" name="modtaget_modtagelse" />
+                            <span style="color: #2E3440;">Modtagelse godkendt</span>
+                          </label>
+                          <label class="col l3">
+                            <input type="checkbox" class="radio" value="modtaget_modtagelse_afvist" name="modtaget_modtagelse" />
+                            <span style="color: #2E3440;">Modtagelse afvist</span>
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col l12">
+                      <div class="divider" style="border-top: 1px solid #4C566A;"></div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col l12">
+                      <div class="input-field col l12" style="margin: 0; padding-bottom: 4px; margin-top: 4px;">
+                        <div class="form-group">
+                          <label class="col l3">
+                            <input type="checkbox" class="radio" value="modtaget_fileindex_kopieret" name="modtaget_fileindex_kopieret" />
+                            <span style="color: #2E3440;">Filindeks kopieret</span>
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col l12">
+                      <div class="divider" style="border-top: 1px solid #4C566A;"></div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col l12">
+                      <div class="input-field col l12" style="margin: 0; padding-bottom: 4px; margin-top: 4px;">
+                        <div class="form-group">
+                          <label class="col l3">
+                            <input type="checkbox" class="radio" value="modtaget_adatest_godkendt" name="modtaget_ada" />
+                            <span style="color: #2E3440;">ADA-test godkendt</span>
+                          </label>
+                          <label class="col l3">
+                            <input type="checkbox" class="radio" value="modtaget_adatest_afvist" name="modtaget_ada" />
+                            <span style="color: #2E3440;">ADA-test afvist</span>
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col l12">
+                      <div class="divider" style="border-top: 1px solid #4C566A;"></div>
+                    </div>
+                  </div>
+
                 </div>
               </div>
             </div>
-          </div>
+            {% endif %}
 
-          <div class="row">
-            <div class="col l12">
-              <div class="divider col l9" style="border-top: 1px dotted #4C566A; margin-left: 10px;"></div>
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="col l12">
-              <div class="input-field col l12" style="margin: 0; padding-bottom: 5px; margin-top: 5px;">
-                <div class="form-group">
-                  <label class="col l3">
-                    <input type="checkbox" class="radio" value="modtaget_fileindex_kopieret" name="modtaget_fileindex_kopieret" />
-                    <span style="color: #2E3440;">Filindeks kopieret</span>
-                  </label>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="col l12">
-              <div class="divider col l9" style="border-top: 1px dotted #4C566A; margin-left: 10px;"></div>
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="col l12">
-              <div class="input-field col l12" style="margin: 0; padding-bottom: 5px; margin-top: 5px;">
-                <div class="form-group">
-                  <label class="col l3">
-                    <input type="checkbox" class="radio" value="modtaget_afvikler_ada" name="modtaget_ada" />
-                    <span style="color: #2E3440;">Afvikler ADA</span>
-                  </label>
-                  <label class="col l3">
-                    <input type="checkbox" class="radio" value="modtaget_ada_fejlet" name="modtaget_ada" />
-                    <span style="color: #2E3440;">ADA fejlet</span>
-                  </label>
-                  <label class="col l3">
-                    <input type="checkbox" class="radio" value="modtaget_klar_til_test" name="modtaget_ada" />
-                    <span style="color: #2E3440;">Klar til test</span>
-                  </label>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="col l12">
-              <div class="divider col l9" style="border-top: 1px dotted #4C566A; margin-left: 10px;"></div>
-            </div>
-          </div>
-          {% endif %}
-
-        </div>
-      </div>
-    </div>
-
-    <div class="col l12">
-      <div class="card z-depth-0">
-        <div class="card-content" style="padding: 0;">
-          <div class="row" style="margin-top: 30px;">
-            <div class="card-action col l12">
-              <div class="col right" style="margin-right: -15px;">
-                <button class="btn waves-effect waves-light z-depth-0" style="margin-right: 4px; background-color: #4C566A; color: #D8DEE9;" type="submit" id="public" name="public">Gem</button>
-              </div>
-            </div>
           </div>
         </div>
       </div>
+
     </div>
 
-  </div>
-
+  </form>
 </section>
 
 <script>
@@ -583,6 +588,55 @@
       $box.prop("checked", false);
     }
   });
+</script>
+<script>
+  let submit_clicked = false
+
+  $('form').submit(function (event) {
+    submit_clicked = true
+  });
+
+  let public = '{{ public }}'
+  let avid = '{{ avid }}'
+  let jnr = '{{ jnr }}'
+  let titel = '{{ titel }}'
+  let kategori = '{{ kategori }}'
+  let kvitteret = undefined
+  let kvitteret_start = undefined
+
+  if ('{{ modtaget_kvitteret }}' == 'False') {
+    kvitteret = false
+    kvitteret_start = false
+  } else {
+    kvitteret = true
+    kvitteret_start = true
+  }
+
+  updatePublic = () => public = document.getElementById('public').value
+  updateAvid = () => avid = document.getElementById('avid').value
+  updateJnr = () => jnr = document.getElementById('jnr').value
+  updateTitel = () => titel = document.getElementById('titel').value
+  updateKategori = () => kategori = document.getElementById('kategori').value
+  updateKvitteret = () => kvitteret = !kvitteret
+
+  window.addEventListener('beforeunload',
+    function (e) {
+
+      if (
+        (
+          public != '{{ public }}' ||
+          avid != '{{ avid }}' ||
+          jnr != '{{ jnr }}' ||
+          titel != '{{ titel }}' ||
+          kategori != '{{ kategori }}' ||
+          kvitteret != kvitteret_start
+        ) &&
+        submit_clicked === false
+      ) {
+        e.preventDefault()
+        e.returnValue = ''
+      }
+    })
 </script>
 
 {% endblock content %}

@@ -32,10 +32,11 @@ class Rettighed(models.Model):
         ('arkiveringsversioner_adgang_rediger', 'arkiveringsversioner_adgang_rediger'),
         ('arkiveringsversioner_svarfrist_rediger', 'arkiveringsversioner_svarfrist_rediger'),
         ('arkiveringsversioner_svar_rediger', 'arkiveringsversioner_svar_rediger'),
-        ('arkiveringsversioner_kvitteret_rediger', 'arkiveringsversioner_kvitteret_rediger'),
-        ('arkiveringsversioner_journaliseret_rediger', 'arkiveringsversioner_journaliseret_rediger'),
-        ('arkiveringsversioner_kopieret_rediger', 'arkiveringsversioner_kopieret_rediger'),
         ('arkiveringsversioner_størrelse_rediger', 'arkiveringsversioner_størrelse_rediger'),
+        ('arkiveringsversioner_maskine_se', 'arkiveringsversioner_maskine_se'),
+
+        ('arkiveringsversioner_status_modtaget_se', 'arkiveringsversioner_status_modtaget_se'),
+        ('arkiveringsversioner_status_modtaget_rediger', 'arkiveringsversioner_status_modtaget_rediger'),
 
         ('arkiveringsversioner_leverandører_se',    'arkiveringsversioner_leverandører_se'),
         ('arkiveringsversioner_leverandør_se',      'arkiveringsversioner_leverandør_se'),
