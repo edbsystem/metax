@@ -4,10 +4,8 @@
 
 {% block content %}
 
-{{ modtaget_kvitteret }}
-
 <section class="section">
-  <form action="#" method="POST">
+  <form action="{% url 'arkiveringsversion_view' avid version %}" method="POST">
     {% csrf_token %}
     <div class="row">
 
@@ -419,7 +417,7 @@
                       <div class="input-field col l12" style="margin: 0px; padding-bottom: 5px; margin-top: -21px;">
                         <div class=" form-group">
                           <label class="col l3" id="kvitteret" onchange="updateKvitteret()">
-                            <input type="checkbox" class="radio" value="{{ modtaget_kvitteret }}" name="modtaget_kvitteret" />
+                            <input type="checkbox" class="radio" name="kvitteret" value="kvitteret" />
                             <span style="color: #2E3440;">Kvitteret</span>
                           </label>
                         </div>
@@ -437,8 +435,8 @@
                     <div class="col l12">
                       <div class="input-field col l12" style="margin: 0px; padding-bottom: 5px; margin-top: 5px;">
                         <div class="form-group">
-                          <label class="col l3">
-                            <input type="checkbox" class="radio" value="modtaget_journaliseret" name="modtaget_journaliseret" />
+                          <label class="col l3" id="journaliseret" onchange="updateJournaliseret()">
+                            <input type="checkbox" class="radio" name="journaliseret" value="journaliseret" />
                             <span style="color: #2E3440;">Journaliseret</span>
                           </label>
                         </div>
@@ -456,16 +454,16 @@
                     <div class="col l12">
                       <div class="input-field col l12" style="margin: 0; padding-bottom: 4px; margin-top: 4px;">
                         <div class="form-group">
-                          <label class="col l3">
-                            <input type="checkbox" class="radio" value="modtaget_kodeord" name="modtaget_kodeord" />
+                          <label class="col l3" onchange="updateKodeord_modtaget()">
+                            <input type="checkbox" class="radio" name="kodeord" value="modtaget" />
                             <span style="color: #2E3440;">Kodeord modtaget</span>
                           </label>
-                          <label class="col l3">
-                            <input type="checkbox" class="radio" value="modtaget_mangler_kodeord" name="modtaget_kodeord" />
+                          <label class="col l3" onchange="updateKodeord_mangler()">
+                            <input type="checkbox" class="radio" name="kodeord" value="mangler" />
                             <span style="color: #2E3440;">Kodeord mangler</span>
                           </label>
-                          <label class="col l3">
-                            <input type="checkbox" class="radio" value="modtaget_ikke_krypteret" name="modtaget_kodeord" />
+                          <label class="col l3" onchange="updateIkke_krypteret()">
+                            <input type="checkbox" class="radio" name="kodeord" value="ikke_krypteret" />
                             <span style="color: #2E3440;">Ikke krypteret</span>
                           </label>
                         </div>
@@ -483,8 +481,8 @@
                     <div class="col l12">
                       <div class="input-field col l12" style="margin: 0; padding-bottom: 4px; margin-top: 4px;">
                         <div class="form-group">
-                          <label class="col l3">
-                            <input type="checkbox" class="radio" value="modtaget_kopieret" name="modtaget_kopieret" />
+                          <label class="col l3" onchange="updateKopieret()">
+                            <input type="checkbox" class="radio" name="kopieret" value="kopieret" />
                             <span style="color: #2E3440;">Kopieret</span>
                           </label>
                         </div>
@@ -502,12 +500,12 @@
                     <div class="col l12">
                       <div class="input-field col l12" style="margin: 0; padding-bottom: 4px; margin-top: 4px;">
                         <div class="form-group">
-                          <label class="col l3">
-                            <input type="checkbox" class="radio" value="modtaget_modtagelse_godkendt" name="modtaget_modtagelse" />
+                          <label class="col l3" onchange="updateModtagelse_godkendt()">
+                            <input type="checkbox" class="radio" name="modtagelse" value="godkendt" />
                             <span style="color: #2E3440;">Modtagelse godkendt</span>
                           </label>
-                          <label class="col l3">
-                            <input type="checkbox" class="radio" value="modtaget_modtagelse_afvist" name="modtaget_modtagelse" />
+                          <label class="col l3" onchange="updateModtagelse_afvist()">
+                            <input type="checkbox" class="radio" name="modtagelse" value="afvist" />
                             <span style="color: #2E3440;">Modtagelse afvist</span>
                           </label>
                         </div>
@@ -525,8 +523,8 @@
                     <div class="col l12">
                       <div class="input-field col l12" style="margin: 0; padding-bottom: 4px; margin-top: 4px;">
                         <div class="form-group">
-                          <label class="col l3">
-                            <input type="checkbox" class="radio" value="modtaget_fileindex_kopieret" name="modtaget_fileindex_kopieret" />
+                          <label class="col l3" onchange="updateFileindex()">
+                            <input type="checkbox" class="radio" name="fileindex" value="kopieret" />
                             <span style="color: #2E3440;">Filindeks kopieret</span>
                           </label>
                         </div>
@@ -544,12 +542,12 @@
                     <div class="col l12">
                       <div class="input-field col l12" style="margin: 0; padding-bottom: 4px; margin-top: 4px;">
                         <div class="form-group">
-                          <label class="col l3">
-                            <input type="checkbox" class="radio" value="modtaget_adatest_godkendt" name="modtaget_ada" />
+                          <label class="col l3" onchange="updateAda_godkendt()">
+                            <input type="checkbox" class="radio" name="ada" value="godkendt" />
                             <span style="color: #2E3440;">ADA-test godkendt</span>
                           </label>
-                          <label class="col l3">
-                            <input type="checkbox" class="radio" value="modtaget_adatest_afvist" name="modtaget_ada" />
+                          <label class="col l3" onchange="updateAda_afvist()">
+                            <input type="checkbox" class="radio" name="ada" value="afvist" />
                             <span style="color: #2E3440;">ADA-test afvist</span>
                           </label>
                         </div>
@@ -579,17 +577,16 @@
 
 <script>
   $("input:checkbox").on('click', function () {
-    var $box = $(this);
+    let $box = $(this);
     if ($box.is(":checked")) {
-      var group = "input:checkbox[name='" + $box.attr("name") + "']";
+      let group = "input:checkbox[name='" + $box.attr("name") + "']";
       $(group).prop("checked", false);
       $box.prop("checked", true);
     } else {
       $box.prop("checked", false);
     }
   });
-</script>
-<script>
+
   let submit_clicked = false
 
   $('form').submit(function (event) {
@@ -603,6 +600,26 @@
   let kategori = '{{ kategori }}'
   let kvitteret = undefined
   let kvitteret_start = undefined
+  let journaliseret = undefined
+  let journaliseret_start = undefined
+  let kodeord_modtaget = undefined
+  let kodeord_modtaget_start = undefined
+  let kodeord_mangler = undefined
+  let kodeord_mangler_start = undefined
+  let ikke_krypteret = undefined
+  let ikke_krypteret_start = undefined
+  let kopieret = undefined
+  let kopieret_start = undefined
+  let modtagelse_godkendt = undefined
+  let modtagelse_godkendt_start = undefined
+  let modtagelse_afvist = undefined
+  let modtagelse_afvist_start = undefined
+  let fileindex = undefined
+  let fileindex_start = undefined
+  let ada_godkendt = undefined
+  let ada_godkendt_start = undefined
+  let ada_afvist = undefined
+  let ada_afvist_start = undefined
 
   if ('{{ modtaget_kvitteret }}' == 'False') {
     kvitteret = false
@@ -612,12 +629,102 @@
     kvitteret_start = true
   }
 
+  if ('{{ modtaget_journaliseret }}' == 'False') {
+    journaliseret = false
+    journaliseret_start = false
+  } else {
+    journaliseret = true
+    journaliseret_start = true
+  }
+
+  if ('{{ modtaget_kodeord }}' == 'False') {
+    kodeord = false
+    kodeord_start = false
+  } else {
+    kodeord = true
+    kodeord_start = true
+  }
+
+  if ('{{ modtaget_mangler_kodeord }}' == 'False') {
+    kodeord_mangler = false
+    kodeord_mangler_start = false
+  } else {
+    kodeord_mangler = true
+    kodeord_mangler_start = true
+  }
+
+  if ('{{ modtaget_ikke_krypteret }}' == 'False') {
+    ikke_krypteret = false
+    ikke_krypteret_start = false
+  } else {
+    ikke_krypteret = true
+    ikke_krypteret_start = true
+  }
+
+  if ('{{ modtaget_kopieret }}' == 'False') {
+    kopieret = false
+    kopieret_start = false
+  } else {
+    kopieret = true
+    kopieret_start = true
+  }
+
+  if ('{{ modtaget_modtagelse_godkendt }}' == 'False') {
+    modtagelse_godkendt = false
+    modtagelse_godkendt_start = false
+  } else {
+    modtagelse_godkendt = true
+    modtagelse_godkendt_start = true
+  }
+
+  if ('{{ modtaget_modtagelse_afvist }}' == 'False') {
+    modtagelse_afvist = false
+    modtagelse_afvist_start = false
+  } else {
+    modtagelse_afvist = true
+    modtagelse_afvist_start = true
+  }
+
+  if ('{{ modtaget_fileindex_kopieret }}' == 'False') {
+    fileindex = false
+    fileindex_start = false
+  } else {
+    fileindex = true
+    fileindex_start = true
+  }
+
+  if ('{{ modtaget_adatest_godkendt }}' == 'False') {
+    ada_godkendt = false
+    ada_godkendt_start = false
+  } else {
+    ada_godkendt = true
+    ada_godkendt_start = true
+  }
+
+  if ('{{ modtaget_adatest_afvist }}' == 'False') {
+    ada_afvist = false
+    ada_afvist_start = false
+  } else {
+    ada_afvist = true
+    ada_afvist_start = true
+  }
+
   updatePublic = () => public = document.getElementById('public').value
   updateAvid = () => avid = document.getElementById('avid').value
   updateJnr = () => jnr = document.getElementById('jnr').value
   updateTitel = () => titel = document.getElementById('titel').value
   updateKategori = () => kategori = document.getElementById('kategori').value
   updateKvitteret = () => kvitteret = !kvitteret
+  updateJournaliseret = () => journaliseret = !journaliseret
+  updateKodeord_modtaget = () => kodeord = !kodeord
+  updateKodeord_mangler = () => kodeord_mangler = !kodeord_mangler
+  updateIkke_krypteret = () => ikke_krypteret = !ikke_krypteret
+  updateKopieret = () => kopieret = !kopieret
+  updateModtagelse_godkendt = () => modtagelse_godkendt = !modtagelse_godkendt
+  updateModtagelse_afvist = () => modtagelse_afvist = !modtagelse_afvist
+  updateFileindex = () => fileindex = !fileindex
+  updateAda_godkendt = () => ada_godkendt = !ada_godkendt
+  updateAda_afvist = () => ada_afvist = !ada_afvist
 
   window.addEventListener('beforeunload',
     function (e) {
@@ -629,7 +736,17 @@
           jnr != '{{ jnr }}' ||
           titel != '{{ titel }}' ||
           kategori != '{{ kategori }}' ||
-          kvitteret != kvitteret_start
+          kvitteret !== kvitteret_start ||
+          journaliseret !== journaliseret_start ||
+          kodeord !== kodeord_start ||
+          kodeord_mangler !== kodeord_mangler_start ||
+          ikke_krypteret !== ikke_krypteret_start ||
+          kopieret !== kopieret_start ||
+          modtagelse_godkendt !== modtagelse_godkendt_start ||
+          modtagelse_afvist !== modtagelse_afvist_start ||
+          fileindex !== fileindex_start ||
+          ada_godkendt !== ada_godkendt_start ||
+          ada_afvist !== ada_afvist_start
         ) &&
         submit_clicked === false
       ) {

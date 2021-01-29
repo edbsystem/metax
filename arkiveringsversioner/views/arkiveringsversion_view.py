@@ -115,6 +115,13 @@ def arkiveringsversion_view(request, avid, version=0):
             messages.error(request, "Den angivet arkiveringsversion findes ikke.")
             return redirect('arkiveringsversioner_view')
 
+    if request.method == 'POST':
+        print('kvitteret:', request.POST.get('kvitteret'))
+        print('journaliseret', request.POST.get('journaliseret'))
+        print('kodeord:', request.POST.get('kodeord'))
+        print('kopieret:', request.POST.get('kopieret'))
+        return redirect('/arkiveringsversioner/arkiveringsversion/18000/2/')
+
     return render(request, 'arkiveringsversioner/arkiveringsversioner.html', {
         "bruger_rettigheder": rettigheder(request.user),
     })
