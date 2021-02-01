@@ -224,7 +224,7 @@
 
                   {% if status == 'Klar til test' %}
                   <button id="test_knap" name="test_knap" type="submit" class="btn waves-effect waves-light z-depth-0" style="margin-right: 6px; background-color: #4C566A; color: #D8DEE9;">
-                    Test
+                    Begynd Test
                   </button>
                   {% endif %}
 
@@ -456,7 +456,7 @@
                   <div class="form-group">
                     <label for="stoerrelsemb" class="col-form-label left" style="color: #4C566A;">Størrelse i MB</label>
                     {% if 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder and 'arkiveringsversioner_størrelse_rediger' in bruger_rettigheder %}
-                    <input type="text" name="stoerrelsemb" id="stoerrelsemb" class="form-control number" spellcheck="false" value="{{ stoerrelsemb | default:0 }}" oninput="updateStoerrelse()">
+                    <input type="text" name="stoerrelsemb" id="stoerrelsemb" class="form-control number" spellcheck="false" value="{{ stoerrelsemb | default:0 }}" oninput="updateStoerrelsemb()">
                     {% else %}
                     <input type="text" name="stoerrelsemb" id="stoerrelsemb" class="form-control" spellcheck="false" value="{{ stoerrelsemb | default:0 }}" style="cursor: default !important; border-bottom: 1px dotted #2E3440; box-shadow: 0 0px 0 0 #2E3440;" readonly>
                     {% endif %}
@@ -485,10 +485,14 @@
 
                   <div class="row">
                     <div class="col l12">
-                      <div class="input-field col l12" style="margin: 0px; padding-bottom: 5px; margin-top: -21px;">
+                      <div class="input-field col l12" style="margin: 0px; padding-bottom: 4px; margin-top: -19px;">
                         <div class=" form-group">
                           <label class="col l4" id="kvitteret" onchange="updateKvitteret()">
+                            {% if modtaget_kvitteret %}
+                            <input type="checkbox" class="radio" name="kvitteret" value="kvitteret" checked />
+                            {% else %}
                             <input type="checkbox" class="radio" name="kvitteret" value="kvitteret" />
+                            {% endif %}
                             <span style="color: #2E3440;">Kvittering afsendt</span>
                           </label>
                         </div>
@@ -507,7 +511,11 @@
                       <div class="input-field col l12" style="margin: 0px; padding-bottom: 5px; margin-top: 5px;">
                         <div class="form-group">
                           <label class="col l4" id="journaliseret" onchange="updateJournaliseret()">
+                            {% if modtaget_journaliseret %}
+                            <input type="checkbox" class="radio" name="journaliseret" value="journaliseret" checked />
+                            {% else %}
                             <input type="checkbox" class="radio" name="journaliseret" value="journaliseret" />
+                            {% endif %}
                             <span style="color: #2E3440;">Følgeseddel journaliseret</span>
                           </label>
                         </div>
@@ -526,15 +534,27 @@
                       <div class="input-field col l12" style="margin: 0; padding-bottom: 4px; margin-top: 4px;">
                         <div class="form-group">
                           <label class="col l4" onchange="updateKodeord_modtaget()">
+                            {% if modtaget_kodeord %}
+                            <input type="checkbox" class="radio" name="kodeord" value="modtaget" checked />
+                            {% else %}
                             <input type="checkbox" class="radio" name="kodeord" value="modtaget" />
+                            {% endif %}
                             <span style="color: #2E3440;">Kodeord modtaget</span>
                           </label>
                           <label class="col l4" onchange="updateKodeord_mangler()">
+                            {% if modtaget_mangler_kodeord %}
+                            <input type="checkbox" class="radio" name="kodeord" value="mangler" checked />
+                            {% else %}
                             <input type="checkbox" class="radio" name="kodeord" value="mangler" />
+                            {% endif %}
                             <span style="color: #2E3440;">Kodeord mangler (rykker afsendt)</span>
                           </label>
                           <label class="col l4" onchange="updateIkke_krypteret()">
+                            {% if modtaget_ikke_krypteret %}
+                            <input type="checkbox" class="radio" name="kodeord" value="ikke_krypteret" checked />
+                            {% else %}
                             <input type="checkbox" class="radio" name="kodeord" value="ikke_krypteret" />
+                            {% endif %}
                             <span style="color: #2E3440;">Afleveringsmedie er ikke krypteret</span>
                           </label>
                         </div>
@@ -553,7 +573,11 @@
                       <div class="input-field col l12" style="margin: 0; padding-bottom: 4px; margin-top: 4px;">
                         <div class="form-group">
                           <label class="col l6" onchange="updateKopieret()">
+                            {% if modtaget_kopieret %}
+                            <input type="checkbox" class="radio" name="kopieret" value="kopieret" checked />
+                            {% else %}
                             <input type="checkbox" class="radio" name="kopieret" value="kopieret" />
+                            {% endif %}
                             <span style="color: #2E3440;">Kopieret til testmedie</span>
                           </label>
                         </div>
@@ -572,11 +596,19 @@
                       <div class="input-field col l12" style="margin: 0; padding-bottom: 4px; margin-top: 4px;">
                         <div class="form-group">
                           <label class="col l4" onchange="updateModtagelse_godkendt()">
+                            {% if modtaget_modtagelse_godkendt %}
+                            <input type="checkbox" class="radio" name="modtagelse" value="godkendt" checked />
+                            {% else %}
                             <input type="checkbox" class="radio" name="modtagelse" value="godkendt" />
+                            {% endif %}
                             <span style="color: #2E3440;">Modtagelse godkendt</span>
                           </label>
                           <label class="col l4" onchange="updateModtagelse_afvist()">
+                            {% if modtaget_modtagelse_afvist %}
+                            <input type="checkbox" class="radio" name="modtagelse" value="afvist" checked />
+                            {% else %}
                             <input type="checkbox" class="radio" name="modtagelse" value="afvist" />
+                            {% endif %}
                             <span style="color: #2E3440;">Modtagelse afvist</span>
                           </label>
                         </div>
@@ -595,7 +627,11 @@
                       <div class="input-field col l12" style="margin: 0; padding-bottom: 4px; margin-top: 4px;">
                         <div class="form-group">
                           <label class="col l4" onchange="updateFileindex()">
+                            {% if modtaget_fileindex_kopieret %}
+                            <input type="checkbox" class="radio" name="fileindex" value="kopieret" checked />
+                            {% else %}
                             <input type="checkbox" class="radio" name="fileindex" value="kopieret" />
+                            {% endif %}
                             <span style="color: #2E3440;">Filindeks kopieret</span>
                           </label>
                         </div>
@@ -614,11 +650,19 @@
                       <div class="input-field col l12" style="margin: 0; padding-bottom: 4px; margin-top: 4px;">
                         <div class="form-group">
                           <label class="col l4" onchange="updateAda_godkendt()">
+                            {% if modtaget_adatest_godkendt %}
+                            <input type="checkbox" class="radio" name="ada" value="godkendt" checked />
+                            {% else %}
                             <input type="checkbox" class="radio" name="ada" value="godkendt" />
+                            {% endif %}
                             <span style="color: #2E3440;">ADA-test godkendt</span>
                           </label>
                           <label class="col l4" onchange="updateAda_afvist()">
+                            {% if modtaget_adatest_afvist %}
+                            <input type="checkbox" class="radio" name="ada" value="afvist" checked />
+                            {% else %}
                             <input type="checkbox" class="radio" name="ada" value="afvist" />
+                            {% endif %}
                             <span style="color: #2E3440;">ADA-test afvist</span>
                           </label>
                         </div>
@@ -654,7 +698,11 @@
                       <div class="input-field col l12" style="margin: 0px; padding-bottom: 5px; margin-top: -21px;">
                         <div class=" form-group">
                           <label class="col l6" id="nedpakket" onchange="updateNedpakket()">
+                            {% if tilbagemeldt_nedpakket %}
+                            <input type="checkbox" class="radio" name="nedpakket" value="nedpakket" checked />
+                            {% else %}
                             <input type="checkbox" class="radio" name="nedpakket" value="nedpakket" />
+                            {% endif %}
                             <span style="color: #2E3440;">Arkiveringsversion tilbage i æske</span>
                           </label>
                         </div>
@@ -673,7 +721,11 @@
                       <div class="input-field col l12" style="margin: 0px; padding-bottom: 5px; margin-top: 5px;">
                         <div class="form-group">
                           <label class="col l6" id="maskine_renset" onchange="updateMaskine_renset()">
+                            {% if tilbagemeldt_maskine_renset %}
+                            <input type="checkbox" class="radio" name="maskine_renset" value="maskine_renset" checked />
+                            {% else %}
                             <input type="checkbox" class="radio" name="maskine_renset" value="maskine_renset" />
+                            {% endif %}
                             <span style="color: #2E3440;">Maskine renset for ADA-databaser og andet</span>
                           </label>
                         </div>
@@ -690,13 +742,197 @@
                 </div>
               </div>
             </div>
-
             {% endif %}
 
             {% if status == 'Afventer genaflevering' %}
             {% endif %}
 
             {% if status == 'Godkendt af tester' %}
+            <div class="col l12">
+              <div class="card z-depth-0" style="margin-top: -2px;">
+                <div class="card-content" style="padding: 0;">
+
+
+                  <div class="row">
+                    <div class="col l12">
+                      <div class="input-field col l12" style="margin: 0px; padding-bottom: 4px; margin-top: -19px;">
+                        <div class=" form-group">
+                          <label class="col l6" id="fileindex_godkendt" onchange="updateFileindex_godkendt()">
+                            {% if godkendt_af_tester_fileindex_godkendt %}
+                            <input type="checkbox" class="radio" name="fileindex_godkendt" value="godkendt" checked />
+                            {% else %}
+                            <input type="checkbox" class="radio" name="fileindex_godkendt" value="godkendt" />
+                            {% endif %}
+                            <span style="color: #2E3440;">Filindeks sammenlignet og godkendt</span>
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col l12">
+                      <div class="divider" style="border-top: 1px solid #4C566A;"></div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col l12">
+                      <div class="input-field col l12" style="margin: 0; padding-bottom: 4px; margin-top: 4px;">
+                        <div class="form-group">
+                          <label class="col l4" onchange="updateAfvikler_dea()">
+                            {% if godkendt_af_tester_afvikler_dea %}
+                            <input type="checkbox" class="radio" name="dea" value="afvikler" checked />
+                            {% else %}
+                            <input type="checkbox" class="radio" name="dea" value="afvikler" />
+                            {% endif %}
+                            <span style="color: #2E3440;">Afvikler 'Send til DEA'</span>
+                          </label>
+                          <label class="col l4" onchange="updateAfleveret_til_dea()">
+                            {% if godkendt_af_tester_afleveret_til_dea %}
+                            <input type="checkbox" class="radio" name="dea" value="afleveret" checked />
+                            {% else %}
+                            <input type="checkbox" class="radio" name="dea" value="afleveret" />
+                            {% endif %}
+                            <span style="color: #2E3440;">Afleveret til DEA</span>
+                          </label>
+                          <label class="col l4" onchange="updateRetur_fra_dea()">
+                            {% if godkendt_af_tester_retur_fra_dea %}
+                            <input type="checkbox" class="radio" name="dea" value="retur" checked />
+                            {% else %}
+                            <input type="checkbox" class="radio" name="dea" value="retur" />
+                            {% endif %}
+                            <span style="color: #2E3440;">Retur fra DEA</span>
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col l12">
+                      <div class="divider" style="border-top: 1px solid #4C566A;"></div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col l12">
+                      <div class="input-field col l12" style="margin: 0px; padding-bottom: 5px; margin-top: 5px;">
+                        <div class="form-group">
+                          <label class="col l6" id="mary_kontrol" onchange="updateMary_kontrol()">
+                            {% if godkendt_af_tester_mary_kontrol %}
+                            <input type="checkbox" class="radio" name="mary_kontrol" value="mary_kontrol" checked />
+                            {% else %}
+                            <input type="checkbox" class="radio" name="mary_kontrol" value="mary_kontrol" />
+                            {% endif %}
+                            <span style="color: #2E3440;">Mary Status kontrolleret for antal pakker</span>
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col l12">
+                      <div class="divider" style="border-top: 1px solid #4C566A;"></div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col l12">
+                      <div class="input-field col l12" style="margin: 0px; padding-bottom: 5px; margin-top: 5px;">
+                        <div class="form-group">
+                          <label class="col l6" id="meta_opdateret" onchange="updateMeta_opdateret()">
+                            {% if godkendt_af_tester_meta_opdateret %}
+                            <input type="checkbox" class="radio" name="meta_opdateret" value="meta_opdateret" checked />
+                            {% else %}
+                            <input type="checkbox" class="radio" name="meta_opdateret" value="meta_opdateret" />
+                            {% endif %}
+                            <span style="color: #2E3440;">Feltet 'Størrelse i MB' opdateret med størrelse fra Mary</span>
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col l12">
+                      <div class="divider" style="border-top: 1px solid #4C566A;"></div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col l12">
+                      <div class="input-field col l12" style="margin: 0px; padding-bottom: 5px; margin-top: 5px;">
+                        <div class="form-group">
+                          <label class="col l8" id="public_opdateret" onchange="updatePublic_opdateret()">
+                            {% if godkendt_af_tester_public_opdateret %}
+                            <input type="checkbox" class="radio" name="public_opdateret" value="public_opdateret" checked />
+                            {% else %}
+                            <input type="checkbox" class="radio" name="public_opdateret" value="public_opdateret" />
+                            {% endif %}
+                            <span style="color: #2E3440;">IB-feltet 'Størrelse' opdateret i Public 360 med størrelse fra feltet 'Størrelse i GB'</span>
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col l12">
+                      <div class="divider" style="border-top: 1px solid #4C566A;"></div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col l12">
+                      <div class="input-field col l12" style="margin: 0px; padding-bottom: 5px; margin-top: 5px;">
+                        <div class="form-group">
+                          <label class="col l8" id="nedpakket" onchange="updatePublic_opdateret()">
+                            {% if godkendt_af_tester_nedpakket %}
+                            <input type="checkbox" class="radio" name="nedpakket" value="nedpakket" checked />
+                            {% else %}
+                            <input type="checkbox" class="radio" name="nedpakket" value="nedpakket" />
+                            {% endif %}
+                            <span style="color: #2E3440;">Arkivernigsversion tilbage i æske</span>
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col l12">
+                      <div class="divider" style="border-top: 1px solid #4C566A;"></div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col l12">
+                      <div class="input-field col l12" style="margin: 0px; padding-bottom: 5px; margin-top: 5px;">
+                        <div class="form-group">
+                          <label class="col l8" id="maskine_renset" onchange="updatePublic_opdateret()">
+                            {% if godkendt_af_tester_maskine_renset %}
+                            <input type="checkbox" class="radio" name="maskine_renset" value="maskine_renset" checked />
+                            {% else %}
+                            <input type="checkbox" class="radio" name="maskine_renset" value="maskine_renset" />
+                            {% endif %}
+                            <span style="color: #2E3440;">Maksine renset for ADA-databaser og andet</span>
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col l12">
+                      <div class="divider" style="border-top: 1px solid #4C566A;"></div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
             {% endif %}
 
             {% if status == 'Parat til godkendelse' %}
@@ -768,7 +1004,7 @@
   let adgang = '{{ adgang }}'
   let svarfrist = '{{ svarfrist }}'
   let svar = '{{ svar }}'
-  let stoerrelse = '{{ stoerrelse }}'
+  let stoerrelsemb = '{{ stoerrelsemb }}'
   let kvitteret = undefined
   let kvitteret_start = undefined
   let journaliseret = undefined
@@ -795,6 +1031,20 @@
   let nedpakket_start = undefined
   let maskine_renset = undefined
   let maskine_renset_start = undefined
+  let fileindex_godkendt = undefined
+  let fileindex_godkendt_start = undefined
+  let afvikler_dea = undefined
+  let afvikler_dea_start = undefined
+  let afleveret_til_dea = undefined
+  let afleveret_til_dea_start = undefined
+  let retur_fra_dea = undefined
+  let retur_fra_dea_start = undefined
+  let mary_kontrol = undefined
+  let mary_kontrol_start = undefined
+  let meta_opdateret = undefined
+  let meta_opdateret_start = undefined
+  let public_opdateret = undefined
+  let public_opdateret_start = undefined
 
   if ('{{ modtaget_kvitteret }}' == 'False') {
     kvitteret = false
@@ -813,11 +1063,11 @@
   }
 
   if ('{{ modtaget_kodeord }}' == 'False') {
-    kodeord = false
-    kodeord_start = false
+    kodeord_modtaget = false
+    kodeord_modtaget_start = false
   } else {
-    kodeord = true
-    kodeord_start = true
+    kodeord_modtaget = true
+    kodeord_modtaget_start = true
   }
 
   if ('{{ modtaget_mangler_kodeord }}' == 'False') {
@@ -900,6 +1150,62 @@
     maskine_renset_start = true
   }
 
+  if ('{{ godkendt_af_tester_fileindex_godkendt }}' == 'False') {
+    fileindex_godkendt = false
+    fileindex_godkendt_start = false
+  } else {
+    fileindex_godkendt = true
+    fileindex_godkendt_start = true
+  }
+
+  if ('{{ godkendt_af_tester_afvikler_dea }}' == 'False') {
+    afvikler_dea = false
+    afvikler_dea_start = false
+  } else {
+    afvikler_dea = true
+    afvikler_dea_start = true
+  }
+
+  if ('{{ godkendt_af_tester_afleveret_til_dea }}' == 'False') {
+    afleveret_til_dea = false
+    afleveret_til_dea_start = false
+  } else {
+    afleveret_til_dea = true
+    afleveret_til_dea_start = true
+  }
+
+  if ('{{ godkendt_af_tester_retur_fra_dea }}' == 'False') {
+    retur_fra_dea = false
+    retur_fra_dea_start = false
+  } else {
+    retur_fra_dea = true
+    retur_fra_dea_start = true
+  }
+
+  if ('{{ godkendt_af_tester_mary_kontrol }}' == 'False') {
+    mary_kontrol = false
+    mary_kontrol_start = false
+  } else {
+    mary_kontrol = true
+    mary_kontrol_start = true
+  }
+
+  if ('{{ godkendt_af_tester_meta_opdateret }}' == 'False') {
+    meta_opdateret = false
+    meta_opdateret_start = false
+  } else {
+    meta_opdateret = true
+    meta_opdateret_start = true
+  }
+
+  if ('{{ godkendt_af_tester_public_opdateret }}' == 'False') {
+    public_opdateret = false
+    public_opdateret_start = false
+  } else {
+    public_opdateret = true
+    public_opdateret_start = true
+  }
+
   updatePublic = () => public = document.getElementById('public').value
   updateAvid = () => avid = document.getElementById('avid').value
   updateJnr = () => jnr = document.getElementById('jnr').value
@@ -918,7 +1224,7 @@
   updateAdgang = () => adgang = document.getElementById('adgang').value
   updateSvarfrist = () => svarfrist = document.getElementById('svarfrist').value
   updateSvar = () => svar = document.getElementById('svar').value
-  updateStoerrelse = () => stoerrelse = document.getElementById('stoerrelse').value
+  updateStoerrelsemb = () => stoerrelsemb = document.getElementById('stoerrelsemb').value
   updateKvitteret = () => kvitteret = !kvitteret
   updateJournaliseret = () => journaliseret = !journaliseret
   updateKodeord_modtaget = () => kodeord = !kodeord
@@ -932,10 +1238,57 @@
   updateAda_afvist = () => ada_afvist = !ada_afvist
   updateNedpakket = () => nedpakket = !nedpakket
   updateMaskine_renset = () => maskine_renset = !maskine_renset
+  updateFileindex_godkendt = () => fileindex_godkendt = !fileindex_godkendt
+  updateAfvikler_dea = () => afvikler_dea = !afvikler_dea
+  updateAfleveret_til_dea = () => afleveret_til_dea = !afleveret_til_dea
+  updateRetur_fra_dea = () => retur_fra_dea = !retur_fra_dea
+  updateMary_kontrol = () => mary_kontrol = !mary_kontrol
+  updateMeta_opdateret = () => meta_opdateret = !meta_opdateret
+  updatePublic_opdateret = () => public_opdateret = !public_opdateret
 
   window.addEventListener('beforeunload',
     function (e) {
-      console.log(afleveringsfrist)
+      console.log('kvitteret', kvitteret)
+      console.log('kvitteret_start', kvitteret_start)
+      console.log('journaliseret', journaliseret)
+      console.log('journaliseret_start', journaliseret_start)
+      console.log('kodeord_modtaget', kodeord_modtaget)
+      console.log('kodeord_modtaget_start', kodeord_modtaget_start)
+      console.log('kodeord_mangler', kodeord_mangler)
+      console.log('kodeord_mangler_start', kodeord_mangler_start)
+      console.log('ikke_krypteret', ikke_krypteret)
+      console.log('ikke_krypteret_start', ikke_krypteret_start)
+      console.log('kopieret', kopieret)
+      console.log('kopieret_start', kopieret_start)
+      console.log('modtagelse_godkendt', modtagelse_godkendt)
+      console.log('modtagelse_godkendt_start', modtagelse_godkendt_start)
+      console.log('modtagelse_afvist', modtagelse_afvist)
+      console.log('modtagelse_afvist_start', modtagelse_afvist_start)
+      console.log('fileindex', fileindex)
+      console.log('fileindex_start', fileindex_start)
+      console.log('ada_godkendt', ada_godkendt)
+      console.log('ada_godkendt_start', ada_godkendt_start)
+      console.log('ada_afvist', ada_afvist)
+      console.log('ada_afvist_start', ada_afvist_start)
+      console.log('nedpakket', nedpakket)
+      console.log('nedpakket_start', nedpakket_start)
+      console.log('maskine_renset', maskine_renset)
+      console.log('maskine_renset_start', maskine_renset_start)
+      console.log('fileindex_godkendt', fileindex_godkendt)
+      console.log('fileindex_godkendt_start', fileindex_godkendt_start)
+      console.log('afvikler_dea', afvikler_dea)
+      console.log('afvikler_dea_start', afvikler_dea_start)
+      console.log('afleveret_til_dea', afleveret_til_dea)
+      console.log('afleveret_til_dea_start', afleveret_til_dea_start)
+      console.log('retur_fra_dea', retur_fra_dea)
+      console.log('retur_fra_dea_start', retur_fra_dea_start)
+      console.log('mary_kontrol', mary_kontrol)
+      console.log('mary_kontrol_start', mary_kontrol_start)
+      console.log('meta_opdateret', meta_opdateret)
+      console.log('meta_opdateret_start', meta_opdateret_start)
+      console.log('public_opdateret', public_opdateret)
+      console.log('public_opdateret_start', public_opdateret_start)
+
       if (
         (
           public != '{{ public }}' ||
@@ -956,10 +1309,10 @@
           adgang != '{{ adgang }}' ||
           svarfrist != '{{ svarfrist }}' ||
           svar != '{{ svar }}' ||
-          stoerrelse != '{{ stoerrelse }}' ||
+          stoerrelsemb != '{{ stoerrelsemb }}' ||
           kvitteret !== kvitteret_start ||
           journaliseret !== journaliseret_start ||
-          kodeord !== kodeord_start ||
+          kodeord_modtaget !== kodeord_modtaget_start ||
           kodeord_mangler !== kodeord_mangler_start ||
           ikke_krypteret !== ikke_krypteret_start ||
           kopieret !== kopieret_start ||
@@ -969,7 +1322,14 @@
           ada_godkendt !== ada_godkendt_start ||
           ada_afvist !== ada_afvist_start ||
           nedpakket != nedpakket_start ||
-          maskine_renset !== maskine_renset_start
+          maskine_renset !== maskine_renset_start ||
+          fileindex_godkendt !== fileindex_godkendt_start ||
+          afvikler_dea !== afvikler_dea_start ||
+          afleveret_til_dea !== afleveret_til_dea_start ||
+          retur_fra_dea !== retur_fra_dea_start ||
+          mary_kontrol !== mary_kontrol_start ||
+          meta_opdateret !== meta_opdateret_start ||
+          public_opdateret !== public_opdateret_start
         ) &&
         submit_clicked === false
       ) {

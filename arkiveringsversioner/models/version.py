@@ -206,10 +206,6 @@ class Version(models.Model):
         default=False,
     )
 
-    godkendt_af_tester_parat_til_godkendelse = models.BooleanField(
-        default=False,
-    )
-
     def __str__(self):
         return str(self.nummer)
 

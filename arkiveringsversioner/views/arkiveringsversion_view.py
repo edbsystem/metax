@@ -62,6 +62,29 @@ def arkiveringsversion_view(request, avid, version=0):
                 _arkivar_fuldenavn += ' '
                 _arkivar_fuldenavn += _version_obj.arkivar.profil.efternavn
 
+            print("modtaget_kvitteret", _version_obj.modtaget_kvitteret)
+            print("modtaget_journaliseret", _version_obj.modtaget_journaliseret)
+            print("modtaget_kodeord", _version_obj.modtaget_kodeord)
+            print("modtaget_mangler_kodeord", _version_obj.modtaget_mangler_kodeord)
+            print("modtaget_ikke_krypteret", _version_obj.modtaget_ikke_krypteret)
+            print("modtaget_kopieret", _version_obj.modtaget_kopieret)
+            print("modtaget_modtagelse_godkendt", _version_obj.modtaget_modtagelse_godkendt)
+            print("modtaget_modtagelse_afvist", _version_obj.modtaget_modtagelse_afvist)
+            print("modtaget_fileindex_kopieret", _version_obj.modtaget_fileindex_kopieret)
+            print("modtaget_adatest_godkendt", _version_obj.modtaget_adatest_godkendt)
+            print("modtaget_adatest_afvist", _version_obj.modtaget_adatest_afvist)
+            print("tilbagemeldt_nedpakket", _version_obj.tilbagemeldt_nedpakket)
+            print("tilbagemeldt_maskine_renset", _version_obj.tilbagemeldt_maskine_renset)
+            print("godkendt_af_tester_fileindex_godkendt", _version_obj.godkendt_af_tester_fileindex_godkendt)
+            print("godkendt_af_tester_afvikler_dea", _version_obj.godkendt_af_tester_afvikler_dea)
+            print("godkendt_af_tester_afleveret_til_dea", _version_obj.godkendt_af_tester_afleveret_til_dea)
+            print("godkendt_af_tester_retur_fra_dea", _version_obj.godkendt_af_tester_retur_fra_dea)
+            print("godkendt_af_tester_mary_kontrol", _version_obj.godkendt_af_tester_mary_kontrol)
+            print("godkendt_af_tester_meta_opdateret", _version_obj.godkendt_af_tester_meta_opdateret)
+            print("godkendt_af_tester_public_opdateret", _version_obj.godkendt_af_tester_public_opdateret)
+            print("godkendt_af_tester_nedpakket", _version_obj.godkendt_af_tester_nedpakket)
+            print("godkendt_af_tester_maskine_renset", _version_obj.godkendt_af_tester_maskine_renset)
+
             return render(request, 'arkiveringsversioner/arkiveringsversion.html', {
                 "bruger_rettigheder": rettigheder(request.user),
                 "avid": _arkiveringsversion_obj.avid,
@@ -109,7 +132,6 @@ def arkiveringsversion_view(request, avid, version=0):
                 "godkendt_af_tester_public_opdateret": _version_obj.godkendt_af_tester_public_opdateret,
                 "godkendt_af_tester_nedpakket": _version_obj.godkendt_af_tester_nedpakket,
                 "godkendt_af_tester_maskine_renset": _version_obj.godkendt_af_tester_maskine_renset,
-                "godkendt_af_tester_parat_til_godkendelse": _version_obj.godkendt_af_tester_parat_til_godkendelse,
             })
 
         if not Arkiveringsversion.objects.filter(avid=avid).exists():
