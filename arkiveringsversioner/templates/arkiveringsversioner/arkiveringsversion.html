@@ -17,11 +17,15 @@
               <div class="card-action col l12">
                 <div class="col left" style="margin-left: -15px; margin-bottom: -7px;">
                   <a href="{{ public }}" target="_blank" style="margin: 0;">
-                    <button class="btn waves-effect waves-light z-depth-0" style="margin-right: 4px; background-color: #4C566A; color: #D8DEE9;" type="button" id="public" name="public">Public 360</button>
+                    <button id="public_knap" name="public_knap" type="submit" class="btn waves-effect waves-light z-depth-0" style="margin-right: 4px; background-color: #4C566A; color: #D8DEE9;">
+                      Public 360
+                    </button>
                   </a>
                 </div>
                 <div class="col right" style="margin-right: -15px; margin-bottom: -7px; ">
-                  <button class="btn waves-effect waves-light z-depth-0" style="margin-right: 4px; background-color: #4C566A; color: #D8DEE9;" type="submit" id="public" name="public">Gem Ændringer</button>
+                  <button id="gem_knap" name="gem_knap" type="submit" class="btn waves-effect waves-light z-depth-0" style="margin-right: 4px; background-color: #4C566A; color: #D8DEE9;">
+                    Gem Ændringer
+                  </button>
                 </div>
               </div>
             </div>
@@ -203,7 +207,63 @@
             <div class="row">
               <div class="card-action col l12">
                 <div class="col left" style="margin-left: -15px; margin-bottom: -7px;">
-                  <button class="btn waves-effect waves-light z-depth-0" style="margin-right: 6px; background-color: #4C566A; color: #D8DEE9;" type="submit" id="public" name="public">Klar til test</button>
+                  {% if status == 'Afventer aflevering' %}
+                  <button id="modtaget_knap" name="modtaget_knap" type="submit" class="btn waves-effect waves-light z-depth-0" style="margin-right: 6px; background-color: #4C566A; color: #D8DEE9;">
+                    Modtaget
+                  </button>
+                  {% endif %}
+
+                  {% if status == 'Modtaget' %}
+                  <button id="klartiltest_knap" name="klartiltest_knap" type="submit" class="btn waves-effect waves-light z-depth-0" style="margin-right: 6px; background-color: #4C566A; color: #D8DEE9;">
+                    Klar til test
+                  </button>
+                  <button id="tilbagemeldt_knap" name="tilbagemeldt_knap" type="submit" class="btn waves-effect waves-light z-depth-0" style="margin-right: 6px; background-color: #4C566A; color: #D8DEE9;">
+                    Tilbagemeldt
+                  </button>
+                  {% endif %}
+
+                  {% if status == 'Klar til test' %}
+                  <button id="test_knap" name="test_knap" type="submit" class="btn waves-effect waves-light z-depth-0" style="margin-right: 6px; background-color: #4C566A; color: #D8DEE9;">
+                    Test
+                  </button>
+                  {% endif %}
+
+                  {% if status == 'Under test' %}
+                  <button id="tilbagemeldt_knap" name="tilbagemeldt_knap" type="submit" class="btn waves-effect waves-light z-depth-0" style="margin-right: 6px; background-color: #4C566A; color: #D8DEE9;">
+                    Tilbagemeldt
+                  </button>
+                  <button id="godkendtaftester_knap" name="godkendtaftester_knap" type="submit" class="btn waves-effect waves-light z-depth-0" style="margin-right: 6px; background-color: #4C566A; color: #D8DEE9;">
+                    Godkendt af tester
+                  </button>
+                  {% endif %}
+
+                  {% if status == 'Tilbagemeldt' %}
+                  <button id="afventgenaflevering_knap" name="afventgenaflevering_knap" type="submit" class="btn waves-effect waves-light z-depth-0" style="margin-right: 6px; background-color: #4C566A; color: #D8DEE9;">
+                    Afvent genaflevering
+                  </button>
+                  {% endif %}
+
+                  {% if status == 'Afventer genaflevering' %}
+                  <button id="modtaget_knap" name="modtaget_knap" type="submit" class="btn waves-effect waves-light z-depth-0" style="margin-right: 6px; background-color: #4C566A; color: #D8DEE9;">
+                    Modtaget
+                  </button>
+                  {% endif %}
+
+                  {% if status == 'Godkendt af tester' %}
+                  <button id="parattilgodkendelse_knap" name="parattilgodkendelse_knap" type="submit" class="btn waves-effect waves-light z-depth-0" style="margin-right: 6px; background-color: #4C566A; color: #D8DEE9;">
+                    Parat til godkendelse
+                  </button>
+                  {% endif %}
+
+                  {% if status == 'Parat til godkendelse' %}
+                  <button id="godkendt_knap" name="godkendt_knap" type="submit" class="btn waves-effect waves-light z-depth-0" style="margin-right: 6px; background-color: #4C566A; color: #D8DEE9;">
+                    Godkendt
+                  </button>
+                  {% endif %}
+
+                  {% if status == 'Godkendt' %}
+                  {% endif %}
+
                 </div>
                 <div class="col right" style="margin-bottom: -7px;">
                   {% for _ in versioner %}
@@ -375,7 +435,7 @@
 
             <div class="row">
               <div class="col l12">
-                <div class="input-field col l8">
+                <div class="input-field col l6">
                   <div class="form-group">
                     <label for="status" class="col-form-label left" style="color: #4C566A;">Status</label>
                     <input type="text" name="status" id="status" class="form-control" spellcheck="false" value="{{ status | default_if_none:'' }}" style="cursor: default !important; border-bottom: 1px dotted #2E3440; box-shadow: 0 0px 0 0 #2E3440;" readonly>
@@ -394,17 +454,28 @@
                 {% if status != 'Afventer aflevering' %}
                 <div class="input-field col l2">
                   <div class="form-group">
-                    <label for="stoerrelse" class="col-form-label left" style="color: #4C566A;">Størrelse</label>
+                    <label for="stoerrelsemb" class="col-form-label left" style="color: #4C566A;">Størrelse i MB</label>
                     {% if 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder and 'arkiveringsversioner_størrelse_rediger' in bruger_rettigheder %}
-                    <input type="text" name="stoerrelse" id="stoerrelse" class="form-control number" spellcheck="false" value="{{ stoerrelse | default:0 }}" oninput="updateStoerrelse()">
+                    <input type="text" name="stoerrelsemb" id="stoerrelsemb" class="form-control number" spellcheck="false" value="{{ stoerrelsemb | default:0 }}" oninput="updateStoerrelse()">
                     {% else %}
-                    <input type="text" name="stoerrelse" id="stoerrelse" class="form-control" spellcheck="false" value="{{ stoerrelse | default:0 }}" style="cursor: default !important; border-bottom: 1px dotted #2E3440; box-shadow: 0 0px 0 0 #2E3440;" readonly>
+                    <input type="text" name="stoerrelsemb" id="stoerrelsemb" class="form-control" spellcheck="false" value="{{ stoerrelsemb | default:0 }}" style="cursor: default !important; border-bottom: 1px dotted #2E3440; box-shadow: 0 0px 0 0 #2E3440;" readonly>
                     {% endif %}
+                  </div>
+                </div>
+                {% endif %}
+                {% if status != 'Afventer aflevering' %}
+                <div class="input-field col l2">
+                  <div class="form-group">
+                    <label for="stoerrelsegb" class="col-form-label left" style="color: #4C566A;">Størrelse i GB</label>
+                    <input type="text" name="stoerrelsegb" id="stoerrelsegb" class="form-control" value="{{ stoerrelsegb | default:0 }}" style="cursor: default !important; border-bottom: 1px dotted #2E3440; box-shadow: 0 0px 0 0 #2E3440;" readonly>
                   </div>
                 </div>
                 {% endif %}
               </div>
             </div>
+
+            {% if status == 'Afventer genaflevering' %}
+            {% endif %}
 
             {% if status == 'Modtaget' %}
             <div class="col l12">
@@ -566,6 +637,74 @@
             </div>
             {% endif %}
 
+            {% if status == 'Klar til test' %}
+            {% endif %}
+
+            {% if status == 'Under test' %}
+            {% endif %}
+
+            {% if status == 'Tilbagemeldt' %}
+            <div class="col l12">
+              <div class="card z-depth-0" style="margin-top: -2px;">
+                <div class="card-content" style="padding: 0;">
+
+
+                  <div class="row">
+                    <div class="col l12">
+                      <div class="input-field col l12" style="margin: 0px; padding-bottom: 5px; margin-top: -21px;">
+                        <div class=" form-group">
+                          <label class="col l6" id="nedpakket" onchange="updateNedpakket()">
+                            <input type="checkbox" class="radio" name="nedpakket" value="nedpakket" />
+                            <span style="color: #2E3440;">Arkiveringsversion tilbage i æske</span>
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col l12">
+                      <div class="divider" style="border-top: 1px solid #4C566A;"></div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col l12">
+                      <div class="input-field col l12" style="margin: 0px; padding-bottom: 5px; margin-top: 5px;">
+                        <div class="form-group">
+                          <label class="col l6" id="maskine_renset" onchange="updateMaskine_renset()">
+                            <input type="checkbox" class="radio" name="maskine_renset" value="maskine_renset" />
+                            <span style="color: #2E3440;">Maskine renset for ADA-databaser og andet</span>
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col l12">
+                      <div class="divider" style="border-top: 1px solid #4C566A;"></div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+
+            {% endif %}
+
+            {% if status == 'Afventer genaflevering' %}
+            {% endif %}
+
+            {% if status == 'Godkendt af tester' %}
+            {% endif %}
+
+            {% if status == 'Parat til godkendelse' %}
+            {% endif %}
+
+            {% if status == 'Godkendt' %}
+            {% endif %}
+
           </div>
         </div>
       </div>
@@ -652,6 +791,10 @@
   let ada_godkendt_start = undefined
   let ada_afvist = undefined
   let ada_afvist_start = undefined
+  let nedpakket = undefined
+  let nedpakket_start = undefined
+  let maskine_renset = undefined
+  let maskine_renset_start = undefined
 
   if ('{{ modtaget_kvitteret }}' == 'False') {
     kvitteret = false
@@ -741,6 +884,22 @@
     ada_afvist_start = true
   }
 
+  if ('{{ tilbagemeldt_nedpakket }}' == 'False') {
+    nedpakket = false
+    nedpakket_start = false
+  } else {
+    nedpakket = true
+    nedpakket_start = true
+  }
+
+  if ('{{ tilbagemeldt_maskine_renset }}' == 'False') {
+    maskine_renset = false
+    maskine_renset_start = false
+  } else {
+    maskine_renset = true
+    maskine_renset_start = true
+  }
+
   updatePublic = () => public = document.getElementById('public').value
   updateAvid = () => avid = document.getElementById('avid').value
   updateJnr = () => jnr = document.getElementById('jnr').value
@@ -771,6 +930,8 @@
   updateFileindex = () => fileindex = !fileindex
   updateAda_godkendt = () => ada_godkendt = !ada_godkendt
   updateAda_afvist = () => ada_afvist = !ada_afvist
+  updateNedpakket = () => nedpakket = !nedpakket
+  updateMaskine_renset = () => maskine_renset = !maskine_renset
 
   window.addEventListener('beforeunload',
     function (e) {
@@ -806,7 +967,9 @@
           modtagelse_afvist !== modtagelse_afvist_start ||
           fileindex !== fileindex_start ||
           ada_godkendt !== ada_godkendt_start ||
-          ada_afvist !== ada_afvist_start
+          ada_afvist !== ada_afvist_start ||
+          nedpakket != nedpakket_start ||
+          maskine_renset !== maskine_renset_start
         ) &&
         submit_clicked === false
       ) {

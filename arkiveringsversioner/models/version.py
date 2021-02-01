@@ -39,6 +39,7 @@ class Version(models.Model):
         ('Tilbagemeldt', 'Tilbagemeldt'),
         ('Afventer genaflevering', 'Afventer genaflevering'),
         ('Godkendt af tester', 'Godkendt af tester'),
+        ('Parat til godkendelse', 'Parat til godkendelse'),
         ('Godkendt', 'Godkendt'),
     )
 
@@ -112,9 +113,9 @@ class Version(models.Model):
         blank=True,
     )
 
-    stoerrelse = models.IntegerField(
+    stoerrelsemb = models.IntegerField(
         default=0,
-        verbose_name="Størrelse i GB"
+        verbose_name="Størrelse i MB"
     )
 
     modtaget_kvitteret = models.BooleanField(
