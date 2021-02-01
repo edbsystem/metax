@@ -15,8 +15,6 @@ def leverandoer_view(request, pk=None):
 
     if request.method == 'GET':
 
-        print('request.GET:', request.GET)
-
         if pk:
             if Leverandoer.objects.filter(pk=pk).exists():
                 _leverandoer_obj = Leverandoer.objects.get(pk=pk)
@@ -36,8 +34,6 @@ def leverandoer_view(request, pk=None):
             return redirect('leverandoerer_view')
 
     if request.method == 'POST' and tjek_rettigheder(request.user, {'arkiveringsversioner_leverandør_rediger'}):
-
-        print('request.POST:', request.POST)
 
         if 'fortryd' in request.POST:
             return redirect('leverandoerer_view')
@@ -60,8 +56,6 @@ def leverandoer_view(request, pk=None):
             else:
                 messages.error(request, f"Den angivet leverandør findes ikke.")
                 return redirect('leverandoerer_view')
-
-            print('slet:', request.POST)
 
             if 'slet' in request.POST and tjek_rettigheder(request.user, {'arkiveringsversioner_leverandør_slet'}):
                 messages.warning(request, f"Leverandøren '{_leverandoer_obj.navn}' blev slettet.")
