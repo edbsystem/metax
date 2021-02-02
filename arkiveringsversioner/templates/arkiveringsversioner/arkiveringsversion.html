@@ -632,8 +632,10 @@
                             {% else %}
                             <input type="checkbox" class="radio" name="kodeord" value="ikke_krypteret" />
                             <span style="color: #2E3440;">Afleveringsmedie er ikke krypteret</span>
-                            {% endif %}
-                            {% elif 'arkiveringsversioner_status_modtaget_se' in bruger_rettigheder and 'arkiveringsversioner_arkiveringsversion_se' in bruger_rettigheder %}
+                          </label>
+                          {% endif %}
+                          {% elif 'arkiveringsversioner_status_modtaget_se' in bruger_rettigheder and 'arkiveringsversioner_arkiveringsversion_se' in bruger_rettigheder %}
+                          <label class="col l4">
                             {% if modtaget_kodeord %}
                             <input type="checkbox" class="radio" name="kodeord" value="modtaget" checked readonly onclick="return false" />
                             <span style="color: #2E3440; cursor: default !important;">Kodeord modtaget</span>
@@ -642,7 +644,7 @@
                             <span style="color: #2E3440; cursor: default !important;">Kodeord modtaget</span>
                             {% endif %}
                           </label>
-                          <label class=" col l4" onchange="updateKodeord_mangler()">
+                          <label class=" col l4">
                             {% if modtaget_mangler_kodeord %}
                             <input type="checkbox" class="radio" name="kodeord" value="mangler" checked readonly onclick="return false" />
                             <span style="color: #2E3440; cursor: default !important;">Kodeord mangler (rykker afsendt)</span>
@@ -651,7 +653,7 @@
                             <span style="color: #2E3440; cursor: default !important;">Kodeord mangler (rykker afsendt)</span>
                             {% endif %}
                           </label>
-                          <label class=" col l4" onchange="updateIkke_krypteret()">
+                          <label class=" col l4">
                             {% if modtaget_ikke_krypteret %}
                             <input type="checkbox" class="radio" name="kodeord" value="ikke_krypteret" checked readonly onclick="return false" />
                             <span style="color: #2E3440; cursor: default !important;">Afleveringsmedie er ikke krypteret</span>
@@ -744,7 +746,9 @@
                             <input type="checkbox" class="radio" name="modtagelse" value="afvist" />
                             <span style="color: #2E3440;">Modtagelse afvist</span>
                             {% endif %}
-                            {% elif 'arkiveringsversioner_status_modtaget_se' in bruger_rettigheder and 'arkiveringsversioner_arkiveringsversion_se' in bruger_rettigheder %}
+                          </label>
+                          {% elif 'arkiveringsversioner_status_modtaget_se' in bruger_rettigheder and 'arkiveringsversioner_arkiveringsversion_se' in bruger_rettigheder %}
+                          <label class="col l4">
                             {% if modtaget_modtagelse_godkendt %}
                             <input type="checkbox" class="radio" name="modtagelse" value="godkendt" checked readonly onclick="return false" />
                             <span style="color: #2E3440; cursor: default !important;">Modtagelse godkendt</span>
@@ -753,7 +757,7 @@
                             <span style="color: #2E3440; cursor: default !important;">Modtagelse godkendt</span>
                             {% endif %}
                           </label>
-                          <label class="col l4" onchange="updateModtagelse_afvist()">
+                          <label class="col l4">
                             {% if modtaget_modtagelse_afvist %}
                             <input type="checkbox" class="radio" name="modtagelse" value="afvist" checked readonly onclick="return false" />
                             <span style="color: #2E3440; cursor: default !important;">Modtagelse afvist</span>
@@ -761,8 +765,9 @@
                             <input type="checkbox" class="radio" name="modtagelse" value="afvist" readonly onclick="return false" />
                             <span style="color: #2E3440; cursor: default !important;">Modtagelse afvist</span>
                             {% endif %}
-                            {% endif %}
                           </label>
+                          {% endif %}
+
                         </div>
                       </div>
                     </div>
@@ -845,8 +850,10 @@
                             {% else %}
                             <input type="checkbox" class="radio" name="ada" value="afvist" />
                             <span style="color: #2E3440;">ADA-test afvist</span>
-                            {% endif %}
-                            {% elif 'arkiveringsversioner_status_modtaget_se' in bruger_rettigheder and 'arkiveringsversioner_arkiveringsversion_se' in bruger_rettigheder %}
+                          </label>
+                          {% endif %}
+                          {% elif 'arkiveringsversioner_status_modtaget_se' in bruger_rettigheder and 'arkiveringsversioner_arkiveringsversion_se' in bruger_rettigheder %}
+                          <label class="col l4">
                             {% if modtaget_adatest_godkendt %}
                             <input type="checkbox" class="radio" name="ada" value="godkendt" checked readonly onclick="return false" />
                             <span style="color: #2E3440; cursor: default !important;">ADA-test godkendt</span>
@@ -855,7 +862,7 @@
                             <span style="color: #2E3440; cursor: default !important;">ADA-test godkendt</span>
                             {% endif %}
                           </label>
-                          <label class="col l4" onchange="updateAda_afvist()">
+                          <label class="col l4">
                             {% if modtaget_adatest_afvist %}
                             <input type="checkbox" class="radio" name="ada" value="afvist" checked readonly onclick="return false" />
                             <span style="color: #2E3440; cursor: default !important;">ADA-test afvist</span>
@@ -1312,15 +1319,15 @@
 <script>
   $("input:checkbox").on('click', function () {
     let $box = $(this);
-    if (!$box.attr("readonly")) {
-      if ($box.is(":checked")) {
-        let group = "input:checkbox[name='" + $box.attr("name") + "']";
-        $(group).prop("checked", false);
-        $box.prop("checked", true);
-      } else {
-        $box.prop("checked", false);
-      }
+    // if (!$box.attr("readonly")) {
+    if ($box.is(":checked")) {
+      let group = "input:checkbox[name='" + $box.attr("name") + "']";
+      $(group).prop("checked", false);
+      $box.prop("checked", true);
+    } else {
+      $box.prop("checked", false);
     }
+    //}
   });
 
   Array.from(document.getElementsByClassName('number')).forEach(elem => {
@@ -1588,15 +1595,84 @@
   updateStoerrelsemb = () => stoerrelsemb = document.getElementById('stoerrelsemb').value
   updateKvitteret = () => kvitteret = !kvitteret
   updateJournaliseret = () => journaliseret = !journaliseret
-  updateKodeord_modtaget = () => kodeord_modtaget = !kodeord_modtaget
-  updateKodeord_mangler = () => kodeord_mangler = !kodeord_mangler
-  updateIkke_krypteret = () => ikke_krypteret = !ikke_krypteret
+  updateKodeord_modtaget = () => {
+    if (kodeord_modtaget === true && kodeord_mangler === false && ikke_krypteret === false) {
+      kodeord_modtaget = false
+      kodeord_mangler = false
+      ikke_krypteret = false
+    }
+    else if (kodeord_modtaget === false) {
+      kodeord_modtaget = true
+      kodeord_mangler = false
+      ikke_krypteret = false
+    }
+  }
+  updateKodeord_mangler = () => {
+    if (kodeord_modtaget === false && kodeord_mangler === true && ikke_krypteret === false) {
+      kodeord_modtaget = false
+      kodeord_mangler = false
+      ikke_krypteret = false
+    }
+    else if (kodeord_mangler === false) {
+      kodeord_modtaget = false
+      kodeord_mangler = true
+      ikke_krypteret = false
+    }
+  }
+  updateIkke_krypteret = () => {
+    if (kodeord_modtaget === false && kodeord_mangler === false && ikke_krypteret === true) {
+      kodeord_modtaget = false
+      kodeord_mangler = false
+      ikke_krypteret = false
+    }
+    else if (ikke_krypteret === false) {
+      kodeord_modtaget = false
+      kodeord_mangler = false
+      ikke_krypteret = true
+    }
+  }
   updateKopieret = () => kopieret = !kopieret
-  updateModtagelse_godkendt = () => modtagelse_godkendt = !modtagelse_godkendt
-  updateModtagelse_afvist = () => modtagelse_afvist = !modtagelse_afvist
+  updateModtagelse_godkendt = () => {
+    if (modtagelse_godkendt === true && modtagelse_afvist === false) {
+      modtagelse_godkendt = false
+      modtagelse_afvist = false
+    }
+    else if (modtagelse_godkendt == false) {
+      modtagelse_godkendt = true
+      modtagelse_afvist = false
+    }
+  }
+  updateModtagelse_afvist = () => {
+    if (modtagelse_godkendt === false && modtagelse_afvist === true) {
+      modtagelse_godkendt = false
+      modtagelse_afvist = false
+    }
+    else if (modtagelse_afvist == false) {
+      modtagelse_godkendt = false
+      modtagelse_afvist = true
+    }
+  }
   updateFileindex = () => fileindex = !fileindex
-  updateAda_godkendt = () => ada_godkendt = !ada_godkendt
-  updateAda_afvist = () => ada_afvist = !ada_afvist
+  updateAda_godkendt = () => {
+    if (ada_godkendt === true && ada_afvist === false) {
+      ada_godkendt = false
+      ada_afvist = false
+    }
+    else if (ada_godkendt == false) {
+      ada_godkendt = true
+      ada_afvist = false
+    }
+  }
+  updateAda_afvist = () => {
+    if (ada_godkendt === false && ada_afvist === true) {
+      ada_godkendt = false
+      ada_afvist = false
+    }
+    else if (ada_afvist == false) {
+      ada_godkendt = false
+      ada_afvist = true
+    }
+  }
   updateNedpakket = () => nedpakket = !nedpakket
   updateMaskine_renset = () => maskine_renset = !maskine_renset
   updateFileindex_godkendt = () => fileindex_godkendt = !fileindex_godkendt
@@ -1609,6 +1685,21 @@
 
   window.addEventListener('beforeunload',
     function (e) {
+      console.log('kodeord_modtaget', kodeord_modtaget)
+      console.log('kodeord_modtaget_start', kodeord_modtaget_start)
+      console.log('kodeord_mangler', kodeord_mangler)
+      console.log('kodeord_mangler_start', kodeord_mangler_start)
+      console.log('ikke_krypteret', ikke_krypteret)
+      console.log('ikke_krypteret_start', ikke_krypteret_start)
+      console.log('modtagelse_godkendt', modtagelse_godkendt)
+      console.log('modtagelse_godkendt_start', modtagelse_godkendt_start)
+      console.log('modtagelse_afvist', modtagelse_afvist)
+      console.log('modtagelse_afvist_start', modtagelse_afvist_start)
+      console.log('ada_godkendt', ada_godkendt)
+      console.log('ada_godkendt_start', ada_godkendt_start)
+      console.log('ada_afvist', ada_afvist)
+      console.log('ada_afvist_start', ada_afvist_start)
+
       if (
         (
           public != '{{ public }}' ||
