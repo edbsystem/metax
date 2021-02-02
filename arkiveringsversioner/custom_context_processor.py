@@ -26,10 +26,13 @@ def subject_renderer(request):
     for _leverandoer_obj in Leverandoer.objects.all():
         _leverandoerer.append(_leverandoer_obj.navn)
 
+    _arkiveringsversioner = Arkiveringsversion.objects.all()
+
     return {
         "kategorier": _kategorier,
         "klassifikationer": _klassifikationer,
         "typer": sorted(_typer, key=lambda _type: _type[0]),
         "lande": _lande,
         "leverandoerer": _leverandoerer,
+        "arkiveringsversioner": _arkiveringsversioner,
     }
