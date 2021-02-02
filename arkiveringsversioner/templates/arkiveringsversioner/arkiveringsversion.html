@@ -606,8 +606,8 @@
                     <div class="col l12">
                       <div class="input-field col l12" style="margin: 0; padding-bottom: 4px; margin-top: 4px;">
                         <div class="form-group">
+                          {% if 'arkiveringsversioner_status_modtaget_rediger' in bruger_rettigheder and 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder %}
                           <label class="col l4" onchange="updateKodeord_modtaget()">
-                            {% if 'arkiveringsversioner_status_modtaget_rediger' in bruger_rettigheder and 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder %}
                             {% if modtaget_kodeord %}
                             <input type="checkbox" class="radio" name="kodeord" value="modtaget" checked />
                             <span style="color: #2E3440;">Kodeord modtaget</span>
@@ -728,8 +728,8 @@
                     <div class="col l12">
                       <div class="input-field col l12" style="margin: 0; padding-bottom: 4px; margin-top: 4px;">
                         <div class="form-group">
+                          {% if 'arkiveringsversioner_status_modtaget_rediger' in bruger_rettigheder and 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder %}
                           <label class="col l4" onchange="updateModtagelse_godkendt()">
-                            {% if 'arkiveringsversioner_status_modtaget_rediger' in bruger_rettigheder and 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder %}
                             {% if modtaget_modtagelse_godkendt %}
                             <input type="checkbox" class="radio" name="modtagelse" value="godkendt" checked />
                             <span style="color: #2E3440;">Modtagelse godkendt</span>
@@ -833,8 +833,8 @@
                     <div class="col l12">
                       <div class="input-field col l12" style="margin: 0; padding-bottom: 4px; margin-top: 4px;">
                         <div class="form-group">
+                          {% if 'arkiveringsversioner_status_modtaget_rediger' in bruger_rettigheder and 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder %}
                           <label class="col l4" onchange="updateAda_godkendt()">
-                            {% if 'arkiveringsversioner_status_modtaget_rediger' in bruger_rettigheder and 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder %}
                             {% if modtaget_adatest_godkendt %}
                             <input type="checkbox" class="radio" name="ada" value="godkendt" checked />
                             <span style="color: #2E3440;">ADA-test godkendt</span>
@@ -1319,15 +1319,15 @@
 <script>
   $("input:checkbox").on('click', function () {
     let $box = $(this);
-    // if (!$box.attr("readonly")) {
-    if ($box.is(":checked")) {
-      let group = "input:checkbox[name='" + $box.attr("name") + "']";
-      $(group).prop("checked", false);
-      $box.prop("checked", true);
-    } else {
-      $box.prop("checked", false);
+    if (!$box.attr("readonly")) {
+      if ($box.is(":checked")) {
+        let group = "input:checkbox[name='" + $box.attr("name") + "']";
+        $(group).prop("checked", false);
+        $box.prop("checked", true);
+      } else {
+        $box.prop("checked", false);
+      }
     }
-    //}
   });
 
   Array.from(document.getElementsByClassName('number')).forEach(elem => {
