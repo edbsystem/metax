@@ -11,7 +11,7 @@ def tjek(user):
 
 
 @user_passes_test(tjek, login_url='/', redirect_field_name=None)
-def arkiveringsversion_view(request, avid, version=0):
+def arkiveringsversion_view(request, avid, version=0, nystatus=None):
 
     error = False
 

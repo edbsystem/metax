@@ -7,6 +7,7 @@ urlpatterns = [
 
     path('arkiveringsversion/<str:avid>/', arkiveringsversion_view, name='arkiveringsversion_view'),
     path('arkiveringsversion/<str:avid>/<str:version>/', arkiveringsversion_view, name='arkiveringsversion_view'),
+    path('arkiveringsversion/<str:avid>/<str:version>/<str:nystatus>/', arkiveringsversion_view, name='arkiveringsversion_view'),
 
     path('leverandoerer/', leverandoerer_view, name='leverandoerer_view'),
     path('leverandoer/', leverandoer_view, name='leverandoer_view'),

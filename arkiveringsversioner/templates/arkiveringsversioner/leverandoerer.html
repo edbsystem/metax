@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}Arkiveringsversioner/Leverandører{% endblock %}
+{% block title %}Arkiveringsversioner/Leverandoerer{% endblock %}
 
 {% block content %}
 
@@ -13,7 +13,7 @@
             <thead>
               <tr style="color: #4C566A;">
                 <th>
-                  {% if 'arkiveringsversioner_leverandør_se' in bruger_rettigheder and 'arkiveringsversioner_leverandør_opret' in bruger_rettigheder %}
+                  {% if 'arkiveringsversioner_leverandoer_se' in bruger_rettigheder and 'arkiveringsversioner_leverandoer_opret' in bruger_rettigheder %}
                   <form action="{% url 'leverandoer_view' %}" method="POST">
                     {% csrf_token %}
                     <Button type="submit" class="btn-flat"><i class="material-icons" style="color: #4C566A;">add</i></a>
@@ -25,10 +25,10 @@
             </thead>
             <tbody>
               {% for leverandoer in leverandoerer %}
-              {% if 'arkiveringsversioner_leverandør_se' in bruger_rettigheder and 'arkiveringsversioner_leverandør_rediger' in bruger_rettigheder %}
+              {% if 'arkiveringsversioner_leverandoer_se' in bruger_rettigheder and 'arkiveringsversioner_leverandoer_rediger' in bruger_rettigheder %}
               <tr style="line-height: 1; cursor: pointer;" class='clickable-row' data-href="{% url 'leverandoer_view' leverandoer.pk %}">
                 <td><a href="{% url 'leverandoer_view' leverandoer.pk %}"><i class="material-icons" style="color: #4C566A;">edit</i></a></td>
-                {% elif 'arkiveringsversioner_leverandør_se' in bruger_rettigheder %}
+                {% elif 'arkiveringsversioner_leverandoer_se' in bruger_rettigheder %}
               <tr style="line-height: 1; cursor: pointer;" class='clickable-row' data-href="{% url 'leverandoer_view' leverandoer.pk %}">
                 <td><a href="{% url 'leverandoer_view' leverandoer.pk %}"><i class="material-icons" style="color: #4C566A;">visibility</i></a></td>
                 {% else %}

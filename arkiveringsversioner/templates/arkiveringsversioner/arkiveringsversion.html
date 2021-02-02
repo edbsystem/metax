@@ -5,8 +5,10 @@
 {% block content %}
 
 <section class="section">
+  {% if 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder %}
   <form action="{% url 'arkiveringsversion_view' avid version %}" method="POST">
     {% csrf_token %}
+    {% endif %}
     <div class="row">
 
       <div class="col l6">
@@ -22,11 +24,13 @@
                     </button>
                   </a>
                 </div>
+                {% if 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder %}
                 <div class="col right" style="margin-right: -15px; margin-bottom: -7px; ">
                   <button id="gem_knap" name="gem_knap" type="submit" class="btn waves-effect waves-light z-depth-0" style="margin-right: 4px; background-color: #4C566A; color: #D8DEE9;">
                     Gem Ændringer
                   </button>
                 </div>
+                {% endif %}
               </div>
             </div>
 
@@ -51,7 +55,7 @@
                     {% if 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder and 'arkiveringsversioner_avid_rediger' in bruger_rettigheder %}
                     <input type="text" name="avid" id="avid" class="form-control number" maxlength="5" spellcheck="false" value="{{ avid | default_if_none:'' }}" oninput="updateAvid()">
                     {% else %}
-                    <input type=" text" name="avid" id="avid" class="form-control" spellcheck="false" value="{{ avid | default_if_none:'' }}" style="cursor: default !important; border-bottom: 1px dotted #2E3440; box-shadow: 0 0px 0 0 #2E3440;" readonly>
+                    <input type="text" name="avid" id="avid" class="form-control" spellcheck="false" value="{{ avid | default_if_none:'' }}" style="cursor: default !important; border-bottom: 1px dotted #2E3440; box-shadow: 0 0px 0 0 #2E3440;" readonly>
                     {% endif %}
                   </div>
                 </div>
@@ -207,63 +211,88 @@
             <div class="row">
               <div class="card-action col l12">
                 <div class="col left" style="margin-left: -15px; margin-bottom: -7px;">
+
                   {% if status == 'Afventer aflevering' %}
-                  <button id="modtaget_knap" name="modtaget_knap" type="submit" class="btn waves-effect waves-light z-depth-0" style="margin-right: 6px; background-color: #A3BE8C; color: #4C566A;">
+                  {% if 'arkiveringsversioner_status_afventer_aflevering_rediger' in bruger_rettigheder and 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder %}
+                  <button id="modtaget_knap" name="modtaget_knap" type="button" class="btn waves-effect waves-light z-depth-0" style="margin-right: 6px; background-color: #A3BE8C; color: #4C566A;">
                     Modtaget
                   </button>
                   {% endif %}
+                  {% endif %}
 
                   {% if status == 'Modtaget' %}
-                  {% if 'arkiveringsversioner_status_modtaget_rediger' in bruger_rettigheder %}
-                  <button id="klartiltest_knap" name="klartiltest_knap" type="submit" class="btn waves-effect waves-light z-depth-0" style="margin-right: 6px; background-color: #A3BE8C; color: #4C566A;">
+                  {% if 'arkiveringsversioner_status_modtaget_rediger' in bruger_rettigheder and 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder %}
+                  {% if modtaget_modtagelse_godkendt and modtaget_fileindex_kopieret and modtaget_adatest_godkendt %}
+                  <button id="klartiltest_knap" name="klartiltest_knap" type="button" class="btn waves-effect waves-light z-depth-0" style="margin-right: 6px; background-color: #A3BE8C; color: #4C566A;">
                     Klar til test
                   </button>
-                  <button id="tilbagemeldt_knap" name="tilbagemeldt_knap" type="submit" class="btn waves-effect waves-light z-depth-0" style="margin-right: 6px; background-color: #A3BE8C; color: #4C566A;">
+                  {% endif %}
+                  {% if modtaget_modtagelse_afvist or modtaget_adatest_afvist %}
+                  <button id="tilbagemeldt_knap" name="tilbagemeldt_knap" type="button" class="btn waves-effect waves-light z-depth-0" style="margin-right: 6px; background-color: #A3BE8C; color: #4C566A;">
                     Tilbagemeldt
                   </button>
+                  {% endif %}
                   {% endif %}
                   {% endif %}
 
                   {% if status == 'Klar til test' %}
-                  <button id="test_knap" name="test_knap" type="submit" class="btn waves-effect waves-light z-depth-0" style="margin-right: 6px; background-color: #A3BE8C; color: #4C566A;">
+                  {% if 'arkiveringsversioner_status_klar_til_test_rediger' in bruger_rettigheder and 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder %}
+                  <button id="test_knap" name="test_knap" type="button" class="btn waves-effect waves-light z-depth-0" style="margin-right: 6px; background-color: #A3BE8C; color: #4C566A;">
                     Begynd test
                   </button>
                   {% endif %}
+                  {% endif %}
 
                   {% if status == 'Under test' %}
-                  <button id="tilbagemeldt_knap" name="tilbagemeldt_knap" type="submit" class="btn waves-effect waves-light z-depth-0" style="margin-right: 6px; background-color: #A3BE8C; color: #4C566A;">
+                  {% if 'arkiveringsversioner_status_under_test_rediger' in bruger_rettigheder and 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder %}
+                  <button id="tilbagemeldt_knap" name="tilbagemeldt_knap" type="button" class="btn waves-effect waves-light z-depth-0" style="margin-right: 6px; background-color: #A3BE8C; color: #4C566A;">
                     Tilbagemeldt
                   </button>
-                  <button id="godkendtaftester_knap" name="godkendtaftester_knap" type="submit" class="btn waves-effect waves-light z-depth-0" style="margin-right: 6px; background-color: #A3BE8C; color: #4C566A;">
+                  <button id="godkendtaftester_knap" name="godkendtaftester_knap" type="button" class="btn waves-effect waves-light z-depth-0" style="margin-right: 6px; background-color: #A3BE8C; color: #4C566A;">
                     Godkendt af tester
                   </button>
                   {% endif %}
+                  {% endif %}
 
                   {% if status == 'Tilbagemeldt' %}
-                  <button id="afventgenaflevering_knap" name="afventgenaflevering_knap" type="submit" class="btn waves-effect waves-light z-depth-0" style="margin-right: 6px; background-color: #A3BE8C; color: #4C566A;">
+                  {% if 'arkiveringsversioner_status_tilbagemeldt_rediger' in bruger_rettigheder and 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder %}
+                  {% if tilbagemeldt_nedpakket and tilbagemeldt_maskine_renset %}
+                  <button id="afventgenaflevering_knap" name="afventgenaflevering_knap" type="button" class="btn waves-effect waves-light z-depth-0" style="margin-right: 6px; background-color: #A3BE8C; color: #4C566A;">
                     Afvent genaflevering
                   </button>
                   {% endif %}
+                  {% endif %}
+                  {% endif %}
 
                   {% if status == 'Afventer genaflevering' %}
-                  <button id="modtaget_knap" name="modtaget_knap" type="submit" class="btn waves-effect waves-light z-depth-0" style="margin-right: 6px; background-color: #A3BE8C; color: #4C566A;">
+                  {% if 'arkiveringsversioner_status_afventer_genaflevering_rediger' in bruger_rettigheder and 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder %}
+                  <button id="modtaget_knap" name="modtaget_knap" type="button" class="btn waves-effect waves-light z-depth-0" style="margin-right: 6px; background-color: #A3BE8C; color: #4C566A;">
                     Modtaget
                   </button>
                   {% endif %}
+                  {% endif %}
 
                   {% if status == 'Godkendt af tester' %}
-                  <button id="parattilgodkendelse_knap" name="parattilgodkendelse_knap" type="submit" class="btn waves-effect waves-light z-depth-0" style="margin-right: 6px; background-color: #A3BE8C; color: #4C566A;">
+                  {% if 'arkiveringsversioner_status_godkendt_af_tester_rediger' in bruger_rettigheder and 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder %}
+                  {% if godkendt_af_tester_fileindex_godkendt and godkendt_af_tester_retur_fra_dea and godkendt_af_tester_mary_kontrol and godkendt_af_tester_meta_opdateret and godkendt_af_tester_public_opdateret and godkendt_af_tester_maskine_renset %}
+                  <button id="parattilgodkendelse_knap" name="parattilgodkendelse_knap" type="button" class="btn waves-effect waves-light z-depth-0" style="margin-right: 6px; background-color: #A3BE8C; color: #4C566A;">
                     Parat til godkendelse
                   </button>
                   {% endif %}
+                  {% endif %}
+                  {% endif %}
 
                   {% if status == 'Parat til godkendelse' %}
-                  <button id="godkendt_knap" name="godkendt_knap" type="submit" class="btn waves-effect waves-light z-depth-0" style="margin-right: 6px; background-color: #A3BE8C; color: #4C566A;">
+                  {% if 'arkiveringsversioner_status_parat_til_godkendelse_rediger' in bruger_rettigheder and 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder %}
+                  <button id="godkendt_knap" name="godkendt_knap" type="button" class="btn waves-effect waves-light z-depth-0" style="margin-right: 6px; background-color: #A3BE8C; color: #4C566A;">
                     Godkendt
                   </button>
                   {% endif %}
+                  {% endif %}
 
                   {% if status == 'Godkendt' %}
+                  {% if 'arkiveringsversioner_status_godkendt_rediger' in bruger_rettigheder and 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder %}
+                  {% endif %}
                   {% endif %}
 
                 </div>
@@ -295,7 +324,6 @@
                   {% else %}
                   <span style="margin-right: 6px;"></span>
                   {% endif %}
-
                   {% endif %}
                   {% endfor %}
                 </div>
@@ -330,7 +358,7 @@
                 <div class="input-field col l4">
                   <div class="form-group">
                     <label for="leverandoer" class="col-form-label left" style="color: #4C566A;">Leverandør</label>
-                    {% if 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder and 'arkiveringsversioner_leverandør_rediger' in bruger_rettigheder %}
+                    {% if 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder and 'arkiveringsversioner_leverandoer_av_rediger' in bruger_rettigheder %}
                     <select name="leverandoer" id="leverandoer" onchange="updateLeverandoer()">
                       {% else %}
                       <select name="leverandoer" id="leverandoer" disabled>
@@ -476,6 +504,8 @@
               </div>
             </div>
 
+            {% if 'arkiveringsversioner_arkiveringsversion_se' in bruger_rettigheder or 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder%}
+
             {% if status == 'Afventer genaflevering' %}
             {% endif %}
 
@@ -484,14 +514,13 @@
               <div class="card z-depth-0" style="margin-top: -2px;">
                 <div class="card-content" style="padding: 0;">
 
-
                   {% if 'arkiveringsversioner_status_modtaget_se' in bruger_rettigheder or 'arkiveringsversioner_status_modtaget_rediger' in bruger_rettigheder%}
                   <div class="row">
                     <div class="col l12">
                       <div class="input-field col l12" style="margin: 0px; padding-bottom: 4px; margin-top: -19px;">
                         <div class=" form-group">
                           <label class="col l4" id="kvitteret" onchange="updateKvitteret()">
-                            {% if 'arkiveringsversioner_status_modtaget_rediger' in bruger_rettigheder %}
+                            {% if 'arkiveringsversioner_status_modtaget_rediger' in bruger_rettigheder and 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder %}
                             {% if modtaget_kvitteret %}
                             <input type="checkbox" class="radio" name="kvitteret" value="kvitteret" checked />
                             <span style="color: #2E3440;">Kvittering afsendt</span>
@@ -499,7 +528,7 @@
                             <input type="checkbox" class="radio" name="kvitteret" value="kvitteret" />
                             <span style="color: #2E3440;">Kvittering afsendt</span>
                             {% endif %}
-                            {% elif 'arkiveringsversioner_status_modtaget_se' in bruger_rettigheder %}
+                            {% elif 'arkiveringsversioner_status_modtaget_se' in bruger_rettigheder and 'arkiveringsversioner_arkiveringsversion_se' in bruger_rettigheder %}
                             {% if modtaget_kvitteret %}
                             <input type="checkbox" class="radio" name="kvitteret" value="kvitteret" checked readonly onclick="return false" />
                             <span style="color: #2E3440; cursor: default !important;">Kvittering afsendt</span>
@@ -515,10 +544,11 @@
                   </div>
                   {% endif %}
 
-                  {% if 'arkiveringsversioner_status_modtaget_se' in bruger_rettigheder or 'arkiveringsversioner_status_modtaget_rediger' in bruger_rettigheder%}
+                  {% if 'arkiveringsversioner_arkiveringsversion_se' in bruger_rettigheder or 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder %}
+                  {% if 'arkiveringsversioner_status_modtaget_se' in bruger_rettigheder or 'arkiveringsversioner_status_modtaget_rediger' in bruger_rettigheder %}
                   <div class="row">
                     <div class="col l12">
-                      {% if 'arkiveringsversioner_status_modtaget_rediger' in bruger_rettigheder %}
+                      {% if 'arkiveringsversioner_status_modtaget_rediger' in bruger_rettigheder and 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder %}
                       <div class="divider" style="border-top: 1px solid #4C566A;"></div>
                       {% elif 'arkiveringsversioner_status_modtaget_se' in bruger_rettigheder %}
                       <div class="divider" style="border-top: 1px dotted #4C566A;"></div>
@@ -526,14 +556,15 @@
                     </div>
                   </div>
                   {% endif %}
+                  {% endif %}
 
-                  {% if 'arkiveringsversioner_status_modtaget_se' in bruger_rettigheder or 'arkiveringsversioner_status_modtaget_rediger' in bruger_rettigheder%}
+                  {% if 'arkiveringsversioner_status_modtaget_se' in bruger_rettigheder or 'arkiveringsversioner_status_modtaget_rediger' in bruger_rettigheder %}
                   <div class="row">
                     <div class="col l12">
                       <div class="input-field col l12" style="margin: 0px; padding-bottom: 5px; margin-top: 5px;">
                         <div class="form-group">
                           <label class="col l4" id="journaliseret" onchange="updateJournaliseret()">
-                            {% if 'arkiveringsversioner_status_modtaget_rediger' in bruger_rettigheder %}
+                            {% if 'arkiveringsversioner_status_modtaget_rediger' in bruger_rettigheder and 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder %}
                             {% if modtaget_journaliseret %}
                             <input type="checkbox" class="radio" name="journaliseret" value="journaliseret" checked />
                             <span style="color: #2E3440;">Følgeseddel journaliseret</span>
@@ -541,7 +572,7 @@
                             <input type="checkbox" class="radio" name="journaliseret" value="journaliseret" />
                             <span style="color: #2E3440;">Følgeseddel journaliseret</span>
                             {% endif %}
-                            {% elif 'arkiveringsversioner_status_modtaget_se' in bruger_rettigheder %}
+                            {% elif 'arkiveringsversioner_status_modtaget_se' in bruger_rettigheder and 'arkiveringsversioner_arkiveringsversion_se' in bruger_rettigheder %}
                             {% if modtaget_journaliseret %}
                             <input type="checkbox" class="radio" name="journaliseret" value="journaliseret" checked readonly onclick="return false" />
                             <span style="color: #2E3440; cursor: default !important;">Følgeseddel journaliseret</span>
@@ -557,10 +588,11 @@
                   </div>
                   {% endif %}
 
-                  {% if 'arkiveringsversioner_status_modtaget_se' in bruger_rettigheder or 'arkiveringsversioner_status_modtaget_rediger' in bruger_rettigheder%}
+                  {% if 'arkiveringsversioner_arkiveringsversion_se' in bruger_rettigheder or 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder %}
+                  {% if 'arkiveringsversioner_status_modtaget_se' in bruger_rettigheder or 'arkiveringsversioner_status_modtaget_rediger' in bruger_rettigheder %}
                   <div class="row">
                     <div class="col l12">
-                      {% if 'arkiveringsversioner_status_modtaget_rediger' in bruger_rettigheder %}
+                      {% if 'arkiveringsversioner_status_modtaget_rediger' in bruger_rettigheder and 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder %}
                       <div class="divider" style="border-top: 1px solid #4C566A;"></div>
                       {% elif 'arkiveringsversioner_status_modtaget_se' in bruger_rettigheder %}
                       <div class="divider" style="border-top: 1px dotted #4C566A;"></div>
@@ -568,13 +600,14 @@
                     </div>
                   </div>
                   {% endif %}
+                  {% endif %}
 
                   <div class="row">
                     <div class="col l12">
                       <div class="input-field col l12" style="margin: 0; padding-bottom: 4px; margin-top: 4px;">
                         <div class="form-group">
                           <label class="col l4" onchange="updateKodeord_modtaget()">
-                            {% if 'arkiveringsversioner_status_modtaget_rediger' in bruger_rettigheder %}
+                            {% if 'arkiveringsversioner_status_modtaget_rediger' in bruger_rettigheder and 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder %}
                             {% if modtaget_kodeord %}
                             <input type="checkbox" class="radio" name="kodeord" value="modtaget" checked />
                             <span style="color: #2E3440;">Kodeord modtaget</span>
@@ -600,7 +633,7 @@
                             <input type="checkbox" class="radio" name="kodeord" value="ikke_krypteret" />
                             <span style="color: #2E3440;">Afleveringsmedie er ikke krypteret</span>
                             {% endif %}
-                            {% elif 'arkiveringsversioner_status_modtaget_se' in bruger_rettigheder %}
+                            {% elif 'arkiveringsversioner_status_modtaget_se' in bruger_rettigheder and 'arkiveringsversioner_arkiveringsversion_se' in bruger_rettigheder %}
                             {% if modtaget_kodeord %}
                             <input type="checkbox" class="radio" name="kodeord" value="modtaget" checked readonly onclick="return false" />
                             <span style="color: #2E3440; cursor: default !important;">Kodeord modtaget</span>
@@ -633,10 +666,11 @@
                     </div>
                   </div>
 
-                  {% if 'arkiveringsversioner_status_modtaget_se' in bruger_rettigheder or 'arkiveringsversioner_status_modtaget_rediger' in bruger_rettigheder%}
-                  <div class=" row">
+                  {% if 'arkiveringsversioner_arkiveringsversion_se' in bruger_rettigheder or 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder %}
+                  {% if 'arkiveringsversioner_status_modtaget_se' in bruger_rettigheder or 'arkiveringsversioner_status_modtaget_rediger' in bruger_rettigheder %}
+                  <div class="row">
                     <div class="col l12">
-                      {% if 'arkiveringsversioner_status_modtaget_rediger' in bruger_rettigheder %}
+                      {% if 'arkiveringsversioner_status_modtaget_rediger' in bruger_rettigheder and 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder %}
                       <div class="divider" style="border-top: 1px solid #4C566A;"></div>
                       {% elif 'arkiveringsversioner_status_modtaget_se' in bruger_rettigheder %}
                       <div class="divider" style="border-top: 1px dotted #4C566A;"></div>
@@ -644,13 +678,14 @@
                     </div>
                   </div>
                   {% endif %}
+                  {% endif %}
 
                   <div class="row">
                     <div class="col l12">
                       <div class="input-field col l12" style="margin: 0; padding-bottom: 4px; margin-top: 4px;">
                         <div class="form-group">
                           <label class="col l6" onchange="updateKopieret()">
-                            {% if 'arkiveringsversioner_status_modtaget_rediger' in bruger_rettigheder %}
+                            {% if 'arkiveringsversioner_status_modtaget_rediger' in bruger_rettigheder and 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder %}
                             {% if modtaget_kopieret %}
                             <input type="checkbox" class="radio" name="kopieret" value="kopieret" checked />
                             <span style="color: #2E3440;">Kopieret til testmedie</span>
@@ -658,7 +693,7 @@
                             <input type="checkbox" class="radio" name="kopieret" value="kopieret" />
                             <span style="color: #2E3440;">Kopieret til testmedie</span>
                             {% endif %}
-                            {% elif 'arkiveringsversioner_status_modtaget_se' in bruger_rettigheder %}
+                            {% elif 'arkiveringsversioner_status_modtaget_se' in bruger_rettigheder and 'arkiveringsversioner_arkiveringsversion_se' in bruger_rettigheder %}
                             {% if modtaget_kopieret %}
                             <input type="checkbox" class="radio" name="kopieret" value="kopieret" checked readonly onclick="return false" />
                             <span style="color: #2E3440; cursor: default !important;">Kopieret til testmedie</span>
@@ -673,10 +708,11 @@
                     </div>
                   </div>
 
-                  {% if 'arkiveringsversioner_status_modtaget_se' in bruger_rettigheder or 'arkiveringsversioner_status_modtaget_rediger' in bruger_rettigheder%}
+                  {% if 'arkiveringsversioner_arkiveringsversion_se' in bruger_rettigheder or 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder %}
+                  {% if 'arkiveringsversioner_status_modtaget_se' in bruger_rettigheder or 'arkiveringsversioner_status_modtaget_rediger' in bruger_rettigheder %}
                   <div class="row">
                     <div class="col l12">
-                      {% if 'arkiveringsversioner_status_modtaget_rediger' in bruger_rettigheder %}
+                      {% if 'arkiveringsversioner_status_modtaget_rediger' in bruger_rettigheder and 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder %}
                       <div class="divider" style="border-top: 1px solid #4C566A;"></div>
                       {% elif 'arkiveringsversioner_status_modtaget_se' in bruger_rettigheder %}
                       <div class="divider" style="border-top: 1px dotted #4C566A;"></div>
@@ -684,13 +720,14 @@
                     </div>
                   </div>
                   {% endif %}
+                  {% endif %}
 
                   <div class="row">
                     <div class="col l12">
                       <div class="input-field col l12" style="margin: 0; padding-bottom: 4px; margin-top: 4px;">
                         <div class="form-group">
                           <label class="col l4" onchange="updateModtagelse_godkendt()">
-                            {% if 'arkiveringsversioner_status_modtaget_rediger' in bruger_rettigheder %}
+                            {% if 'arkiveringsversioner_status_modtaget_rediger' in bruger_rettigheder and 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder %}
                             {% if modtaget_modtagelse_godkendt %}
                             <input type="checkbox" class="radio" name="modtagelse" value="godkendt" checked />
                             <span style="color: #2E3440;">Modtagelse godkendt</span>
@@ -707,7 +744,7 @@
                             <input type="checkbox" class="radio" name="modtagelse" value="afvist" />
                             <span style="color: #2E3440;">Modtagelse afvist</span>
                             {% endif %}
-                            {% elif 'arkiveringsversioner_status_modtaget_se' in bruger_rettigheder %}
+                            {% elif 'arkiveringsversioner_status_modtaget_se' in bruger_rettigheder and 'arkiveringsversioner_arkiveringsversion_se' in bruger_rettigheder %}
                             {% if modtaget_modtagelse_godkendt %}
                             <input type="checkbox" class="radio" name="modtagelse" value="godkendt" checked readonly onclick="return false" />
                             <span style="color: #2E3440; cursor: default !important;">Modtagelse godkendt</span>
@@ -731,10 +768,11 @@
                     </div>
                   </div>
 
-                  {% if 'arkiveringsversioner_status_modtaget_se' in bruger_rettigheder or 'arkiveringsversioner_status_modtaget_rediger' in bruger_rettigheder%}
+                  {% if 'arkiveringsversioner_arkiveringsversion_se' in bruger_rettigheder or 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder %}
+                  {% if 'arkiveringsversioner_status_modtaget_se' in bruger_rettigheder or 'arkiveringsversioner_status_modtaget_rediger' in bruger_rettigheder %}
                   <div class="row">
                     <div class="col l12">
-                      {% if 'arkiveringsversioner_status_modtaget_rediger' in bruger_rettigheder %}
+                      {% if 'arkiveringsversioner_status_modtaget_rediger' in bruger_rettigheder and 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder %}
                       <div class="divider" style="border-top: 1px solid #4C566A;"></div>
                       {% elif 'arkiveringsversioner_status_modtaget_se' in bruger_rettigheder %}
                       <div class="divider" style="border-top: 1px dotted #4C566A;"></div>
@@ -742,13 +780,14 @@
                     </div>
                   </div>
                   {% endif %}
+                  {% endif %}
 
                   <div class="row">
                     <div class="col l12">
                       <div class="input-field col l12" style="margin: 0; padding-bottom: 4px; margin-top: 4px;">
                         <div class="form-group">
                           <label class="col l4" onchange="updateFileindex()">
-                            {% if 'arkiveringsversioner_status_modtaget_rediger' in bruger_rettigheder %}
+                            {% if 'arkiveringsversioner_status_modtaget_rediger' in bruger_rettigheder and 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder %}
                             {% if modtaget_fileindex_kopieret %}
                             <input type="checkbox" class="radio" name="fileindex" value="kopieret" checked />
                             <span style="color: #2E3440;">Filindeks kopieret</span>
@@ -756,7 +795,7 @@
                             <input type="checkbox" class="radio" name="fileindex" value="kopieret" />
                             <span style="color: #2E3440;">Filindeks kopieret</span>
                             {% endif %}
-                            {% elif 'arkiveringsversioner_status_modtaget_se' in bruger_rettigheder %}
+                            {% elif 'arkiveringsversioner_status_modtaget_se' in bruger_rettigheder and 'arkiveringsversioner_arkiveringsversion_se' in bruger_rettigheder %}
                             {% if modtaget_fileindex_kopieret %}
                             <input type="checkbox" class="radio" name="fileindex" value="kopieret" checked readonly onclick="return false" />
                             <span style="color: #2E3440; cursor: default !important;">Filindeks kopieret</span>
@@ -771,10 +810,11 @@
                     </div>
                   </div>
 
-                  {% if 'arkiveringsversioner_status_modtaget_se' in bruger_rettigheder or 'arkiveringsversioner_status_modtaget_rediger' in bruger_rettigheder%}
+                  {% if 'arkiveringsversioner_arkiveringsversion_se' in bruger_rettigheder or 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder %}
+                  {% if 'arkiveringsversioner_status_modtaget_se' in bruger_rettigheder or 'arkiveringsversioner_status_modtaget_rediger' in bruger_rettigheder %}
                   <div class="row">
                     <div class="col l12">
-                      {% if 'arkiveringsversioner_status_modtaget_rediger' in bruger_rettigheder %}
+                      {% if 'arkiveringsversioner_status_modtaget_rediger' in bruger_rettigheder and 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder %}
                       <div class="divider" style="border-top: 1px solid #4C566A;"></div>
                       {% elif 'arkiveringsversioner_status_modtaget_se' in bruger_rettigheder %}
                       <div class="divider" style="border-top: 1px dotted #4C566A;"></div>
@@ -782,13 +822,14 @@
                     </div>
                   </div>
                   {% endif %}
+                  {% endif %}
 
                   <div class="row">
                     <div class="col l12">
                       <div class="input-field col l12" style="margin: 0; padding-bottom: 4px; margin-top: 4px;">
                         <div class="form-group">
                           <label class="col l4" onchange="updateAda_godkendt()">
-                            {% if 'arkiveringsversioner_status_modtaget_rediger' in bruger_rettigheder %}
+                            {% if 'arkiveringsversioner_status_modtaget_rediger' in bruger_rettigheder and 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder %}
                             {% if modtaget_adatest_godkendt %}
                             <input type="checkbox" class="radio" name="ada" value="godkendt" checked />
                             <span style="color: #2E3440;">ADA-test godkendt</span>
@@ -805,7 +846,7 @@
                             <input type="checkbox" class="radio" name="ada" value="afvist" />
                             <span style="color: #2E3440;">ADA-test afvist</span>
                             {% endif %}
-                            {% elif 'arkiveringsversioner_status_modtaget_se' in bruger_rettigheder %}
+                            {% elif 'arkiveringsversioner_status_modtaget_se' in bruger_rettigheder and 'arkiveringsversioner_arkiveringsversion_se' in bruger_rettigheder %}
                             {% if modtaget_adatest_godkendt %}
                             <input type="checkbox" class="radio" name="ada" value="godkendt" checked readonly onclick="return false" />
                             <span style="color: #2E3440; cursor: default !important;">ADA-test godkendt</span>
@@ -829,16 +870,18 @@
                     </div>
                   </div>
 
-                  {% if 'arkiveringsversioner_status_modtaget_se' in bruger_rettigheder or 'arkiveringsversioner_status_modtaget_rediger' in bruger_rettigheder%}
+                  {% if 'arkiveringsversioner_arkiveringsversion_se' in bruger_rettigheder or 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder %}
+                  {% if 'arkiveringsversioner_status_modtaget_se' in bruger_rettigheder or 'arkiveringsversioner_status_modtaget_rediger' in bruger_rettigheder %}
                   <div class="row">
                     <div class="col l12">
-                      {% if 'arkiveringsversioner_status_modtaget_rediger' in bruger_rettigheder %}
+                      {% if 'arkiveringsversioner_status_modtaget_rediger' in bruger_rettigheder and 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder %}
                       <div class="divider" style="border-top: 1px solid #4C566A;"></div>
                       {% elif 'arkiveringsversioner_status_modtaget_se' in bruger_rettigheder %}
                       <div class="divider" style="border-top: 1px dotted #4C566A;"></div>
                       {% endif %}
                     </div>
                   </div>
+                  {% endif %}
                   {% endif %}
 
                 </div>
@@ -857,52 +900,89 @@
               <div class="card z-depth-0" style="margin-top: -2px;">
                 <div class="card-content" style="padding: 0;">
 
-
                   <div class="row">
                     <div class="col l12">
                       <div class="input-field col l12" style="margin: 0px; padding-bottom: 5px; margin-top: -21px;">
                         <div class=" form-group">
                           <label class="col l6" id="nedpakket" onchange="updateNedpakket()">
+                            {% if 'arkiveringsversioner_status_tilbagemeldt_rediger' in bruger_rettigheder and 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder %}
                             {% if tilbagemeldt_nedpakket %}
                             <input type="checkbox" class="radio" name="nedpakket" value="nedpakket" checked />
+                            <span style="color: #2E3440;">Arkiveringsversion tilbage i æske</span>
                             {% else %}
                             <input type="checkbox" class="radio" name="nedpakket" value="nedpakket" />
-                            {% endif %}
                             <span style="color: #2E3440;">Arkiveringsversion tilbage i æske</span>
+                            {% endif %}
+                            {% elif 'arkiveringsversioner_status_tilbagemeldt_se' in bruger_rettigheder and 'arkiveringsversioner_arkiveringsversion_se' in bruger_rettigheder %}
+                            {% if tilbagemeldt_nedpakket %}
+                            <input type="checkbox" class="radio" name="nedpakket" value="nedpakket" checked readonly onclick="return false" />
+                            <span style="color: #2E3440; cursor: default !important;">Arkiveringsversion tilbage i æske</span>
+                            {% else %}
+                            <input type="checkbox" class="radio" name="nedpakket" value="nedpakket" readonly onclick="return false" />
+                            <span style="color: #2E3440; cursor: default !important;">Arkiveringsversion tilbage i æske</span>
+                            {% endif %}
+                            {% endif %}
                           </label>
                         </div>
                       </div>
                     </div>
                   </div>
 
+                  {% if 'arkiveringsversioner_arkiveringsversion_se' in bruger_rettigheder or 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder %}
+                  {% if 'arkiveringsversioner_status_modtaget_se' in bruger_rettigheder or 'arkiveringsversioner_status_modtaget_rediger' in bruger_rettigheder %}
                   <div class="row">
                     <div class="col l12">
+                      {% if 'arkiveringsversioner_status_modtaget_rediger' in bruger_rettigheder and 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder %}
                       <div class="divider" style="border-top: 1px solid #4C566A;"></div>
+                      {% elif 'arkiveringsversioner_status_modtaget_se' in bruger_rettigheder %}
+                      <div class="divider" style="border-top: 1px dotted #4C566A;"></div>
+                      {% endif %}
                     </div>
                   </div>
+                  {% endif %}
+                  {% endif %}
 
                   <div class="row">
                     <div class="col l12">
                       <div class="input-field col l12" style="margin: 0px; padding-bottom: 5px; margin-top: 5px;">
                         <div class="form-group">
                           <label class="col l6" id="maskine_renset" onchange="updateMaskine_renset()">
+                            {% if 'arkiveringsversioner_status_tilbagemeldt_rediger' in bruger_rettigheder and 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder %}
                             {% if tilbagemeldt_maskine_renset %}
                             <input type="checkbox" class="radio" name="maskine_renset" value="maskine_renset" checked />
+                            <span style="color: #2E3440;">Maskine renset for ADA-databaser og andet</span>
                             {% else %}
                             <input type="checkbox" class="radio" name="maskine_renset" value="maskine_renset" />
-                            {% endif %}
                             <span style="color: #2E3440;">Maskine renset for ADA-databaser og andet</span>
+                            {% endif %}
+                            {% elif 'arkiveringsversioner_status_tilbagemeldt_se' in bruger_rettigheder and 'arkiveringsversioner_arkiveringsversion_se' in bruger_rettigheder %}
+                            {% if tilbagemeldt_maskine_renset %}
+                            <input type="checkbox" class="radio" name="maskine_renset" value="maskine_renset" checked readonly onclick="return false" />
+                            <span style="color: #2E3440; cursor: default !important;">Maskine renset for ADA-databaser og andet</span>
+                            {% else %}
+                            <input type="checkbox" class="radio" name="maskine_renset" value="maskine_renset" readonly onclick="return false" />
+                            <span style="color: #2E3440; cursor: default !important;">Maskine renset for ADA-databaser og andet</span>
+                            {% endif %}
+                            {% endif %}
                           </label>
                         </div>
                       </div>
                     </div>
                   </div>
 
+                  {% if 'arkiveringsversioner_arkiveringsversion_se' in bruger_rettigheder or 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder %}
+                  {% if 'arkiveringsversioner_status_modtaget_se' in bruger_rettigheder or 'arkiveringsversioner_status_modtaget_rediger' in bruger_rettigheder %}
                   <div class="row">
                     <div class="col l12">
+                      {% if 'arkiveringsversioner_status_modtaget_rediger' in bruger_rettigheder and 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder %}
                       <div class="divider" style="border-top: 1px solid #4C566A;"></div>
+                      {% elif 'arkiveringsversioner_status_modtaget_se' in bruger_rettigheder %}
+                      <div class="divider" style="border-top: 1px dotted #4C566A;"></div>
+                      {% endif %}
                     </div>
                   </div>
+                  {% endif %}
+                  {% endif %}
 
                 </div>
               </div>
@@ -917,160 +997,293 @@
               <div class="card z-depth-0" style="margin-top: -2px;">
                 <div class="card-content" style="padding: 0;">
 
-
                   <div class="row">
                     <div class="col l12">
                       <div class="input-field col l12" style="margin: 0px; padding-bottom: 4px; margin-top: -19px;">
                         <div class=" form-group">
                           <label class="col l6" id="fileindex_godkendt" onchange="updateFileindex_godkendt()">
+                            {% if 'arkiveringsversioner_status_godkendt_af_tester_rediger' in bruger_rettigheder and 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder %}
                             {% if godkendt_af_tester_fileindex_godkendt %}
                             <input type="checkbox" class="radio" name="fileindex_godkendt" value="godkendt" checked />
+                            <span style="color: #2E3440;">Filindeks sammenlignet og godkendt</span>
                             {% else %}
                             <input type="checkbox" class="radio" name="fileindex_godkendt" value="godkendt" />
-                            {% endif %}
                             <span style="color: #2E3440;">Filindeks sammenlignet og godkendt</span>
+                            {% endif %}
+                            {% elif 'arkiveringsversioner_status_godkendt_af_tester_se' in bruger_rettigheder and 'arkiveringsversioner_arkiveringsversion_se' in bruger_rettigheder %}
+                            {% if godkendt_af_tester_fileindex_godkendt %}
+                            <input type="checkbox" class="radio" name="fileindex_godkendt" value="godkendt" checked readonly onclick="return false" />
+                            <span style="color: #2E3440; cursor: default !important;">Filindeks sammenlignet og godkendt</span>
+                            {% else %}
+                            <input type="checkbox" class="radio" name="fileindex_godkendt" value="godkendt" readonly onclick="return false" />
+                            <span style="color: #2E3440; cursor: default !important;">Filindeks sammenlignet og godkendt</span>
+                            {% endif %}
+                            {% endif %}
                           </label>
                         </div>
                       </div>
                     </div>
                   </div>
 
+                  {% if 'arkiveringsversioner_arkiveringsversion_se' in bruger_rettigheder or 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder %}
+                  {% if 'arkiveringsversioner_status_modtaget_se' in bruger_rettigheder or 'arkiveringsversioner_status_modtaget_rediger' in bruger_rettigheder %}
                   <div class="row">
                     <div class="col l12">
+                      {% if 'arkiveringsversioner_status_modtaget_rediger' in bruger_rettigheder and 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder %}
                       <div class="divider" style="border-top: 1px solid #4C566A;"></div>
+                      {% elif 'arkiveringsversioner_status_modtaget_se' in bruger_rettigheder %}
+                      <div class="divider" style="border-top: 1px dotted #4C566A;"></div>
+                      {% endif %}
                     </div>
                   </div>
+                  {% endif %}
+                  {% endif %}
 
                   <div class="row">
                     <div class="col l12">
                       <div class="input-field col l12" style="margin: 0; padding-bottom: 4px; margin-top: 4px;">
                         <div class="form-group">
                           <label class="col l4" onchange="updateAfvikler_dea()">
+                            {% if 'arkiveringsversioner_status_godkendt_af_tester_rediger' in bruger_rettigheder and 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder %}
                             {% if godkendt_af_tester_afvikler_dea %}
                             <input type="checkbox" class="radio" name="dea" value="afvikler" checked />
+                            <span style="color: #2E3440;">Afvikler 'Send til DEA'</span>
                             {% else %}
                             <input type="checkbox" class="radio" name="dea" value="afvikler" />
-                            {% endif %}
                             <span style="color: #2E3440;">Afvikler 'Send til DEA'</span>
+                            {% endif %}
                           </label>
                           <label class="col l4" onchange="updateAfleveret_til_dea()">
                             {% if godkendt_af_tester_afleveret_til_dea %}
                             <input type="checkbox" class="radio" name="dea" value="afleveret" checked />
+                            <span style="color: #2E3440;">Afleveret til DEA</span>
                             {% else %}
                             <input type="checkbox" class="radio" name="dea" value="afleveret" />
-                            {% endif %}
                             <span style="color: #2E3440;">Afleveret til DEA</span>
+                            {% endif %}
                           </label>
                           <label class="col l4" onchange="updateRetur_fra_dea()">
                             {% if godkendt_af_tester_retur_fra_dea %}
                             <input type="checkbox" class="radio" name="dea" value="retur" checked />
+                            <span style="color: #2E3440;">Retur fra DEA</span>
                             {% else %}
                             <input type="checkbox" class="radio" name="dea" value="retur" />
-                            {% endif %}
                             <span style="color: #2E3440;">Retur fra DEA</span>
+                            {% endif %}
+                            {% elif 'arkiveringsversioner_status_godkendt_af_tester_se' in bruger_rettigheder and 'arkiveringsversioner_arkiveringsversion_se' in bruger_rettigheder %}
+                            {% if godkendt_af_tester_afvikler_dea %}
+                            <input type="checkbox" class="radio" name="dea" value="afvikler" checked readonly onclick="return false" />
+                            <span style="color: #2E3440; cursor: default !important;">Afvikler 'Send til DEA'</span>
+                            {% else %}
+                            <input type="checkbox" class="radio" name="dea" value="afvikler" readonly onclick="return false" />
+                            <span style="color: #2E3440; cursor: default !important;">Afvikler 'Send til DEA'</span>
+                            {% endif %}
+                          </label>
+                          <label class="col l4" onchange="updateAfleveret_til_dea()">
+                            {% if godkendt_af_tester_afleveret_til_dea %}
+                            <input type="checkbox" class="radio" name="dea" value="afleveret" checked readonly onclick="return false" />
+                            <span style="color: #2E3440; cursor: default !important;">Afleveret til DEA</span>
+                            {% else %}
+                            <input type="checkbox" class="radio" name="dea" value="afleveret" readonly onclick="return false" />
+                            <span style="color: #2E3440; cursor: default !important;">Afleveret til DEA</span>
+                            {% endif %}
+                          </label>
+                          <label class="col l4" onchange="updateRetur_fra_dea()">
+                            {% if godkendt_af_tester_retur_fra_dea %}
+                            <input type="checkbox" class="radio" name="dea" value="retur" checked readonly onclick="return false" />
+                            <span style="color: #2E3440; cursor: default !important;">Retur fra DEA</span>
+                            {% else %}
+                            <input type="checkbox" class="radio" name="dea" value="retur" readonly onclick="return false" />
+                            <span style="color: #2E3440; cursor: default !important;">Retur fra DEA</span>
+                            {% endif %}
+                            {% endif %}
                           </label>
                         </div>
                       </div>
                     </div>
                   </div>
 
+                  {% if 'arkiveringsversioner_arkiveringsversion_se' in bruger_rettigheder or 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder %}
+                  {% if 'arkiveringsversioner_status_modtaget_se' in bruger_rettigheder or 'arkiveringsversioner_status_modtaget_rediger' in bruger_rettigheder %}
                   <div class="row">
                     <div class="col l12">
+                      {% if 'arkiveringsversioner_status_modtaget_rediger' in bruger_rettigheder and 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder %}
                       <div class="divider" style="border-top: 1px solid #4C566A;"></div>
+                      {% elif 'arkiveringsversioner_status_modtaget_se' in bruger_rettigheder %}
+                      <div class="divider" style="border-top: 1px dotted #4C566A;"></div>
+                      {% endif %}
                     </div>
                   </div>
+                  {% endif %}
+                  {% endif %}
 
                   <div class="row">
                     <div class="col l12">
                       <div class="input-field col l12" style="margin: 0px; padding-bottom: 5px; margin-top: 5px;">
                         <div class="form-group">
                           <label class="col l6" id="mary_kontrol" onchange="updateMary_kontrol()">
+                            {% if 'arkiveringsversioner_status_godkendt_af_tester_rediger' in bruger_rettigheder and 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder %}
                             {% if godkendt_af_tester_mary_kontrol %}
                             <input type="checkbox" class="radio" name="mary_kontrol" value="mary_kontrol" checked />
+                            <span style="color: #2E3440;">Mary Status kontrolleret for antal pakker</span>
                             {% else %}
                             <input type="checkbox" class="radio" name="mary_kontrol" value="mary_kontrol" />
-                            {% endif %}
                             <span style="color: #2E3440;">Mary Status kontrolleret for antal pakker</span>
+                            {% endif %}
+                            {% elif 'arkiveringsversioner_status_godkendt_af_tester_se' in bruger_rettigheder and 'arkiveringsversioner_arkiveringsversion_se' in bruger_rettigheder %}
+                            {% if godkendt_af_tester_mary_kontrol %}
+                            <input type="checkbox" class="radio" name="mary_kontrol" value="mary_kontrol" checked readonly onclick="return false" />
+                            <span style="color: #2E3440; cursor: default !important;">Mary Status kontrolleret for antal pakker</span>
+                            {% else %}
+                            <input type="checkbox" class="radio" name="mary_kontrol" value="mary_kontrol" readonly onclick="return false" />
+                            <span style="color: #2E3440; cursor: default !important;">Mary Status kontrolleret for antal pakker</span>
+                            {% endif %}
+                            {% endif %}
                           </label>
                         </div>
                       </div>
                     </div>
                   </div>
 
+                  {% if 'arkiveringsversioner_arkiveringsversion_se' in bruger_rettigheder or 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder %}
+                  {% if 'arkiveringsversioner_status_modtaget_se' in bruger_rettigheder or 'arkiveringsversioner_status_modtaget_rediger' in bruger_rettigheder %}
                   <div class="row">
                     <div class="col l12">
+                      {% if 'arkiveringsversioner_status_modtaget_rediger' in bruger_rettigheder and 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder %}
                       <div class="divider" style="border-top: 1px solid #4C566A;"></div>
+                      {% elif 'arkiveringsversioner_status_modtaget_se' in bruger_rettigheder %}
+                      <div class="divider" style="border-top: 1px dotted #4C566A;"></div>
+                      {% endif %}
                     </div>
                   </div>
+                  {% endif %}
+                  {% endif %}
 
                   <div class="row">
                     <div class="col l12">
                       <div class="input-field col l12" style="margin: 0px; padding-bottom: 5px; margin-top: 5px;">
                         <div class="form-group">
                           <label class="col l6" id="meta_opdateret" onchange="updateMeta_opdateret()">
+                            {% if 'arkiveringsversioner_status_godkendt_af_tester_rediger' in bruger_rettigheder and 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder %}
                             {% if godkendt_af_tester_meta_opdateret %}
                             <input type="checkbox" class="radio" name="meta_opdateret" value="meta_opdateret" checked />
+                            <span style="color: #2E3440;">Feltet 'Størrelse i MB' opdateret med størrelse fra Mary Status</span>
                             {% else %}
                             <input type="checkbox" class="radio" name="meta_opdateret" value="meta_opdateret" />
-                            {% endif %}
                             <span style="color: #2E3440;">Feltet 'Størrelse i MB' opdateret med størrelse fra Mary Status</span>
+                            {% endif %}
+                            {% elif 'arkiveringsversioner_status_godkendt_af_tester_se' in bruger_rettigheder and 'arkiveringsversioner_arkiveringsversion_se' in bruger_rettigheder %}
+                            {% if godkendt_af_tester_meta_opdateret %}
+                            <input type="checkbox" class="radio" name="meta_opdateret" value="meta_opdateret" checked readonly onclick="return false" />
+                            <span style="color: #2E3440; cursor: default !important;">Feltet 'Størrelse i MB' opdateret med størrelse fra Mary Status</span>
+                            {% else %}
+                            <input type="checkbox" class="radio" name="meta_opdateret" value="meta_opdateret" readonly onclick="return false" />
+                            <span style="color: #2E3440; cursor: default !important;">Feltet 'Størrelse i MB' opdateret med størrelse fra Mary Status</span>
+                            {% endif %}
+                            {% endif %}
                           </label>
                         </div>
                       </div>
                     </div>
                   </div>
 
+                  {% if 'arkiveringsversioner_arkiveringsversion_se' in bruger_rettigheder or 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder %}
+                  {% if 'arkiveringsversioner_status_modtaget_se' in bruger_rettigheder or 'arkiveringsversioner_status_modtaget_rediger' in bruger_rettigheder %}
                   <div class="row">
                     <div class="col l12">
+                      {% if 'arkiveringsversioner_status_modtaget_rediger' in bruger_rettigheder and 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder %}
                       <div class="divider" style="border-top: 1px solid #4C566A;"></div>
+                      {% elif 'arkiveringsversioner_status_modtaget_se' in bruger_rettigheder %}
+                      <div class="divider" style="border-top: 1px dotted #4C566A;"></div>
+                      {% endif %}
                     </div>
                   </div>
+                  {% endif %}
+                  {% endif %}
 
                   <div class="row">
                     <div class="col l12">
                       <div class="input-field col l12" style="margin: 0px; padding-bottom: 5px; margin-top: 5px;">
                         <div class="form-group">
                           <label class="col l8" id="public_opdateret" onchange="updatePublic_opdateret()">
+                            {% if 'arkiveringsversioner_status_godkendt_af_tester_rediger' in bruger_rettigheder and 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder %}
                             {% if godkendt_af_tester_public_opdateret %}
                             <input type="checkbox" class="radio" name="public_opdateret" value="public_opdateret" checked />
+                            <span style="color: #2E3440;">IB-feltet 'Størrelse' opdateret i Public 360 med størrelse fra feltet 'Størrelse i GB'</span>
                             {% else %}
                             <input type="checkbox" class="radio" name="public_opdateret" value="public_opdateret" />
-                            {% endif %}
                             <span style="color: #2E3440;">IB-feltet 'Størrelse' opdateret i Public 360 med størrelse fra feltet 'Størrelse i GB'</span>
+                            {% endif %}
+                            {% elif 'arkiveringsversioner_status_godkendt_af_tester_se' in bruger_rettigheder and 'arkiveringsversioner_arkiveringsversion_se' in bruger_rettigheder %}
+                            {% if godkendt_af_tester_public_opdateret %}
+                            <input type="checkbox" class="radio" name="public_opdateret" value="public_opdateret" checked readonly onclick="return false" />
+                            <span style="color: #2E3440; cursor: default !important;">IB-feltet 'Størrelse' opdateret i Public 360 med størrelse fra feltet 'Størrelse i GB'</span>
+                            {% else %}
+                            <input type="checkbox" class="radio" name="public_opdateret" value="public_opdateret" readonly onclick="return false" />
+                            <span style="color: #2E3440; cursor: default !important;">IB-feltet 'Størrelse' opdateret i Public 360 med størrelse fra feltet 'Størrelse i GB'</span>
+                            {% endif %}
+                            {% endif %}
                           </label>
                         </div>
                       </div>
                     </div>
                   </div>
 
+                  {% if 'arkiveringsversioner_arkiveringsversion_se' in bruger_rettigheder or 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder %}
+                  {% if 'arkiveringsversioner_status_modtaget_se' in bruger_rettigheder or 'arkiveringsversioner_status_modtaget_rediger' in bruger_rettigheder %}
                   <div class="row">
                     <div class="col l12">
+                      {% if 'arkiveringsversioner_status_modtaget_rediger' in bruger_rettigheder and 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder %}
                       <div class="divider" style="border-top: 1px solid #4C566A;"></div>
+                      {% elif 'arkiveringsversioner_status_modtaget_se' in bruger_rettigheder %}
+                      <div class="divider" style="border-top: 1px dotted #4C566A;"></div>
+                      {% endif %}
                     </div>
                   </div>
+                  {% endif %}
+                  {% endif %}
 
                   <div class="row">
                     <div class="col l12">
                       <div class="input-field col l12" style="margin: 0px; padding-bottom: 5px; margin-top: 5px;">
                         <div class="form-group">
                           <label class="col l8" id="maskine_renset" onchange="updatePublic_opdateret()">
+                            {% if 'arkiveringsversioner_status_godkendt_af_tester_rediger' in bruger_rettigheder and 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder %}
                             {% if godkendt_af_tester_maskine_renset %}
                             <input type="checkbox" class="radio" name="maskine_renset" value="maskine_renset" checked />
+                            <span style="color: #2E3440;">Maksine renset for ADA-databaser og andet</span>
                             {% else %}
                             <input type="checkbox" class="radio" name="maskine_renset" value="maskine_renset" />
-                            {% endif %}
                             <span style="color: #2E3440;">Maksine renset for ADA-databaser og andet</span>
+                            {% endif %}
+                            {% elif 'arkiveringsversioner_status_godkendt_af_tester_se' in bruger_rettigheder and 'arkiveringsversioner_arkiveringsversion_se' in bruger_rettigheder %}
+                            {% if godkendt_af_tester_maskine_renset %}
+                            <input type="checkbox" class="radio" name="maskine_renset" value="maskine_renset" checked readonly onclick="return false" />
+                            <span style="color: #2E3440; cursor: default !important;">Maksine renset for ADA-databaser og andet</span>
+                            {% else %}
+                            <input type="checkbox" class="radio" name="maskine_renset" value="maskine_renset" readonly onclick="return false" />
+                            <span style="color: #2E3440; cursor: default !important;">Maksine renset for ADA-databaser og andet</span>
+                            {% endif %}
+                            {% endif %}
                           </label>
                         </div>
                       </div>
                     </div>
                   </div>
 
+                  {% if 'arkiveringsversioner_arkiveringsversion_se' in bruger_rettigheder or 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder %}
+                  {% if 'arkiveringsversioner_status_modtaget_se' in bruger_rettigheder or 'arkiveringsversioner_status_modtaget_rediger' in bruger_rettigheder %}
                   <div class="row">
                     <div class="col l12">
+                      {% if 'arkiveringsversioner_status_modtaget_rediger' in bruger_rettigheder and 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder %}
                       <div class="divider" style="border-top: 1px solid #4C566A;"></div>
+                      {% elif 'arkiveringsversioner_status_modtaget_se' in bruger_rettigheder %}
+                      <div class="divider" style="border-top: 1px dotted #4C566A;"></div>
+                      {% endif %}
                     </div>
                   </div>
+                  {% endif %}
+                  {% endif %}
 
                 </div>
               </div>
@@ -1083,13 +1296,17 @@
             {% if status == 'Godkendt' %}
             {% endif %}
 
+            {% endif %}
+
           </div>
         </div>
       </div>
 
     </div>
 
+    {% if 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder %}
   </form>
+  {% endif %}
 </section>
 
 <script>
