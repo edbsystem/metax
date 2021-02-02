@@ -17,7 +17,7 @@
               <div class="card-action col l12">
                 <div class="col left" style="margin-left: -15px; margin-bottom: -7px;">
                   <a href="{{ public }}" target="_blank" style="margin: 0;">
-                    <button id="public_knap" name="public_knap" type="submit" class="btn waves-effect waves-light z-depth-0" style="margin-right: 4px; background-color: #4C566A; color: #D8DEE9;">
+                    <button id="public_knap" name="public_knap" type="button" class="btn waves-effect waves-light z-depth-0" style="margin-right: 4px; background-color: #D08770; color: #4C566A;">
                       Public 360
                     </button>
                   </a>
@@ -208,55 +208,55 @@
               <div class="card-action col l12">
                 <div class="col left" style="margin-left: -15px; margin-bottom: -7px;">
                   {% if status == 'Afventer aflevering' %}
-                  <button id="modtaget_knap" name="modtaget_knap" type="submit" class="btn waves-effect waves-light z-depth-0" style="margin-right: 6px; background-color: #4C566A; color: #D8DEE9;">
+                  <button id="modtaget_knap" name="modtaget_knap" type="submit" class="btn waves-effect waves-light z-depth-0" style="margin-right: 6px; background-color: #A3BE8C; color: #4C566A;">
                     Modtaget
                   </button>
                   {% endif %}
 
                   {% if status == 'Modtaget' %}
-                  <button id="klartiltest_knap" name="klartiltest_knap" type="submit" class="btn waves-effect waves-light z-depth-0" style="margin-right: 6px; background-color: #4C566A; color: #D8DEE9;">
+                  <button id="klartiltest_knap" name="klartiltest_knap" type="submit" class="btn waves-effect waves-light z-depth-0" style="margin-right: 6px; background-color: #A3BE8C; color: #4C566A;">
                     Klar til test
                   </button>
-                  <button id="tilbagemeldt_knap" name="tilbagemeldt_knap" type="submit" class="btn waves-effect waves-light z-depth-0" style="margin-right: 6px; background-color: #4C566A; color: #D8DEE9;">
+                  <button id="tilbagemeldt_knap" name="tilbagemeldt_knap" type="submit" class="btn waves-effect waves-light z-depth-0" style="margin-right: 6px; background-color: #A3BE8C; color: #4C566A;">
                     Tilbagemeldt
                   </button>
                   {% endif %}
 
                   {% if status == 'Klar til test' %}
-                  <button id="test_knap" name="test_knap" type="submit" class="btn waves-effect waves-light z-depth-0" style="margin-right: 6px; background-color: #4C566A; color: #D8DEE9;">
+                  <button id="test_knap" name="test_knap" type="submit" class="btn waves-effect waves-light z-depth-0" style="margin-right: 6px; background-color: #A3BE8C; color: #4C566A;">
                     Begynd test
                   </button>
                   {% endif %}
 
                   {% if status == 'Under test' %}
-                  <button id="tilbagemeldt_knap" name="tilbagemeldt_knap" type="submit" class="btn waves-effect waves-light z-depth-0" style="margin-right: 6px; background-color: #4C566A; color: #D8DEE9;">
+                  <button id="tilbagemeldt_knap" name="tilbagemeldt_knap" type="submit" class="btn waves-effect waves-light z-depth-0" style="margin-right: 6px; background-color: #A3BE8C; color: #4C566A;">
                     Tilbagemeldt
                   </button>
-                  <button id="godkendtaftester_knap" name="godkendtaftester_knap" type="submit" class="btn waves-effect waves-light z-depth-0" style="margin-right: 6px; background-color: #4C566A; color: #D8DEE9;">
+                  <button id="godkendtaftester_knap" name="godkendtaftester_knap" type="submit" class="btn waves-effect waves-light z-depth-0" style="margin-right: 6px; background-color: #A3BE8C; color: #4C566A;">
                     Godkendt af tester
                   </button>
                   {% endif %}
 
                   {% if status == 'Tilbagemeldt' %}
-                  <button id="afventgenaflevering_knap" name="afventgenaflevering_knap" type="submit" class="btn waves-effect waves-light z-depth-0" style="margin-right: 6px; background-color: #4C566A; color: #D8DEE9;">
+                  <button id="afventgenaflevering_knap" name="afventgenaflevering_knap" type="submit" class="btn waves-effect waves-light z-depth-0" style="margin-right: 6px; background-color: #A3BE8C; color: #4C566A;">
                     Afvent genaflevering
                   </button>
                   {% endif %}
 
                   {% if status == 'Afventer genaflevering' %}
-                  <button id="modtaget_knap" name="modtaget_knap" type="submit" class="btn waves-effect waves-light z-depth-0" style="margin-right: 6px; background-color: #4C566A; color: #D8DEE9;">
+                  <button id="modtaget_knap" name="modtaget_knap" type="submit" class="btn waves-effect waves-light z-depth-0" style="margin-right: 6px; background-color: #A3BE8C; color: #4C566A;">
                     Modtaget
                   </button>
                   {% endif %}
 
                   {% if status == 'Godkendt af tester' %}
-                  <button id="parattilgodkendelse_knap" name="parattilgodkendelse_knap" type="submit" class="btn waves-effect waves-light z-depth-0" style="margin-right: 6px; background-color: #4C566A; color: #D8DEE9;">
+                  <button id="parattilgodkendelse_knap" name="parattilgodkendelse_knap" type="submit" class="btn waves-effect waves-light z-depth-0" style="margin-right: 6px; background-color: #A3BE8C; color: #4C566A;">
                     Parat til godkendelse
                   </button>
                   {% endif %}
 
                   {% if status == 'Parat til godkendelse' %}
-                  <button id="godkendt_knap" name="godkendt_knap" type="submit" class="btn waves-effect waves-light z-depth-0" style="margin-right: 6px; background-color: #4C566A; color: #D8DEE9;">
+                  <button id="godkendt_knap" name="godkendt_knap" type="submit" class="btn waves-effect waves-light z-depth-0" style="margin-right: 6px; background-color: #A3BE8C; color: #4C566A;">
                     Godkendt
                   </button>
                   {% endif %}
@@ -848,7 +848,7 @@
                             {% else %}
                             <input type="checkbox" class="radio" name="meta_opdateret" value="meta_opdateret" />
                             {% endif %}
-                            <span style="color: #2E3440;">Feltet 'Størrelse i MB' opdateret med størrelse fra Mary</span>
+                            <span style="color: #2E3440;">Feltet 'Størrelse i MB' opdateret med størrelse fra Mary Status</span>
                           </label>
                         </div>
                       </div>
@@ -872,29 +872,6 @@
                             <input type="checkbox" class="radio" name="public_opdateret" value="public_opdateret" />
                             {% endif %}
                             <span style="color: #2E3440;">IB-feltet 'Størrelse' opdateret i Public 360 med størrelse fra feltet 'Størrelse i GB'</span>
-                          </label>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="row">
-                    <div class="col l12">
-                      <div class="divider" style="border-top: 1px solid #4C566A;"></div>
-                    </div>
-                  </div>
-
-                  <div class="row">
-                    <div class="col l12">
-                      <div class="input-field col l12" style="margin: 0px; padding-bottom: 5px; margin-top: 5px;">
-                        <div class="form-group">
-                          <label class="col l8" id="nedpakket" onchange="updatePublic_opdateret()">
-                            {% if godkendt_af_tester_nedpakket %}
-                            <input type="checkbox" class="radio" name="nedpakket" value="nedpakket" checked />
-                            {% else %}
-                            <input type="checkbox" class="radio" name="nedpakket" value="nedpakket" />
-                            {% endif %}
-                            <span style="color: #2E3440;">Afleveringsmedie returneret eller lagt til destruktion</span>
                           </label>
                         </div>
                       </div>

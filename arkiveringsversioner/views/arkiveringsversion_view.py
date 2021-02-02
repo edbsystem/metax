@@ -82,7 +82,6 @@ def arkiveringsversion_view(request, avid, version=0):
             print("godkendt_af_tester_mary_kontrol", _version_obj.godkendt_af_tester_mary_kontrol)
             print("godkendt_af_tester_meta_opdateret", _version_obj.godkendt_af_tester_meta_opdateret)
             print("godkendt_af_tester_public_opdateret", _version_obj.godkendt_af_tester_public_opdateret)
-            print("godkendt_af_tester_nedpakket", _version_obj.godkendt_af_tester_nedpakket)
             print("godkendt_af_tester_maskine_renset", _version_obj.godkendt_af_tester_maskine_renset)
 
             return render(request, 'arkiveringsversioner/arkiveringsversion.html', {
@@ -130,7 +129,6 @@ def arkiveringsversion_view(request, avid, version=0):
                 "godkendt_af_tester_mary_kontrol": _version_obj.godkendt_af_tester_mary_kontrol,
                 "godkendt_af_tester_meta_opdateret": _version_obj.godkendt_af_tester_meta_opdateret,
                 "godkendt_af_tester_public_opdateret": _version_obj.godkendt_af_tester_public_opdateret,
-                "godkendt_af_tester_nedpakket": _version_obj.godkendt_af_tester_nedpakket,
                 "godkendt_af_tester_maskine_renset": _version_obj.godkendt_af_tester_maskine_renset,
             })
 

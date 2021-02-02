@@ -35,8 +35,8 @@ class Rettighed(models.Model):
         ('arkiveringsversioner_størrelse_rediger', 'arkiveringsversioner_størrelse_rediger'),
         ('arkiveringsversioner_maskine_se', 'arkiveringsversioner_maskine_se'),
 
-        ('arkiveringsversioner_status_modtaget_se', 'arkiveringsversioner_status_modtaget_se'),
-        ('arkiveringsversioner_status_modtaget_rediger', 'arkiveringsversioner_status_modtaget_rediger'),
+        ('arkiveringsversioner_status_se', 'arkiveringsversioner_status_se'),
+        ('arkiveringsversioner_status_rediger', 'arkiveringsversioner_status_rediger'),
 
         ('arkiveringsversioner_leverandører_se',    'arkiveringsversioner_leverandører_se'),
         ('arkiveringsversioner_leverandør_se',      'arkiveringsversioner_leverandør_se'),

@@ -198,10 +198,6 @@ class Version(models.Model):
         default=False,
     )
 
-    godkendt_af_tester_nedpakket = models.BooleanField(
-        default=False,
-    )
-
     godkendt_af_tester_maskine_renset = models.BooleanField(
         default=False,
     )
