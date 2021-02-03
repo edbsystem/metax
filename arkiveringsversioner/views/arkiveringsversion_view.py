@@ -55,36 +55,65 @@ def arkiveringsversion_view(request, avid, version=0, nystatus=None):
                 return redirect('arkiveringsversioner_view')
 
             _status_error = False
+            _ny_status = None
 
             if nystatus != None:
-                print('nystatus er forskellig fra None')
                 if _version_obj.status == 'Afventer aflevering':
                     if nystatus != 'modtaget':
                         _status_error = True
+                    else:
+                        _ny_status = 'Modtaget'
                 if _version_obj.status == 'Modtaget':
                     if nystatus != 'klar_til_test' and nystatus != 'tilbagemeldt':
                         _status_error = True
+                    else:
+                        if nystatus == 'klar_til_test':
+                            _ny_status = 'Klar til test'
+                        if nystatus == 'tilbagemeldt':
+                            _ny_status = 'Tilbagemeldt'
                 if _version_obj.status == 'Klar til test':
                     if nystatus != 'begynd_test':
                         _status_error = True
+                    else:
+                        _ny_status = 'Under test'
                 if _version_obj.status == 'Under test':
                     if nystatus != 'tilbagemeldt' and nystatus != 'godkendt_af_tester':
                         _status_error = True
-                if _version_obj.status == 'Tilbagmeldt':
+                    else:
+                        if nystatus == 'tilbagemeldt':
+                            _ny_status = 'Tilbagemeldt'
+                        if nystatus == 'godkendt_af_tester':
+                            _ny_status = 'Godkendt af tester'
+                if _version_obj.status == 'Tilbagemeldt':
                     if nystatus != 'afvent_genaflevering':
                         _status_error = True
+                    else:
+                        _ny_status = 'Afventer genaflevering'
                 if _version_obj.status == 'Afventer genaflevering':
                     if nystatus != 'modtaget':
                         _status_error = True
+                    else:
+                        _ny_status = 'Modtaget'
                 if _version_obj.status == 'Godkendt af tester':
                     if nystatus != 'parat_til_godkendelse':
                         _status_error = True
+                    else:
+                        _ny_status = 'Parat til godkendelse'
                 if _version_obj.status == 'Parat til godkendelse':
                     if nystatus != 'godkendt':
                         _status_error = True
+                    else:
+                        _ny_status = 'Godkendt'
 
             if _status_error:
                 messages.error(request, f"Det angivet statusskift er ikke tilladt.")
+                return redirect(f"/arkiveringsversioner/arkiveringsversion/{avid}/{version}/")
+
+            if _ny_status:
+                _gammel_status = _version_obj.status
+                _version_obj.status = _ny_status
+                _version_obj.save()
+                messages.success(request, f"Status skiftet fra '{_gammel_status}' til '{_ny_status}'.")
                 return redirect(f"/arkiveringsversioner/arkiveringsversion/{avid}/{version}/")
 
             _tester_fuldenavn = ''
