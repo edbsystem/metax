@@ -13,21 +13,28 @@ def tjek(user):
 @user_passes_test(tjek, login_url='/', redirect_field_name=None)
 def arkiveringsversion_view(request, avid, version=0, nystatus=None):
 
-    error = False
+    _url_error = False
 
     try:
         _avid = int(avid)
     except ValueError:
         messages.error(request, f"Det angivet AVID: '{avid}', overholder ikke reglerne for et sådant.")
-        error = True
+        _url_error = True
 
     try:
         _version = int(version)
     except ValueError:
         messages.error(request, f"Den angivet version: '{version}', overholder ikke reglerne for et sådant.")
-        error = True
+        _url_error = True
 
-    if error:
+    _statusser = ['modtaget', 'klar_til_test', 'tilbagemeldt', 'begynd_test', 'godkendt_af_tester', 'afvent_genaflevering', 'parat_til_godkendelse', 'godkendt']
+    _nystatus = {nystatus}
+
+    if nystatus != None and not _nystatus.issubset(_statusser):
+        messages.error(request, f"Den angivet status: '{nystatus}', er ikke kendt.")
+        _url_error = True
+
+    if _url_error:
         return redirect('arkiveringsversioner_view')
 
     if request.method == 'GET':
@@ -46,6 +53,39 @@ def arkiveringsversion_view(request, avid, version=0, nystatus=None):
             if not Version.objects.filter(nummer=version, avid=_arkiveringsversion_obj).exists():
                 messages.error(request, f"Den angivet version af arkiveringsversionen 'AVID.SA.{avid}' findes ikke.")
                 return redirect('arkiveringsversioner_view')
+
+            _status_error = False
+
+            if nystatus != None:
+                print('nystatus er forskellig fra None')
+                if _version_obj.status == 'Afventer aflevering':
+                    if nystatus != 'modtaget':
+                        _status_error = True
+                if _version_obj.status == 'Modtaget':
+                    if nystatus != 'klar_til_test' and nystatus != 'tilbagemeldt':
+                        _status_error = True
+                if _version_obj.status == 'Klar til test':
+                    if nystatus != 'begynd_test':
+                        _status_error = True
+                if _version_obj.status == 'Under test':
+                    if nystatus != 'tilbagemeldt' and nystatus != 'godkendt_af_tester':
+                        _status_error = True
+                if _version_obj.status == 'Tilbagmeldt':
+                    if nystatus != 'afvent_genaflevering':
+                        _status_error = True
+                if _version_obj.status == 'Afventer genaflevering':
+                    if nystatus != 'modtaget':
+                        _status_error = True
+                if _version_obj.status == 'Godkendt af tester':
+                    if nystatus != 'parat_til_godkendelse':
+                        _status_error = True
+                if _version_obj.status == 'Parat til godkendelse':
+                    if nystatus != 'godkendt':
+                        _status_error = True
+
+            if _status_error:
+                messages.error(request, f"Det angivet statusskift er ikke tilladt.")
+                return redirect(f"/arkiveringsversioner/arkiveringsversion/{avid}/{version}/")
 
             _tester_fuldenavn = ''
             if _version_obj.tester.profil.fornavn != '' and _version_obj.tester.profil.fornavn != None:
@@ -120,6 +160,7 @@ def arkiveringsversion_view(request, avid, version=0, nystatus=None):
             return redirect('arkiveringsversioner_view')
 
     if request.method == 'POST':
+
         print('kvitteret:', request.POST.get('kvitteret'))
         print('journaliseret', request.POST.get('journaliseret'))
         print('kodeord:', request.POST.get('kodeord'))

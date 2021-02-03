@@ -214,79 +214,99 @@
 
                   {% if status == 'Afventer aflevering' %}
                   {% if 'arkiveringsversioner_status_afventer_aflevering_rediger' in bruger_rettigheder and 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder %}
-                  <button id="modtaget_knap" name="modtaget_knap" type="button" class="btn waves-effect waves-light z-depth-0" style="margin-right: 6px; background-color: #A3BE8C; color: #4C566A;">
-                    Modtaget
-                  </button>
+                  <a href="{% url 'arkiveringsversion_view' avid version 'modtaget' %}">
+                    <button id="modtaget_knap" name="modtaget_knap" type="button" class="btn waves-effect waves-light z-depth-0" style="margin-right: 6px; background-color: #A3BE8C; color: #4C566A;">
+                      Modtaget
+                    </button>
+                  </a>
                   {% endif %}
                   {% endif %}
 
                   {% if status == 'Modtaget' %}
                   {% if 'arkiveringsversioner_status_modtaget_rediger' in bruger_rettigheder and 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder %}
                   {% if modtaget_modtagelse_godkendt and modtaget_fileindex_kopieret and modtaget_adatest_godkendt %}
-                  <button id="klartiltest_knap" name="klartiltest_knap" type="button" class="btn waves-effect waves-light z-depth-0" style="margin-right: 6px; background-color: #A3BE8C; color: #4C566A;">
-                    Klar til test
-                  </button>
+                  <a href="{% url 'arkiveringsversion_view' avid version 'klar_til_test' %}">
+                    <button id="klartiltest_knap" name="klartiltest_knap" type="button" class="btn waves-effect waves-light z-depth-0" style="margin-right: 6px; background-color: #A3BE8C; color: #4C566A;">
+                      Klar til test
+                    </button>
+                  </a>
                   {% endif %}
                   {% if modtaget_modtagelse_afvist or modtaget_adatest_afvist %}
-                  <button id="tilbagemeldt_knap" name="tilbagemeldt_knap" type="button" class="btn waves-effect waves-light z-depth-0" style="margin-right: 6px; background-color: #A3BE8C; color: #4C566A;">
-                    Tilbagemeldt
-                  </button>
+                  <a href="{% url 'arkiveringsversion_view' avid version 'tilbagemeldt' %}">
+                    <button id="tilbagemeldt_knap" name="tilbagemeldt_knap" type="button" class="btn waves-effect waves-light z-depth-0" style="margin-right: 6px; background-color: #A3BE8C; color: #4C566A;">
+                      Tilbagemeldt
+                    </button>
+                  </a>
                   {% endif %}
                   {% endif %}
                   {% endif %}
 
                   {% if status == 'Klar til test' %}
                   {% if 'arkiveringsversioner_status_klar_til_test_rediger' in bruger_rettigheder and 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder %}
-                  <button id="test_knap" name="test_knap" type="button" class="btn waves-effect waves-light z-depth-0" style="margin-right: 6px; background-color: #A3BE8C; color: #4C566A;">
-                    Begynd test
-                  </button>
+                  <a href="{% url 'arkiveringsversion_view' avid version 'begynd_test' %}">
+                    <button id="test_knap" name="test_knap" type="button" class="btn waves-effect waves-light z-depth-0" style="margin-right: 6px; background-color: #A3BE8C; color: #4C566A;">
+                      Begynd test
+                    </button>
+                  </a>
                   {% endif %}
                   {% endif %}
 
                   {% if status == 'Under test' %}
                   {% if 'arkiveringsversioner_status_under_test_rediger' in bruger_rettigheder and 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder %}
-                  <button id="tilbagemeldt_knap" name="tilbagemeldt_knap" type="button" class="btn waves-effect waves-light z-depth-0" style="margin-right: 6px; background-color: #A3BE8C; color: #4C566A;">
-                    Tilbagemeldt
-                  </button>
-                  <button id="godkendtaftester_knap" name="godkendtaftester_knap" type="button" class="btn waves-effect waves-light z-depth-0" style="margin-right: 6px; background-color: #A3BE8C; color: #4C566A;">
-                    Godkendt af tester
-                  </button>
+                  <a href="{% url 'arkiveringsversion_view' avid version 'tilbagemeldt' %}">
+                    <button id="tilbagemeldt_knap" name="tilbagemeldt_knap" type="button" class="btn waves-effect waves-light z-depth-0" style="margin-right: 6px; background-color: #A3BE8C; color: #4C566A;">
+                      Tilbagemeldt
+                    </button>
+                  </a>
+                  <a href="{% url 'arkiveringsversion_view' avid version 'godkendt_af_tester' %}">
+                    <button id="godkendtaftester_knap" name="godkendtaftester_knap" type="button" class="btn waves-effect waves-light z-depth-0" style="margin-right: 6px; background-color: #A3BE8C; color: #4C566A;">
+                      Godkendt af tester
+                    </button>
+                  </a>
                   {% endif %}
                   {% endif %}
 
                   {% if status == 'Tilbagemeldt' %}
                   {% if 'arkiveringsversioner_status_tilbagemeldt_rediger' in bruger_rettigheder and 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder %}
                   {% if tilbagemeldt_nedpakket and tilbagemeldt_maskine_renset %}
-                  <button id="afventgenaflevering_knap" name="afventgenaflevering_knap" type="button" class="btn waves-effect waves-light z-depth-0" style="margin-right: 6px; background-color: #A3BE8C; color: #4C566A;">
-                    Afvent genaflevering
-                  </button>
+                  <a href="{% url 'arkiveringsversion_view' avid version 'afvent_genaflevering' %}">
+                    <button id="afventgenaflevering_knap" name="afventgenaflevering_knap" type="button" class="btn waves-effect waves-light z-depth-0" style="margin-right: 6px; background-color: #A3BE8C; color: #4C566A;">
+                      Afvent genaflevering
+                    </button>
+                  </a>
                   {% endif %}
                   {% endif %}
                   {% endif %}
 
                   {% if status == 'Afventer genaflevering' %}
                   {% if 'arkiveringsversioner_status_afventer_genaflevering_rediger' in bruger_rettigheder and 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder %}
-                  <button id="modtaget_knap" name="modtaget_knap" type="button" class="btn waves-effect waves-light z-depth-0" style="margin-right: 6px; background-color: #A3BE8C; color: #4C566A;">
-                    Modtaget
-                  </button>
+                  <a href="{% url 'arkiveringsversion_view' avid version 'modtaget' %}">
+                    <button id="modtaget_knap" name="modtaget_knap" type="button" class="btn waves-effect waves-light z-depth-0" style="margin-right: 6px; background-color: #A3BE8C; color: #4C566A;">
+                      Modtaget
+                    </button>
+                  </a>
                   {% endif %}
                   {% endif %}
 
                   {% if status == 'Godkendt af tester' %}
                   {% if 'arkiveringsversioner_status_godkendt_af_tester_rediger' in bruger_rettigheder and 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder %}
                   {% if godkendt_af_tester_fileindex_godkendt and godkendt_af_tester_retur_fra_dea and godkendt_af_tester_mary_kontrol and godkendt_af_tester_meta_opdateret and godkendt_af_tester_public_opdateret and godkendt_af_tester_maskine_renset %}
-                  <button id="parattilgodkendelse_knap" name="parattilgodkendelse_knap" type="button" class="btn waves-effect waves-light z-depth-0" style="margin-right: 6px; background-color: #A3BE8C; color: #4C566A;">
-                    Parat til godkendelse
-                  </button>
+                  <a href="{% url 'arkiveringsversion_view' avid version 'parat_til_godkendelse' %}">
+                    <button id="parattilgodkendelse_knap" name="parattilgodkendelse_knap" type="button" class="btn waves-effect waves-light z-depth-0" style="margin-right: 6px; background-color: #A3BE8C; color: #4C566A;">
+                      Parat til godkendelse
+                    </button>
+                  </a>
                   {% endif %}
                   {% endif %}
                   {% endif %}
 
                   {% if status == 'Parat til godkendelse' %}
                   {% if 'arkiveringsversioner_status_parat_til_godkendelse_rediger' in bruger_rettigheder and 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder %}
-                  <button id="godkendt_knap" name="godkendt_knap" type="button" class="btn waves-effect waves-light z-depth-0" style="margin-right: 6px; background-color: #A3BE8C; color: #4C566A;">
-                    Godkendt
-                  </button>
+                  <a href="{% url 'arkiveringsversion_view' avid version 'godkendt' %}">
+                    <button id="godkendt_knap" name="godkendt_knap" type="button" class="btn waves-effect waves-light z-depth-0" style="margin-right: 6px; background-color: #A3BE8C; color: #4C566A;">
+                      Godkendt
+                    </button>
+                  </a>
                   {% endif %}
                   {% endif %}
 
