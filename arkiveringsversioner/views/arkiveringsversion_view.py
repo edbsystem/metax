@@ -15,6 +15,8 @@ def tjek(user):
 @user_passes_test(tjek, login_url='/', redirect_field_name=None)
 def arkiveringsversion_view(request, avid, version=0, nystatus=None):
 
+    print('request.method', request.method)
+
     _url_error = False
 
     try:
@@ -197,7 +199,9 @@ def arkiveringsversion_view(request, avid, version=0, nystatus=None):
         print('journaliseret', request.POST.get('journaliseret'))
         print('kodeord:', request.POST.get('kodeord'))
         print('kopieret:', request.POST.get('kopieret'))
-        return redirect('/arkiveringsversioner/arkiveringsversion/18000/2/')
+        _avid = request.POST.get('avid')
+        _version = request.POST.get('version')
+        return redirect(f'/arkiveringsversioner/arkiveringsversion/{_avid}/{_version}/')
 
     return render(request, 'arkiveringsversioner/arkiveringsversioner.html', {
         "bruger_rettigheder": rettigheder(request.user),

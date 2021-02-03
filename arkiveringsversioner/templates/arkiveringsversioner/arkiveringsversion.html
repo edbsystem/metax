@@ -1404,7 +1404,7 @@
         <div class="modal-body">
           <p>Bekræft du ønsker at skifte status for <b><i>AVID.SA.{{avid}}</i></b><br>fra <b>Modtaget</b> til <b>Tilbagemeldt</b></p>
           <br>
-          <form action="{% url 'arkiveringsversion_view' avid version %}" id="regForm" method="GET">
+          <form action="{% url 'arkiveringsversion_view' avid version 'tilbagemeldt' %}" id="regForm" method="GET">
             {% csrf_token %}
             <div class="form-group">
               <label for="svar_dialog" class="col-form-label left" style="color: #4C566A;">Dato for tilbagemelding</label>
