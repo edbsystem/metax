@@ -214,7 +214,7 @@
 
                   {% if status == 'Afventer aflevering' %}
                   {% if 'arkiveringsversioner_status_afventer_aflevering_rediger' in bruger_rettigheder and 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder %}
-                  <a href="{% url 'arkiveringsversion_view' avid version 'modtaget' %}">
+                  <a href="#fra_afventeraflevering_til_modtaget_dialog" class="modal-trigger">
                     <button id="modtaget_knap" name="modtaget_knap" type="button" class="btn waves-effect waves-light z-depth-0" style="margin-right: 6px; background-color: #A3BE8C; color: #4C566A;">
                       Modtaget
                     </button>
@@ -225,14 +225,14 @@
                   {% if status == 'Modtaget' %}
                   {% if 'arkiveringsversioner_status_modtaget_rediger' in bruger_rettigheder and 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder %}
                   {% if modtaget_modtagelse_godkendt and modtaget_fileindex_kopieret and modtaget_adatest_godkendt %}
-                  <a href="{% url 'arkiveringsversion_view' avid version 'klar_til_test' %}">
+                  <a href="#fra_modtaget_til_klartiltest_dialog" class="modal-trigger">
                     <button id="klartiltest_knap" name="klartiltest_knap" type="button" class="btn waves-effect waves-light z-depth-0" style="margin-right: 6px; background-color: #A3BE8C; color: #4C566A;">
                       Klar til test
                     </button>
                   </a>
                   {% endif %}
                   {% if modtaget_modtagelse_afvist or modtaget_adatest_afvist %}
-                  <a href="{% url 'arkiveringsversion_view' avid version 'tilbagemeldt' %}">
+                  <a href="#fra_modtaget_til_tilbagemeldt_dialog" class="modal-trigger">
                     <button id="tilbagemeldt_knap" name="tilbagemeldt_knap" type="button" class="btn waves-effect waves-light z-depth-0" style="margin-right: 6px; background-color: #A3BE8C; color: #4C566A;">
                       Tilbagemeldt
                     </button>
@@ -1338,7 +1338,186 @@
   {% endif %}
 </section>
 
+<aside>
+  <div class="modal" id="fra_afventeraflevering_til_modtaget_dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Statusskift</h5>
+        </div>
+        <div class="modal-body">
+          <p>Bekræft at du ønsker statusskift for <i>AVID.SA.{{avid}}</i><br>fra '<b>Afventer aflevering</b>' til '<b>Modtaget</b>'</p>
+          <br><br>
+        </div>
+        <div class="modal-footer">
+          <a href="#!">
+            <button id="" name="" type="button" class="modal-close btn waves-effect waves-light z-depth-0" style="background-color: #BF616A; color: #ECEFF4;" onclick="updateStatusChange()">
+              Fortryd
+            </button>
+          </a>
+          <a href="{% url 'arkiveringsversion_view' avid version 'modtaget' %}">
+            <button id="" name="" type="button" class="btn waves-effect waves-light z-depth-0" style="margin-left: 6px; background-color: #A3BE8C; color: #2E3440;" onclick="updateStatusChange()">
+              Bekræft
+            </button>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</aside>
+
+<aside>
+  <div class="modal" id="fra_modtaget_til_klartiltest_dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Statusskift</h5>
+        </div>
+        <div class="modal-body">
+          <p>Bekræft at du ønsker statusskift for <i>AVID.SA.{{avid}}</i><br>fra '<b>Modtaget</b>' til '<b>Klar til test</b>'</p>
+          <br><br>
+        </div>
+        <div class="modal-footer">
+          <a href="#!">
+            <button id="" name="" type="button" class="modal-close btn waves-effect waves-light z-depth-0" style="background-color: #BF616A; color: #ECEFF4;" onclick="updateStatusChange()">
+              Fortryd
+            </button>
+          </a>
+          <a href="{% url 'arkiveringsversion_view' avid version 'klar_til_test' %}">
+            <button id="" name="" type="button" class="btn waves-effect waves-light z-depth-0" style="margin-left: 6px; background-color: #A3BE8C; color: #2E3440;" onclick="updateStatusChange()">
+              Bekræft
+            </button>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</aside>
+
+<aside>
+  <div class="modal" id="fra_modtaget_til_tilbagemeldt_dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Statusskift</h5>
+        </div>
+        <div class="modal-body">
+          <p>Bekræft du ønsker at skifte status for <b><i>AVID.SA.{{avid}}</i></b><br>fra <b>Modtaget</b> til <b>Tilbagemeldt</b></p>
+          <br>
+          <form action="{% url 'arkiveringsversion_view' avid version %}" id="regForm" method="GET">
+            {% csrf_token %}
+            <div class="form-group">
+              <label for="svar_dialog" class="col-form-label left" style="color: #4C566A;">Dato for tilbagemelding</label>
+              <input type="text" name="svar_dialog" id="svar_dialog" class="form-control date" value="{{ dagsdato }}">
+            </div>
+            <br>
+            <div class="form-group">
+              <label for="afleveringsfrist_dialog" class="col-form-label left" style="color: #4C566A;">Dato for afleveringsfrist</label>
+              <input type="text" name="afleveringsfrist_dialog" id="afleveringsfrist_dialog" class="form-control date" value="">
+            </div>
+            <br><br>
+        </div>
+        <div class="modal-footer">
+          <a href="#!">
+            <button id="" name="" type="button" class="modal-close btn waves-effect waves-light z-depth-0" style="background-color: #BF616A; color: #ECEFF4;" onclick="updateStatusChange()">
+              Fortryd
+            </button>
+          </a>
+          <button type="button" class="btn waves-effect waves-light z-depth-0" style="margin-left: 6px; background-color: #A3BE8C; color: #2E3440;" onclick="return validation()">
+            Bekræft
+          </button>
+        </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</aside>
+
+<aside>
+  <div class="modal bottom-sheet" id="svar_fejl">
+    <div class="modal-content">
+      <ul class="collection">
+        <li class="collection-item" style="background-color: #BF616A; color: #2E3440;">'Dato for tilbagemelding' er ikke en valid dato.</li>
+      </ul>
+    </div>
+  </div>
+</aside>
+
+<aside>
+  <div class="modal bottom-sheet" id="afleveringsfrist_fejl">
+    <div class="modal-content">
+      <ul class="collection">
+        <li class="collection-item" style="background-color: #BF616A; color: #2E3440;">'Dato for afleveringsfrist' er ikke en valid dato.</li>
+      </ul>
+    </div>
+  </div>
+</aside>
+
+<aside>
+  <div class="modal bottom-sheet" id="svar_afleveringsfrist_fejl">
+    <div class="modal-content">
+      <ul class="collection">
+        <li class="collection-item" style="background-color: #BF616A; color: #2E3440;">'Dato for tilbagemelding' er ikke en valid dato.</li>
+        <li class="collection-item" style="background-color: #BF616A; color: #2E3440;">'Dato for afleveringsfrist' er ikke en valid dato.</li>
+      </ul>
+    </div>
+  </div>
+</aside>
+
+
 <script>
+  function validation() {
+    let date_str
+    let date_parts
+    let year
+    let month
+    let day
+    let svar_date
+    let svar_dialog
+    let afleveringsfrist_date
+    let afleveringsfrist_dialog
+
+    date_str = document.getElementById('svar_dialog').value
+    if (date_str !== '') {
+      date_parts = date_str.split('-');
+      year = date_parts[2]
+      month = date_parts[1]
+      day = date_parts[0]
+      svar_date = new Date(year, (+month - 1), day)
+      svar_dialog = (Boolean(+svar_date) && svar_date.getDate() == day)
+      console.log(svar_dialog)
+    } else {
+      svar_dialog = false
+    }
+
+    date_str = document.getElementById('afleveringsfrist_dialog').value
+    if (date_str !== '') {
+      date_parts = date_str.split('-');
+      year = date_parts[2]
+      month = date_parts[1]
+      day = date_parts[0]
+      afleveringsfrist_date = new Date(year, (+month - 1), day)
+      afleveringsfrist_dialog = (Boolean(+afleveringsfrist_date) && afleveringsfrist_date.getDate() == day)
+      console.log(afleveringsfrist_dialog)
+    } else {
+      afleveringsfrist_dialog = false
+    }
+
+    if (svar_dialog !== true || afleveringsfrist_dialog !== true) {
+      if (svar_dialog !== true && afleveringsfrist_dialog !== true) {
+        $('#svar_afleveringsfrist_fejl').modal('open')
+      } else if (svar_dialog !== true) {
+        $('#svar_fejl').modal('open')
+      } else if (afleveringsfrist_dialog !== true) {
+        $('#afleveringsfrist_fejl').modal('open')
+      }
+      return false;
+    }
+    else {
+      document.getElementById('regForm').submit();
+    }
+  }
+
   $("input:checkbox").on('click', function () {
     let $box = $(this);
     if (!$box.attr("readonly")) {
@@ -1372,9 +1551,12 @@
 
   let submit_clicked = false
 
+
   $('form').submit(function (event) {
     submit_clicked = true
   });
+
+  updateStatusChange = () => status_change = true
 
   let public = '{{ public }}'
   let avid = '{{ avid }}'
@@ -1749,21 +1931,7 @@
 
   window.addEventListener('beforeunload',
     function (e) {
-      console.log('kodeord_modtaget', kodeord_modtaget)
-      console.log('kodeord_modtaget_start', kodeord_modtaget_start)
-      console.log('kodeord_mangler', kodeord_mangler)
-      console.log('kodeord_mangler_start', kodeord_mangler_start)
-      console.log('ikke_krypteret', ikke_krypteret)
-      console.log('ikke_krypteret_start', ikke_krypteret_start)
-      console.log('modtagelse_godkendt', modtagelse_godkendt)
-      console.log('modtagelse_godkendt_start', modtagelse_godkendt_start)
-      console.log('modtagelse_afvist', modtagelse_afvist)
-      console.log('modtagelse_afvist_start', modtagelse_afvist_start)
-      console.log('ada_godkendt', ada_godkendt)
-      console.log('ada_godkendt_start', ada_godkendt_start)
-      console.log('ada_afvist', ada_afvist)
-      console.log('ada_afvist_start', ada_afvist_start)
-
+      console.log('status_change:', status_change)
       if (
         (
           public != '{{ public }}' ||
@@ -1806,7 +1974,7 @@
           meta_opdateret !== meta_opdateret_start ||
           public_opdateret !== public_opdateret_start
         ) &&
-        submit_clicked === false
+        submit_clicked === false && status_change === false
       ) {
         e.preventDefault()
         e.returnValue = ''

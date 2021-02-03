@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import user_passes_test
 from django.contrib import messages
 
+from datetime import datetime
+
 from system.services import rettigheder, tjek_rettigheder
 from arkiveringsversioner.models import Arkiveringsversion, Version
 
@@ -182,6 +184,7 @@ def arkiveringsversion_view(request, avid, version=0, nystatus=None):
                 "godkendt_af_tester_meta_opdateret": _version_obj.godkendt_af_tester_meta_opdateret,
                 "godkendt_af_tester_public_opdateret": _version_obj.godkendt_af_tester_public_opdateret,
                 "godkendt_af_tester_maskine_renset": _version_obj.godkendt_af_tester_maskine_renset,
+                "dagsdato": datetime.today().strftime('%d-%m-%Y'),
             })
 
         if not Arkiveringsversion.objects.filter(avid=avid).exists():
