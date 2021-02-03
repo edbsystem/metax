@@ -1076,8 +1076,10 @@
                             {% else %}
                             <input type="checkbox" class="radio" name="dea" value="retur" />
                             <span style="color: #2E3440;">Retur fra DEA</span>
-                            {% endif %}
-                            {% elif 'arkiveringsversioner_status_godkendt_af_tester_se' in bruger_rettigheder and 'arkiveringsversioner_arkiveringsversion_se' in bruger_rettigheder %}
+                          </label>
+                          {% endif %}
+                          {% elif 'arkiveringsversioner_status_godkendt_af_tester_se' in bruger_rettigheder and 'arkiveringsversioner_arkiveringsversion_se' in bruger_rettigheder %}
+                          <label class="col l4" onchange="updateAfvikler_dea()">
                             {% if godkendt_af_tester_afvikler_dea %}
                             <input type="checkbox" class="radio" name="dea" value="afvikler" checked readonly onclick="return false" />
                             <span style="color: #2E3440; cursor: default !important;">Afvikler 'Send til DEA'</span>
@@ -1676,9 +1678,51 @@
   updateNedpakket = () => nedpakket = !nedpakket
   updateMaskine_renset = () => maskine_renset = !maskine_renset
   updateFileindex_godkendt = () => fileindex_godkendt = !fileindex_godkendt
-  updateAfvikler_dea = () => afvikler_dea = !afvikler_dea
-  updateAfleveret_til_dea = () => afleveret_til_dea = !afleveret_til_dea
-  updateRetur_fra_dea = () => retur_fra_dea = !retur_fra_dea
+  updateAfvikler_dea = () => {
+    if (afvikler_dea === true && afleveret_til_dea === false && retur_fra_dea === false) {
+      afvikler_dea = false
+      afleveret_til_dea = false
+      retur_fra_dea = false
+    }
+    else if (afvikler_dea === false) {
+      afvikler_dea = true
+      afleveret_til_dea = false
+      retur_fra_dea = false
+    }
+    console.log(afvikler_dea)
+    console.log(afleveret_til_dea)
+    console.log(retur_fra_dea)
+  }
+  updateAfleveret_til_dea = () => {
+    if (afvikler_dea === false && afleveret_til_dea === true && retur_fra_dea === false) {
+      afvikler_dea = false
+      afleveret_til_dea = false
+      retur_fra_dea = false
+    }
+    else if (afleveret_til_dea === false) {
+      afvikler_dea = false
+      afleveret_til_dea = true
+      retur_fra_dea = false
+    }
+    console.log(afvikler_dea)
+    console.log(afleveret_til_dea)
+    console.log(retur_fra_dea)
+  }
+  updateRetur_fra_dea = () => {
+    if (afvikler_dea === false && afleveret_til_dea === false && retur_fra_dea === true) {
+      afvikler_dea = false
+      afleveret_til_dea = false
+      retur_fra_dea = false
+    }
+    else if (retur_fra_dea === false) {
+      afvikler_dea = false
+      afleveret_til_dea = false
+      retur_fra_dea = true
+    }
+    console.log(afvikler_dea)
+    console.log(afleveret_til_dea)
+    console.log(retur_fra_dea)
+  }
   updateMary_kontrol = () => mary_kontrol = !mary_kontrol
   updateMeta_opdateret = () => meta_opdateret = !meta_opdateret
   updatePublic_opdateret = () => public_opdateret = !public_opdateret
