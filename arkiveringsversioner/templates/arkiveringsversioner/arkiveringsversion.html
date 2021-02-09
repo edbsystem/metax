@@ -434,7 +434,7 @@
                     {% if 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder and 'arkiveringsversioner_afleveringsfrist_rediger' in bruger_rettigheder %}
                     <input type="text" name="afleveringsfrist" id="afleveringsfrist" class="form-control date" value="{{ afleveringsfrist | default_if_none:'' }}" oninput="updateAfleveringsfrist()">
                     {% else %}
-                    <input type="text" name="afleveringsfrist" id="afleveringsfrist" class="form-control" style="cursor: default !important; border-bottom: 1px dotted #2E3440; box-shadow: 0 0px 0 0 #2E3440;" value="{{ afleveringsfrist | date:'d-m-Y' | default_if_none:'' }}" readonly>
+                    <input type="text" name="afleveringsfrist" id="afleveringsfrist" class="form-control" style="cursor: default !important; border-bottom: 1px dotted #2E3440; box-shadow: 0 0px 0 0 #2E3440;" value="{{ afleveringsfrist | default_if_none:'' }}" readonly>
                     {% endif %}
                   </div>
                 </div>
@@ -446,7 +446,7 @@
                     {% if 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder and 'arkiveringsversioner_modtaget_rediger' in bruger_rettigheder %}
                     <input type="text" name="modtaget" id="modtaget" class="form-control date" value="{{ modtaget | default_if_none:'' }}" oninput="updateModtaget()">
                     {% else %}
-                    <input type="text" name="modtaget" id="modtaget" class="form-control" style="cursor: default !important; border-bottom: 1px dotted #2E3440; box-shadow: 0 0px 0 0 #2E3440;" value="{{ modtaget | date:'d-m-Y' | default_if_none:'' }}" readonly>
+                    <input type="text" name="modtaget" id="modtaget" class="form-control" style="cursor: default !important; border-bottom: 1px dotted #2E3440; box-shadow: 0 0px 0 0 #2E3440;" value="{{ modtaget | default_if_none:'' }}" readonly>
                     {% endif %}
                   </div>
                 </div>
@@ -456,7 +456,7 @@
                     {% if 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder and 'arkiveringsversioner_adgang_rediger' in bruger_rettigheder %}
                     <input type="text" name="adgang" id="adgang" class="form-control date" value="{{ adgang | default_if_none:'' }}" oninput="updateAdgang()">
                     {% else %}
-                    <input type="text" name="adgang" id="adgang" class="form-control" style="cursor: default !important; border-bottom: 1px dotted #2E3440; box-shadow: 0 0px 0 0 #2E3440;" value="{{ adgang | date:'d-m-Y' | default_if_none:'' }}" readonly>
+                    <input type="text" name="adgang" id="adgang" class="form-control" style="cursor: default !important; border-bottom: 1px dotted #2E3440; box-shadow: 0 0px 0 0 #2E3440;" value="{{ adgang | default_if_none:'' }}" readonly>
                     {% endif %}
                   </div>
                 </div>
@@ -466,7 +466,7 @@
                     {% if 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder and 'arkiveringsversioner_svarfrist_rediger' in bruger_rettigheder %}
                     <input type="text" name="svarfrist" id="svarfrist" class="form-control date" value="{{ svarfrist | default_if_none:'' }}" oninput="updateSvarfrist()">
                     {% else %}
-                    <input type="text" name="svarfrist" id="svarfrist" class="form-control" style="cursor: default !important; border-bottom: 1px dotted #2E3440; box-shadow: 0 0px 0 0 #2E3440;" value="{{ svarfrist | date:'d-m-Y' | default_if_none:'' }}" readonly>
+                    <input type="text" name="svarfrist" id="svarfrist" class="form-control" style="cursor: default !important; border-bottom: 1px dotted #2E3440; box-shadow: 0 0px 0 0 #2E3440;" value="{{ svarfrist | default_if_none:'' }}" readonly>
                     {% endif %}
                   </div>
                 </div>
@@ -476,7 +476,7 @@
                     {% if 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder and 'arkiveringsversioner_svar_rediger' in bruger_rettigheder %}
                     <input type="text" name="svar" id="svar" class="form-control date" value="{{ svar | default_if_none:'' }}" oninput="updateSvar()">
                     {% else %}
-                    <input type="text" name="svar" id="svar" class="form-control" style="cursor: default !important; border-bottom: 1px dotted #2E3440; box-shadow: 0 0px 0 0 #2E3440;" value="{{ svar | date:'d-m-Y' | default_if_none:'' }}" readonly>
+                    <input type="text" name="svar" id="svar" class="form-control" style="cursor: default !important; border-bottom: 1px dotted #2E3440; box-shadow: 0 0px 0 0 #2E3440;" value="{{ svar | default_if_none:'' }}" readonly>
                     {% endif %}
                   </div>
                 </div>
