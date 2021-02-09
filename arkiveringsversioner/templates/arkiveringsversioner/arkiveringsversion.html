@@ -8,6 +8,7 @@
   {% if 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder %}
   <form action="{% url 'arkiveringsversion_view' avid version %}" method="POST">
     {% csrf_token %}
+    <input type="hidden" name="version" id="version" value="{{ version }}">
     {% endif %}
     <div class="row">
 
@@ -40,7 +41,7 @@
                 <div class="input-field col l12">
                   <div class="form-group">
                     <label for="public_link" class="col-form-label left" style="color: #4C566A;">Public Link</label>
-                    <input type="text" name="public_link" id="public_link" class="form-control" spellcheck="false" value="{{ public | default_if_none:'' }}" oninput="updatePublic()">
+                    <input type="text" id="public_link" name="public_link" class="form-control" spellcheck="false" value="{{ public | default_if_none:'' }}" oninput="updatePublic()">
                   </div>
                 </div>
               </div>
@@ -180,9 +181,9 @@
                   <div class="form-group">
                     <label for="noterfraarkivar" class="col-form-label left" style="color: #4C566A;">Noter fra arkivar</label>
                     {% if 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder and 'arkiveringsversioner_arkivarnoter_rediger' in bruger_rettigheder %}
-                    <textarea id="noterfraarkivar" class="materialize-textarea" spellcheck="false" oninput="updateNoterfraarkivar()">{{ noterfraarkivar | default_if_none:'' }}</textarea>
+                    <textarea id="noterfraarkivar" name="noterfraarkivar" class="materialize-textarea" spellcheck="false" oninput="updateNoterfraarkivar()">{{ noterfraarkivar | default_if_none:'' }}</textarea>
                     {% else %}
-                    <textarea id="noterfraarkivar" class="materialize-textarea" spellcheck="false" style="cursor: default !important; border-bottom: 1px dotted #2E3440; box-shadow: 0 0px 0 0 #2E3440;" readonly>{{ noterfraarkivar | default_if_none:'' }}</textarea>
+                    <textarea id="noterfraarkivar" name="noterfraarkivar" class="materialize-textarea" spellcheck="false" style="cursor: default !important; border-bottom: 1px dotted #2E3440; box-shadow: 0 0px 0 0 #2E3440;" readonly>{{ noterfraarkivar | default_if_none:'' }}</textarea>
                     {% endif %}
                   </div>
                 </div>
@@ -190,9 +191,9 @@
                   <div class="form-group">
                     <label for="noterfratester" class="col-form-label left" style="color: #4C566A;">Noter fra tester</label>
                     {% if 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder and 'arkiveringsversioner_testernoter_rediger' in bruger_rettigheder %}
-                    <textarea id="noterfratester" class="materialize-textarea" spellcheck="false" oninput="updateNoterfratester()">{{ noterfratester | default_if_none:'' }}</textarea>
+                    <textarea id="noterfratester" name="noterfratester" class="materialize-textarea" spellcheck="false" oninput="updateNoterfratester()">{{ noterfratester | default_if_none:'' }}</textarea>
                     {% else %}
-                    <textarea id="noterfratester" class="materialize-textarea" spellcheck="false" style="cursor: default !important; border-bottom: 1px dotted #2E3440; box-shadow: 0 0px 0 0 #2E3440;" readonly>{{ noterfratester | default_if_none:'' }}</textarea>
+                    <textarea id="noterfratester" name="noterfratester" class="materialize-textarea" spellcheck="false" style="cursor: default !important; border-bottom: 1px dotted #2E3440; box-shadow: 0 0px 0 0 #2E3440;" readonly>{{ noterfratester | default_if_none:'' }}</textarea>
                     {% endif %}
                   </div>
                 </div>
@@ -243,8 +244,8 @@
 
                   {% if status == 'Klar til test' %}
                   {% if 'arkiveringsversioner_status_klar_til_test_rediger' in bruger_rettigheder and 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder %}
-                  <a href="{% url 'arkiveringsversion_view' avid version 'begynd_test' %}">
-                    <button id="test_knap" name="test_knap" type="button" class="btn waves-effect waves-light z-depth-0" style="margin-right: 6px; background-color: #A3BE8C; color: #4C566A;">
+                  <a href="#fra_klartiltest_til_begyndtest_dialog" class="modal-trigger">
+                    <button id="begyndtest_knap" name="begyndtest_knap" type="button" class="btn waves-effect waves-light z-depth-0" style="margin-right: 6px; background-color: #A3BE8C; color: #4C566A;">
                       Begynd test
                     </button>
                   </a>
@@ -253,12 +254,12 @@
 
                   {% if status == 'Under test' %}
                   {% if 'arkiveringsversioner_status_under_test_rediger' in bruger_rettigheder and 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder %}
-                  <a href="{% url 'arkiveringsversion_view' avid version 'tilbagemeldt' %}">
+                  <a href="#fra_undertest_til_tilbagemeldt_dialog" class="modal-trigger">
                     <button id="tilbagemeldt_knap" name="tilbagemeldt_knap" type="button" class="btn waves-effect waves-light z-depth-0" style="margin-right: 6px; background-color: #A3BE8C; color: #4C566A;">
                       Tilbagemeldt
                     </button>
                   </a>
-                  <a href="{% url 'arkiveringsversion_view' avid version 'godkendt_af_tester' %}">
+                  <a href="#fra_undertest_til_godkendtaftester_dialog" class="modal-trigger">
                     <button id="godkendtaftester_knap" name="godkendtaftester_knap" type="button" class="btn waves-effect waves-light z-depth-0" style="margin-right: 6px; background-color: #A3BE8C; color: #4C566A;">
                       Godkendt af tester
                     </button>
@@ -291,7 +292,7 @@
                   {% if status == 'Godkendt af tester' %}
                   {% if 'arkiveringsversioner_status_godkendt_af_tester_rediger' in bruger_rettigheder and 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder %}
                   {% if godkendt_af_tester_fileindex_godkendt and godkendt_af_tester_retur_fra_dea and godkendt_af_tester_mary_kontrol and godkendt_af_tester_meta_opdateret and godkendt_af_tester_public_opdateret and godkendt_af_tester_maskine_renset %}
-                  <a href="{% url 'arkiveringsversion_view' avid version 'parat_til_godkendelse' %}">
+                  <a href="#fra_godkendtaftester_til_parattilgodkendelse_dialog" class="modal-trigger">
                     <button id="parattilgodkendelse_knap" name="parattilgodkendelse_knap" type="button" class="btn waves-effect waves-light z-depth-0" style="margin-right: 6px; background-color: #A3BE8C; color: #4C566A;">
                       Parat til godkendelse
                     </button>
@@ -1276,21 +1277,21 @@
                     <div class="col l12">
                       <div class="input-field col l12" style="margin: 0px; padding-bottom: 5px; margin-top: 5px;">
                         <div class="form-group">
-                          <label class="col l8" id="maskine_renset" onchange="updatePublic_opdateret()">
+                          <label class="col l8" id="godkendt_maskine_renset" onchange="updateGodkendt_maskine_renset()">
                             {% if 'arkiveringsversioner_status_godkendt_af_tester_rediger' in bruger_rettigheder and 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder %}
                             {% if godkendt_af_tester_maskine_renset %}
-                            <input type="checkbox" class="radio" name="maskine_renset" value="maskine_renset" checked />
+                            <input type="checkbox" class="radio" name="godkendt_maskine_renset" value="godkendt_maskine_renset" checked />
                             <span style="color: #2E3440;">Maksine renset for ADA-databaser og andet</span>
                             {% else %}
-                            <input type="checkbox" class="radio" name="maskine_renset" value="maskine_renset" />
+                            <input type="checkbox" class="radio" name="godkendt_maskine_renset" value="godkendt_maskine_renset" />
                             <span style="color: #2E3440;">Maksine renset for ADA-databaser og andet</span>
                             {% endif %}
                             {% elif 'arkiveringsversioner_status_godkendt_af_tester_se' in bruger_rettigheder and 'arkiveringsversioner_arkiveringsversion_se' in bruger_rettigheder %}
                             {% if godkendt_af_tester_maskine_renset %}
-                            <input type="checkbox" class="radio" name="maskine_renset" value="maskine_renset" checked readonly onclick="return false" />
+                            <input type="checkbox" class="radio" name="godkendt_maskine_renset" value="godkendt_maskine_renset" checked readonly onclick="return false" />
                             <span style="color: #2E3440; cursor: default !important;">Maksine renset for ADA-databaser og andet</span>
                             {% else %}
-                            <input type="checkbox" class="radio" name="maskine_renset" value="maskine_renset" readonly onclick="return false" />
+                            <input type="checkbox" class="radio" name="godkendt_maskine_renset" value="godkendt_maskine_renset" readonly onclick="return false" />
                             <span style="color: #2E3440; cursor: default !important;">Maksine renset for ADA-databaser og andet</span>
                             {% endif %}
                             {% endif %}
@@ -1423,7 +1424,7 @@
               Fortryd
             </button>
           </a>
-          <button type="button" class="btn waves-effect waves-light z-depth-0" style="margin-left: 6px; background-color: #A3BE8C; color: #2E3440;" onclick="return validation()">
+          <button type="button" class="btn waves-effect waves-light z-depth-0" style="margin-left: 6px; background-color: #A3BE8C; color: #2E3440;" onclick="return validation_fra_modtaget_til_tilbagemeldt()">
             Bekræft
           </button>
         </div>
@@ -1464,9 +1465,126 @@
   </div>
 </aside>
 
+<aside>
+  <div class="modal" id="fra_klartiltest_til_begyndtest_dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Statusskift</h5>
+        </div>
+        <div class="modal-body">
+          <p>Bekræft at du ønsker statusskift for <i>AVID.SA.{{avid}}</i><br>fra '<b>Klar til test</b>' til '<b>Under test</b>'</p>
+          <br><br>
+        </div>
+        <div class="modal-footer">
+          <a href="#!">
+            <button id="" name="" type="button" class="modal-close btn waves-effect waves-light z-depth-0" style="background-color: #BF616A; color: #ECEFF4;" onclick="updateStatusChange()">
+              Fortryd
+            </button>
+          </a>
+          <a href="{% url 'arkiveringsversion_view' avid version 'begynd_test' %}">
+            <button id="" name="" type="button" class="btn waves-effect waves-light z-depth-0" style="margin-left: 6px; background-color: #A3BE8C; color: #2E3440;" onclick="updateStatusChange()">
+              Bekræft
+            </button>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</aside>
+
+<aside>
+  <div class="modal" id="fra_undertest_til_tilbagemeldt_dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Statusskift</h5>
+        </div>
+        <div class="modal-body">
+          <p>Bekræft du ønsker at skifte status for <b><i>AVID.SA.{{avid}}</i></b><br>fra <b>Under test</b> til <b>Tilbagemeldt</b></p>
+          <br>
+          <form action="{% url 'arkiveringsversion_view' avid version 'tilbagemeldt' %}" id="fra_undertest_til_tilbagemeldt_Form" method="GET">
+            {% csrf_token %}
+            <div class="form-group">
+              <label for="svar2_dialog" class="col-form-label left" style="color: #4C566A;">Dato for tilbagemelding</label>
+              <input type="text" name="svar2_dialog" id="svar2_dialog" class="form-control date" value="{{ dagsdato }}">
+            </div>
+            <br><br>
+        </div>
+        <div class="modal-footer">
+          <a href="#!">
+            <button id="" name="" type="button" class="modal-close btn waves-effect waves-light z-depth-0" style="background-color: #BF616A; color: #ECEFF4;" onclick="updateStatusChange()">
+              Fortryd
+            </button>
+          </a>
+          <button type="button" class="btn waves-effect waves-light z-depth-0" style="margin-left: 6px; background-color: #A3BE8C; color: #2E3440;" onclick="return validation_fra_undertest_til_tilbagemeldt()">
+            Bekræft
+          </button>
+        </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</aside>
+
+<aside>
+  <div class="modal" id="fra_undertest_til_godkendtaftester_dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Statusskift</h5>
+        </div>
+        <div class="modal-body">
+          <p>Bekræft at du ønsker statusskift for <i>AVID.SA.{{avid}}</i><br>fra '<b>Under test</b>' til '<b>Godkendt af tester</b>'</p>
+          <br><br>
+        </div>
+        <div class="modal-footer">
+          <a href="#!">
+            <button id="" name="" type="button" class="modal-close btn waves-effect waves-light z-depth-0" style="background-color: #BF616A; color: #ECEFF4;" onclick="updateStatusChange()">
+              Fortryd
+            </button>
+          </a>
+          <a href="{% url 'arkiveringsversion_view' avid version 'godkendt_af_tester' %}">
+            <button id="" name="" type="button" class="btn waves-effect waves-light z-depth-0" style="margin-left: 6px; background-color: #A3BE8C; color: #2E3440;" onclick="updateStatusChange()">
+              Bekræft
+            </button>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</aside>
+
+<aside>
+  <div class="modal" id="fra_godkendtaftester_til_parattilgodkendelse_dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Statusskift</h5>
+        </div>
+        <div class="modal-body">
+          <p>Bekræft at du ønsker statusskift for <i>AVID.SA.{{avid}}</i><br>fra '<b>Godkendt af tester</b>' til '<b>Parat til godkendelse</b>'</p>
+          <br><br>
+        </div>
+        <div class="modal-footer">
+          <a href="#!">
+            <button id="" name="" type="button" class="modal-close btn waves-effect waves-light z-depth-0" style="background-color: #BF616A; color: #ECEFF4;" onclick="updateStatusChange()">
+              Fortryd
+            </button>
+          </a>
+          <a href="{% url 'arkiveringsversion_view' avid version 'parat_til_godkendelse' %}">
+            <button id="" name="" type="button" class="btn waves-effect waves-light z-depth-0" style="margin-left: 6px; background-color: #A3BE8C; color: #2E3440;" onclick="updateStatusChange()">
+              Bekræft
+            </button>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</aside>
 
 <script>
-  function validation() {
+  function validation_fra_modtaget_til_tilbagemeldt() {
     let date_str
     let date_parts
     let year
@@ -1485,7 +1603,9 @@
       day = date_parts[0]
       svar_date = new Date(year, (+month - 1), day)
       svar_dialog = (Boolean(+svar_date) && svar_date.getDate() == day)
-      console.log(svar_dialog)
+      if (year < 2021) {
+        svar_dialog = false
+      }
     } else {
       svar_dialog = false
     }
@@ -1498,7 +1618,9 @@
       day = date_parts[0]
       afleveringsfrist_date = new Date(year, (+month - 1), day)
       afleveringsfrist_dialog = (Boolean(+afleveringsfrist_date) && afleveringsfrist_date.getDate() == day)
-      console.log(afleveringsfrist_dialog)
+      if (year < 2021) {
+        afleveringsfrist_dialog = false
+      }
     } else {
       afleveringsfrist_dialog = false
     }
@@ -1514,7 +1636,40 @@
       return false;
     }
     else {
-      document.getElementById('regForm').submit();
+      document.getElementById('fra_modtaget_til_tilbagemeldt_Form').submit();
+    }
+  }
+
+  function validation_fra_undertest_til_tilbagemeldt() {
+    let date_str
+    let date_parts
+    let year
+    let month
+    let day
+    let svar_date
+    let svar_dialog
+
+    date_str = document.getElementById('svar2_dialog').value
+    if (date_str !== '') {
+      date_parts = date_str.split('-');
+      year = date_parts[2]
+      month = date_parts[1]
+      day = date_parts[0]
+      svar_date = new Date(year, (+month - 1), day)
+      svar_dialog = (Boolean(+svar_date) && svar_date.getDate() == day)
+      if (year < 2021) {
+        svar_dialog = false
+      }
+    } else {
+      svar_dialog = false
+    }
+
+    if (svar_dialog !== true) {
+      $('#svar_fejl').modal('open')
+      return false;
+    }
+    else {
+      document.getElementById('fra_undertest_til_tilbagemeldt_Form').submit();
     }
   }
 
@@ -1617,6 +1772,8 @@
   let meta_opdateret_start = undefined
   let public_opdateret = undefined
   let public_opdateret_start = undefined
+  let godkendt_maskine_renset = undefined
+  let godkendt_maskine_renset_start = undefined
 
   if ('{{ modtaget_kvitteret }}' == 'False') {
     kvitteret = false
@@ -1778,6 +1935,14 @@
     public_opdateret_start = true
   }
 
+  if ('{{ godkendt_maskine_renset }}' == 'False') {
+    godkendt_maskine_renset = false
+    godkendt_maskine_renset_start = false
+  } else {
+    godkendt_maskine_renset = true
+    godkendt_maskine_renset_start = true
+  }
+
   updatePublic = () => public = document.getElementById('public').value
   updateAvid = () => avid = document.getElementById('avid').value
   updateJnr = () => jnr = document.getElementById('jnr').value
@@ -1928,6 +2093,7 @@
   updateMary_kontrol = () => mary_kontrol = !mary_kontrol
   updateMeta_opdateret = () => meta_opdateret = !meta_opdateret
   updatePublic_opdateret = () => public_opdateret = !public_opdateret
+  updateGodkendt_maskine_renset = () => godkendt_maskine_renset = !godkendt_maskine_renset
 
   window.addEventListener('beforeunload',
     function (e) {
@@ -1972,7 +2138,8 @@
           retur_fra_dea !== retur_fra_dea_start ||
           mary_kontrol !== mary_kontrol_start ||
           meta_opdateret !== meta_opdateret_start ||
-          public_opdateret !== public_opdateret_start
+          public_opdateret !== public_opdateret_start ||
+          godkendt_maskine_renset !== godkendt_maskine_renset_start
         ) &&
         submit_clicked === false && status_change === false
       ) {

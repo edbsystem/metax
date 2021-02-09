@@ -53,6 +53,46 @@ $(document).ready(function () {
         }
     )
 
+    $('#fra_klartiltest_til_begyndtest_dialog').modal(
+        {
+            dismissible: false,
+
+            onCloseEnd: function () {
+                status_change = false
+            },
+        }
+    )
+
+    $('#fra_undertest_til_tilbagemeldt_dialog').modal(
+        {
+            dismissible: false,
+
+            onCloseEnd: function () {
+                status_change = false
+            },
+        }
+    )
+
+    $('#fra_undertest_til_godkendtaftester_dialog').modal(
+        {
+            dismissible: false,
+
+            onCloseEnd: function () {
+                status_change = false
+            },
+        }
+    )
+
+    $('#fra_godkendtaftester_til_parattilgodkendelse_dialog').modal(
+        {
+            dismissible: false,
+
+            onCloseEnd: function () {
+                status_change = false
+            },
+        }
+    )
+
     $(".clickable-row").click(function () {
         window.location.href = $(this).data("href");
     })

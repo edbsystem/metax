@@ -145,6 +145,6 @@ input {
     color: #2E3440 !important;
 }
 
-div#fra_afventeraflevering_til_modtaget_dialog, div#fra_modtaget_til_klartiltest_dialog, div#fra_modtaget_til_tilbagemeldt_dialog {
+div#fra_afventeraflevering_til_modtaget_dialog, div#fra_modtaget_til_klartiltest_dialog, div#fra_modtaget_til_tilbagemeldt_dialog, div#fra_klartiltest_til_begyndtest_dialog, div#fra_undertest_til_tilbagemeldt_dialog, div#fra_undertest_til_godkendtaftester_dialog, div#fra_godkendtaftester_til_parattilgodkendelse_dialog {
     width: 600px;
 }
