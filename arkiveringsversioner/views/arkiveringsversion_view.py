@@ -115,7 +115,7 @@ def arkiveringsversion_view(request, avid, version=0, nystatus=None):
                 _gammel_status = _version_obj.status
                 _version_obj.status = _ny_status
                 _version_obj.save()
-                messages.success(request, f"Status skiftet fra '{_gammel_status}' til '{_ny_status}'.")
+                # messages.success(request, f"Status skiftet fra '{_gammel_status}' til '{_ny_status}'.")
                 return redirect(f"/arkiveringsversioner/arkiveringsversion/{avid}/{version}/")
 
             _tester_fuldenavn = ''

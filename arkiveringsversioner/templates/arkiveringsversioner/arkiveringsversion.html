@@ -270,7 +270,7 @@
                   {% if status == 'Tilbagemeldt' %}
                   {% if 'arkiveringsversioner_status_tilbagemeldt_rediger' in bruger_rettigheder and 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder %}
                   {% if tilbagemeldt_nedpakket and tilbagemeldt_maskine_renset %}
-                  <a href="{% url 'arkiveringsversion_view' avid version 'afvent_genaflevering' %}">
+                  <a href="#fra_tilbagemeldt_til_afventgenaflevering_dialog" class="modal-trigger">
                     <button id="afventgenaflevering_knap" name="afventgenaflevering_knap" type="button" class="btn waves-effect waves-light z-depth-0" style="margin-right: 6px; background-color: #A3BE8C; color: #4C566A;">
                       Afvent genaflevering
                     </button>
@@ -280,8 +280,8 @@
                   {% endif %}
 
                   {% if status == 'Afventer genaflevering' %}
-                  {% if 'arkiveringsversioner_status_afventer_genaflevering_rediger' in bruger_rettigheder and 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder %}
-                  <a href="{% url 'arkiveringsversion_view' avid version 'modtaget' %}">
+                  {% if 'arkiveringsversioner_status_afventer_aflevering_rediger' in bruger_rettigheder and 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder %}
+                  <a href="#fra_afventergenaflevering_til_modtaget_dialog" class="modal-trigger">
                     <button id="modtaget_knap" name="modtaget_knap" type="button" class="btn waves-effect waves-light z-depth-0" style="margin-right: 6px; background-color: #A3BE8C; color: #4C566A;">
                       Modtaget
                     </button>
@@ -303,7 +303,7 @@
 
                   {% if status == 'Parat til godkendelse' %}
                   {% if 'arkiveringsversioner_status_parat_til_godkendelse_rediger' in bruger_rettigheder and 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder %}
-                  <a href="{% url 'arkiveringsversion_view' avid version 'godkendt' %}">
+                  <a href="#fra_parattilgodkendelse_til_godkendt_dialog" class="modal-trigger">
                     <button id="godkendt_knap" name="godkendt_knap" type="button" class="btn waves-effect waves-light z-depth-0" style="margin-right: 6px; background-color: #A3BE8C; color: #4C566A;">
                       Godkendt
                     </button>
@@ -1347,8 +1347,15 @@
           <h5 class="modal-title">Statusskift</h5>
         </div>
         <div class="modal-body">
-          <p>Bekræft at du ønsker statusskift for <i>AVID.SA.{{avid}}</i><br>fra '<b>Afventer aflevering</b>' til '<b>Modtaget</b>'</p>
-          <br><br>
+          <p>Bekræft du ønsker at skifte status for <b><i>AVID.SA.{{avid}}</i></b><br>fra <b>Afventer aflevering</b> til <b>Modtaget</b></p>
+          <br>
+          <form action="{% url 'arkiveringsversion_view' avid version 'modtaget' %}" id="fra_afventeraflevering_til_modtaget_Form" method="GET">
+            {% csrf_token %}
+            <div class="form-group">
+              <label for="svar5_dialog" class="col-form-label left" style="color: #4C566A;">Dato for modtagelse</label>
+              <input type="text" name="svar5_dialog" id="svar5_dialog" class="form-control date" value="{{ dagsdato }}">
+            </div>
+            <br><br>
         </div>
         <div class="modal-footer">
           <a href="#!">
@@ -1356,12 +1363,11 @@
               Fortryd
             </button>
           </a>
-          <a href="{% url 'arkiveringsversion_view' avid version 'modtaget' %}">
-            <button id="" name="" type="button" class="btn waves-effect waves-light z-depth-0" style="margin-left: 6px; background-color: #A3BE8C; color: #2E3440;" onclick="updateStatusChange()">
-              Bekræft
-            </button>
-          </a>
+          <button type="button" class="btn waves-effect waves-light z-depth-0" style="margin-left: 6px; background-color: #A3BE8C; color: #2E3440;" onclick="return validation_fra_afventeraflevering_til_modtaget()">
+            Bekræft
+          </button>
         </div>
+        </form>
       </div>
     </div>
   </div>
@@ -1583,7 +1589,156 @@
   </div>
 </aside>
 
+<aside>
+  <div class="modal" id="fra_parattilgodkendelse_til_godkendt_dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Statusskift</h5>
+        </div>
+        <div class="modal-body">
+          <p>Bekræft du ønsker at skifte status for <b><i>AVID.SA.{{avid}}</i></b><br>fra <b>Parat til godkendelse</b> til <b>Godkendt</b></p>
+          <br>
+          <form action="{% url 'arkiveringsversion_view' avid version 'godkendt' %}" id="fra_parattilgodkendelse_til_godkendt_Form" method="GET">
+            {% csrf_token %}
+            <div class="form-group">
+              <label for="svar3_dialog" class="col-form-label left" style="color: #4C566A;">Dato for godkendelse</label>
+              <input type="text" name="svar3_dialog" id="svar3_dialog" class="form-control date" value="{{ dagsdato }}">
+            </div>
+            <br><br>
+        </div>
+        <div class="modal-footer">
+          <a href="#!">
+            <button id="" name="" type="button" class="modal-close btn waves-effect waves-light z-depth-0" style="background-color: #BF616A; color: #ECEFF4;" onclick="updateStatusChange()">
+              Fortryd
+            </button>
+          </a>
+          <button type="button" class="btn waves-effect waves-light z-depth-0" style="margin-left: 6px; background-color: #A3BE8C; color: #2E3440;" onclick="return validation_fra_parattilgodkendelse_til_godkendt()">
+            Bekræft
+          </button>
+        </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</aside>
+
+<aside>
+  <div class="modal bottom-sheet" id="godkendelse_fejl">
+    <div class="modal-content">
+      <ul class="collection">
+        <li class="collection-item" style="background-color: #BF616A; color: #2E3440;">'Dato for godkendelse' er ikke en valid dato.</li>
+      </ul>
+    </div>
+  </div>
+</aside>
+
+<aside>
+  <div class="modal" id="fra_tilbagemeldt_til_afventgenaflevering_dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Statusskift</h5>
+        </div>
+        <div class="modal-body">
+          <p>Bekræft at du ønsker statusskift for <i>AVID.SA.{{avid}}</i><br>fra '<b>Tilbagmeldt</b>' til '<b>Afventer genaflevering</b>'</p>
+          <br><br>
+        </div>
+        <div class="modal-footer">
+          <a href="#!">
+            <button id="" name="" type="button" class="modal-close btn waves-effect waves-light z-depth-0" style="background-color: #BF616A; color: #ECEFF4;" onclick="updateStatusChange()">
+              Fortryd
+            </button>
+          </a>
+          <a href="{% url 'arkiveringsversion_view' avid version 'afvent_genaflevering' %}">
+            <button id="" name="" type="button" class="btn waves-effect waves-light z-depth-0" style="margin-left: 6px; background-color: #A3BE8C; color: #2E3440;" onclick="updateStatusChange()">
+              Bekræft
+            </button>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</aside>
+
+<aside>
+  <div class="modal" id="fra_afventergenaflevering_til_modtaget_dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Statusskift</h5>
+        </div>
+        <div class="modal-body">
+          <p>Bekræft du ønsker at skifte status for <b><i>AVID.SA.{{avid}}</i></b><br>fra <b>Afventer genaflevering</b> til <b>Modtaget</b></p>
+          <br>
+          <form action="{% url 'arkiveringsversion_view' avid version 'modtaget' %}" id="fra_afventergenaflevering_til_modtaget_Form" method="GET">
+            {% csrf_token %}
+            <div class="form-group">
+              <label for="svar4_dialog" class="col-form-label left" style="color: #4C566A;">Dato for modtagelse</label>
+              <input type="text" name="svar4_dialog" id="svar4_dialog" class="form-control date" value="{{ dagsdato }}">
+            </div>
+            <br><br>
+        </div>
+        <div class="modal-footer">
+          <a href="#!">
+            <button id="" name="" type="button" class="modal-close btn waves-effect waves-light z-depth-0" style="background-color: #BF616A; color: #ECEFF4;" onclick="updateStatusChange()">
+              Fortryd
+            </button>
+          </a>
+          <button type="button" class="btn waves-effect waves-light z-depth-0" style="margin-left: 6px; background-color: #A3BE8C; color: #2E3440;" onclick="return validation_fra_afventergenaflevering_til_modtaget()">
+            Bekræft
+          </button>
+        </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</aside>
+
+<aside>
+  <div class="modal bottom-sheet" id="modtagelse_fejl">
+    <div class="modal-content">
+      <ul class="collection">
+        <li class="collection-item" style="background-color: #BF616A; color: #2E3440;">'Dato for modtagelse' er ikke en valid dato.</li>
+      </ul>
+    </div>
+  </div>
+</aside>
+
 <script>
+  function validation_fra_afventeraflevering_til_modtaget() {
+    let date_str
+    let date_parts
+    let year
+    let month
+    let day
+    let svar_date
+    let svar_dialog
+
+    date_str = document.getElementById('svar5_dialog').value
+    if (date_str !== '') {
+      date_parts = date_str.split('-');
+      year = date_parts[2]
+      month = date_parts[1]
+      day = date_parts[0]
+      svar_date = new Date(year, (+month - 1), day)
+      svar_dialog = (Boolean(+svar_date) && svar_date.getDate() == day)
+      if (year < 2021) {
+        svar_dialog = false
+      }
+    } else {
+      svar_dialog = false
+    }
+
+    if (svar_dialog !== true) {
+      $('#modtagelse_fejl').modal('open')
+      return false;
+    }
+    else {
+      document.getElementById('fra_afventeraflevering_til_modtaget_Form').submit();
+    }
+  }
+
   function validation_fra_modtaget_til_tilbagemeldt() {
     let date_str
     let date_parts
@@ -1670,6 +1825,73 @@
     }
     else {
       document.getElementById('fra_undertest_til_tilbagemeldt_Form').submit();
+    }
+  }
+
+
+  function validation_fra_parattilgodkendelse_til_godkendt() {
+    let date_str
+    let date_parts
+    let year
+    let month
+    let day
+    let svar_date
+    let svar_dialog
+
+    date_str = document.getElementById('svar3_dialog').value
+    if (date_str !== '') {
+      date_parts = date_str.split('-');
+      year = date_parts[2]
+      month = date_parts[1]
+      day = date_parts[0]
+      svar_date = new Date(year, (+month - 1), day)
+      svar_dialog = (Boolean(+svar_date) && svar_date.getDate() == day)
+      if (year < 2021) {
+        svar_dialog = false
+      }
+    } else {
+      svar_dialog = false
+    }
+
+    if (svar_dialog !== true) {
+      $('#godkendelse_fejl').modal('open')
+      return false;
+    }
+    else {
+      document.getElementById('fra_parattilgodkendelse_til_godkendt_Form').submit();
+    }
+  }
+
+  function validation_fra_afventergenaflevering_til_modtaget() {
+    let date_str
+    let date_parts
+    let year
+    let month
+    let day
+    let svar_date
+    let svar_dialog
+
+    date_str = document.getElementById('svar4_dialog').value
+    if (date_str !== '') {
+      date_parts = date_str.split('-');
+      year = date_parts[2]
+      month = date_parts[1]
+      day = date_parts[0]
+      svar_date = new Date(year, (+month - 1), day)
+      svar_dialog = (Boolean(+svar_date) && svar_date.getDate() == day)
+      if (year < 2021) {
+        svar_dialog = false
+      }
+    } else {
+      svar_dialog = false
+    }
+
+    if (svar_dialog !== true) {
+      $('#modtagelse_fejl').modal('open')
+      return false;
+    }
+    else {
+      document.getElementById('fra_afventergenaflevering_til_modtaget_Form').submit();
     }
   }
 
@@ -2056,9 +2278,6 @@
       afleveret_til_dea = false
       retur_fra_dea = false
     }
-    console.log(afvikler_dea)
-    console.log(afleveret_til_dea)
-    console.log(retur_fra_dea)
   }
   updateAfleveret_til_dea = () => {
     if (afvikler_dea === false && afleveret_til_dea === true && retur_fra_dea === false) {
@@ -2071,9 +2290,6 @@
       afleveret_til_dea = true
       retur_fra_dea = false
     }
-    console.log(afvikler_dea)
-    console.log(afleveret_til_dea)
-    console.log(retur_fra_dea)
   }
   updateRetur_fra_dea = () => {
     if (afvikler_dea === false && afleveret_til_dea === false && retur_fra_dea === true) {
@@ -2086,9 +2302,6 @@
       afleveret_til_dea = false
       retur_fra_dea = true
     }
-    console.log(afvikler_dea)
-    console.log(afleveret_til_dea)
-    console.log(retur_fra_dea)
   }
   updateMary_kontrol = () => mary_kontrol = !mary_kontrol
   updateMeta_opdateret = () => meta_opdateret = !meta_opdateret
@@ -2097,7 +2310,6 @@
 
   window.addEventListener('beforeunload',
     function (e) {
-      console.log('status_change:', status_change)
       if (
         (
           public != '{{ public }}' ||

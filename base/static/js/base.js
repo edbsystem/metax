@@ -93,6 +93,36 @@ $(document).ready(function () {
         }
     )
 
+    $('#fra_parattilgodkendelse_til_godkendt_dialog').modal(
+        {
+            dismissible: false,
+
+            onCloseEnd: function () {
+                status_change = false
+            },
+        }
+    )
+
+    $('#fra_tilbagemeldt_til_afventgenaflevering_dialog').modal(
+        {
+            dismissible: false,
+
+            onCloseEnd: function () {
+                status_change = false
+            },
+        }
+    )
+
+    $('#fra_afventergenaflevering_til_modtaget_dialog').modal(
+        {
+            dismissible: false,
+
+            onCloseEnd: function () {
+                status_change = false
+            },
+        }
+    )
+
     $(".clickable-row").click(function () {
         window.location.href = $(this).data("href");
     })
