@@ -41,6 +41,7 @@ class Version(models.Model):
         ('Godkendt af tester', 'Godkendt af tester'),
         ('Parat til godkendelse', 'Parat til godkendelse'),
         ('Godkendt', 'Godkendt'),
+        ('Afsluttet', 'Afsluttet'),
     )
 
     nummer = models.IntegerField(
