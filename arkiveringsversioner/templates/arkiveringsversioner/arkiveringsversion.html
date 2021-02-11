@@ -3,7 +3,6 @@
 {% block title %}Arkiveringsversioner/Arkiveringsversion{% endblock %}
 
 {% block content %}
-{% autoescape off %}
 <section class="section">
   {% if 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder %}
   <form action="{% url 'arkiveringsversion_view' avid version %}" method="POST">
@@ -181,7 +180,7 @@
                   <div class="form-group">
                     <label for="noterfraarkivar" class="col-form-label left" style="color: #4C566A;">Noter fra arkivar</label>
                     {% if 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder and 'arkiveringsversioner_arkivarnoter_rediger' in bruger_rettigheder %}
-                    <textarea id="noterfraarkivar" name="noterfraarkivar" class="materialize-textarea" spellcheck="false" oninput="updateNoterfraarkivar()">{{ noterfraarkivar | default_if_none:'' }}</textarea>
+                    <textarea id="noterfraarkivar" name="noterfraarkivar" class="materialize-textarea" spellcheck="false">{{ noterfraarkivar | default_if_none:'' }}</textarea>
                     {% else %}
                     <textarea id="noterfraarkivar" name="noterfraarkivar" class="materialize-textarea" spellcheck="false" style="cursor: default !important; border-bottom: 1px dotted #2E3440; box-shadow: 0 0px 0 0 #2E3440;" readonly>{{ noterfraarkivar | default_if_none:'' }}</textarea>
                     {% endif %}
@@ -191,7 +190,7 @@
                   <div class="form-group">
                     <label for="noterfratester" class="col-form-label left" style="color: #4C566A;">Noter fra tester</label>
                     {% if 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder and 'arkiveringsversioner_testernoter_rediger' in bruger_rettigheder %}
-                    <textarea id="noterfratester" name="noterfratester" class="materialize-textarea" spellcheck="false" oninput="updateNoterfratester()">{{ noterfratester | default_if_none:'' }}</textarea>
+                    <textarea id="noterfratester" name="noterfratester" class="materialize-textarea" spellcheck="false">{{ noterfratester | default_if_none:'' }}</textarea>
                     {% else %}
                     <textarea id="noterfratester" name="noterfratester" class="materialize-textarea" spellcheck="false" style="cursor: default !important; border-bottom: 1px dotted #2E3440; box-shadow: 0 0px 0 0 #2E3440;" readonly>{{ noterfratester | default_if_none:'' }}</textarea>
                     {% endif %}
@@ -1414,13 +1413,13 @@
           <form action="{% url 'arkiveringsversion_view' avid version 'tilbagemeldt' %}" id="regForm" method="GET">
             {% csrf_token %}
             <div class="form-group">
-              <label for="svar_dialog" class="col-form-label left" style="color: #4C566A;">Dato for tilbagemelding</label>
-              <input type="text" name="svar_dialog" id="svar_dialog" class="form-control date" value="{{ dagsdato }}">
+              <label for="datofortilbagemelding" class="col-form-label left" style="color: #4C566A;">Dato for tilbagemelding</label>
+              <input type="text" name="datofortilbagemelding" id="datofortilbagemelding" class="form-control date" value="{{ dagsdato }}">
             </div>
             <br>
             <div class="form-group">
-              <label for="afleveringsfrist_dialog" class="col-form-label left" style="color: #4C566A;">Dato for afleveringsfrist</label>
-              <input type="text" name="afleveringsfrist_dialog" id="afleveringsfrist_dialog" class="form-control date" value="">
+              <label for="datoforafleveringsfrist" class="col-form-label left" style="color: #4C566A;">Dato for afleveringsfrist</label>
+              <input type="text" name="datoforafleveringsfrist" id="datoforafleveringsfrist" class="form-control date" value="">
             </div>
             <br><br>
         </div>
@@ -1512,8 +1511,8 @@
           <form action="{% url 'arkiveringsversion_view' avid version 'tilbagemeldt' %}" id="fra_undertest_til_tilbagemeldt_Form" method="GET">
             {% csrf_token %}
             <div class="form-group">
-              <label for="svar2_dialog" class="col-form-label left" style="color: #4C566A;">Dato for tilbagemelding</label>
-              <input type="text" name="svar2_dialog" id="svar2_dialog" class="form-control date" value="{{ dagsdato }}">
+              <label for="datofortilbagemelding2" class="col-form-label left" style="color: #4C566A;">Dato for tilbagemelding</label>
+              <input type="text" name="datofortilbagemelding2" id="datofortilbagemelding2" class="form-control date" value="{{ dagsdato }}">
             </div>
             <br><br>
         </div>
@@ -1706,6 +1705,22 @@
 </aside>
 
 <script>
+  $('#datoformodtagelse').ready(function () {
+    $('#datoformodtagelse').keydown(function (event) {
+      if (event.keyCode == 13) {
+        validation_fra_afventeraflevering_til_modtaget()
+      }
+    });
+  });
+
+  $('#datofortilbagemelding2').ready(function () {
+    $('#datofortilbagemelding2').keydown(function (event) {
+      if (event.keyCode == 13) {
+        validation_fra_undertest_til_tilbagemeldt()
+      }
+    });
+  });
+
   function validation_fra_afventeraflevering_til_modtaget() {
     let date_str
     let date_parts
@@ -1750,7 +1765,7 @@
     let afleveringsfrist_date
     let afleveringsfrist_dialog
 
-    date_str = document.getElementById('svar_dialog').value
+    date_str = document.getElementById('datofortilbagemelding').value
     if (date_str !== '') {
       date_parts = date_str.split('-');
       year = date_parts[2]
@@ -1765,7 +1780,7 @@
       svar_dialog = false
     }
 
-    date_str = document.getElementById('afleveringsfrist_dialog').value
+    date_str = document.getElementById('datoforafleveringsfrist').value
     if (date_str !== '') {
       date_parts = date_str.split('-');
       year = date_parts[2]
@@ -1804,7 +1819,8 @@
     let svar_date
     let svar_dialog
 
-    date_str = document.getElementById('svar2_dialog').value
+    date_str = document.getElementById('datofortilbagemelding2').value
+    console.log(date_str)
     if (date_str !== '') {
       date_parts = date_str.split('-');
       year = date_parts[2]
@@ -1812,6 +1828,7 @@
       day = date_parts[0]
       svar_date = new Date(year, (+month - 1), day)
       svar_dialog = (Boolean(+svar_date) && svar_date.getDate() == day)
+      console.log(svar_dialog)
       if (year < 2021) {
         svar_dialog = false
       }
@@ -1943,8 +1960,6 @@
   let klassifikation = '{{ klassifikation }}'
   let type = '{{ type }}'
   let land = '{{ land }}'
-  let noterfraarkivar = {{ backtick }}{{ noterfraarkivar }}{{ backtick }}
-  let noterfratester = {{ backtick }}{{ noterfratester }}{{ backtick }}
   let arkivar = '{{ arkivar }}'
   let leverandoer = '{{ leverandoer }}'
   let tester = '{{ tester }}'
@@ -2173,8 +2188,6 @@
   updateKlassifikation = () => klassifikation = document.getElementById('klassifikation').value
   updateType = () => type = document.getElementById('type').value
   updateLand = () => land = document.getElementById('land').value
-  updateNoterfraarkivar = () => noterfraarkivar = document.getElementById('noterfraarkivar').value
-  updateNoterfratester = () => noterfratester = document.getElementById('noterfratester').value
   updateArkivar = () => arkivar = document.getElementById('arkivar').value
   updateLeverandoer = () => leverandoer = document.getElementById('leverandoer').value
   updateTester = () => tester = document.getElementById('tester').value
@@ -2320,8 +2333,6 @@
           klassifikation != '{{ klassifikation }}' ||
           type != '{{ type }}' ||
           land != '{{ land }}' ||
-          noterfraarkivar != {{ backtick}}{{ noterfraarkivar }}{{ backtick }} ||
-          noterfratester != {{ backtick}}{{ noterfratester }}{{ backtick }} ||
           arkivar != '{{ arkivar }}' ||
           leverandoer != '{{ leverandoer }}' ||
           tester != '{{ tester }}' ||
@@ -2361,7 +2372,6 @@
     })
 </script>
 
-{% endautoescape %}
 {% endblock content %}
 
 

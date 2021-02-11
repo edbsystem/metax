@@ -115,7 +115,9 @@ def arkiveringsversion_view(request, avid, version=0, nystatus=None):
             if _ny_status:
                 _version_obj.status = _ny_status
                 if 'datoformodtagelse' in request.GET:
-                    _version_obj.modtaget = datetime.strptime(request.GET.get('datoformodtagelse'), '%d-%m-%Y').date() if 'datoformodtagelse' in request.GET else _version_obj.modtaget
+                    _version_obj.modtaget = datetime.strptime(request.GET.get('datoformodtagelse'), '%d-%m-%Y').date()
+                if 'datofortilbagemelding2' in request.GET:
+                    _version_obj.svar = datetime.strptime(request.GET.get('datofortilbagemelding2'), '%d-%m-%Y').date()
                 if _ny_status == 'Under test':
                     _profil_obj = Profil.objects.get(initialer=request.user.username)
                     _bruger_obj = Bruger.objects.get(profil=_profil_obj)
