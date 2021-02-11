@@ -367,10 +367,10 @@
                         <option value=""></option>
                         {% endif %}
                         {% for k in arkivarer %}
-                        {% if k == arkivar %}
-                        <option value="{{ k }}" selected>{{ k }}</option>
+                        {% if k.1 == arkivar %}
+                        <option value="{{ k.0 }}" selected>{{ k.1 }}</option>
                         {% else %}
-                        <option value="{{ k }}">{{ k }}</option>
+                        <option value="{{ k.0 }}">{{ k.1 }}</option>
                         {% endif %}
                         {% endfor %}
                       </select>
@@ -413,10 +413,10 @@
                         <option value=""></option>
                         {% endif %}
                         {% for k in testere %}
-                        {% if k == tester %}
-                        <option value="{{ k }}" selected>{{ k }}</option>
+                        {% if k.1 == tester %}
+                        <option value="{{ k.0 }}" selected>{{ k.1 }}</option>
                         {% else %}
-                        <option value="{{ k }}">{{ k }}</option>
+                        <option value="{{ k.0 }}">{{ k.1 }}</option>
                         {% endif %}
                         {% endfor %}
                       </select>
@@ -1352,8 +1352,8 @@
           <form action="{% url 'arkiveringsversion_view' avid version 'modtaget' %}" id="fra_afventeraflevering_til_modtaget_Form" method="GET">
             {% csrf_token %}
             <div class="form-group">
-              <label for="svar5_dialog" class="col-form-label left" style="color: #4C566A;">Dato for modtagelse</label>
-              <input type="text" name="svar5_dialog" id="svar5_dialog" class="form-control date" value="{{ dagsdato }}">
+              <label for="datoformodtagelse" class="col-form-label left" style="color: #4C566A;">Dato for modtagelse</label>
+              <input type="text" name="datoformodtagelse" id="datoformodtagelse" class="form-control date" value="{{ dagsdato }}">
             </div>
             <br><br>
         </div>
@@ -1715,7 +1715,7 @@
     let svar_date
     let svar_dialog
 
-    date_str = document.getElementById('svar5_dialog').value
+    date_str = document.getElementById('datoformodtagelse').value
     if (date_str !== '') {
       date_parts = date_str.split('-');
       year = date_parts[2]

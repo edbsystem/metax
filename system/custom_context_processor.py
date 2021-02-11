@@ -14,7 +14,6 @@ def subject_renderer(request):
     _brugere = []
     for _bruger_obj in Bruger.objects.all():
 
-        _initialer = _bruger_obj.profil.initialer
         _fuldenavn = ''
 
         if _bruger_obj.profil.fornavn != '' and _bruger_obj.profil.fornavn != None:
@@ -26,7 +25,7 @@ def subject_renderer(request):
             _fuldenavn += ' '
             _fuldenavn += _bruger_obj.profil.efternavn
 
-        _brugere.append([_initialer, _fuldenavn])
+        _brugere.append([_bruger_obj.profil.initialer, _fuldenavn])
 
     _testere = []
     _titel_obj = Titel.objects.get(navn='Tester')
@@ -43,7 +42,7 @@ def subject_renderer(request):
             _fuldenavn += ' '
             _fuldenavn += _profil_obj.efternavn
 
-        _testere.append(_fuldenavn)
+        _testere.append([_profil_obj.initialer, _fuldenavn])
 
     _arkivarer = []
     _titel_obj = Titel.objects.get(navn='Arkivar')
@@ -60,7 +59,7 @@ def subject_renderer(request):
             _fuldenavn += ' '
             _fuldenavn += _profil_obj.efternavn
 
-        _arkivarer.append(_fuldenavn)
+        _arkivarer.append([_profil_obj.initialer, _fuldenavn])
 
     return {
         "grupper": sorted(_grupper),
