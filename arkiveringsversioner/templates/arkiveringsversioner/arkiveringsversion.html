@@ -3,7 +3,7 @@
 {% block title %}Arkiveringsversioner/Arkiveringsversion{% endblock %}
 
 {% block content %}
-
+{% autoescape off %}
 <section class="section">
   {% if 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder %}
   <form action="{% url 'arkiveringsversion_view' avid version %}" method="POST">
@@ -1943,8 +1943,8 @@
   let klassifikation = '{{ klassifikation }}'
   let type = '{{ type }}'
   let land = '{{ land }}'
-  let noterfraarkivar = '{{ noterfraarkivar }}'
-  let noterfratester = '{{ noterfratester }}'
+  let noterfraarkivar = {{ backtick }}{{ noterfraarkivar }}{{ backtick }}
+  let noterfratester = {{ backtick }}{{ noterfratester }}{{ backtick }}
   let arkivar = '{{ arkivar }}'
   let leverandoer = '{{ leverandoer }}'
   let tester = '{{ tester }}'
@@ -2320,8 +2320,8 @@
           klassifikation != '{{ klassifikation }}' ||
           type != '{{ type }}' ||
           land != '{{ land }}' ||
-          noterfraarkivar != '{{ noterfraarkivar }}' ||
-          noterfratester != '{{ noterfratester }}' ||
+          noterfraarkivar != {{ backtick}}{{ noterfraarkivar }}{{ backtick }} ||
+          noterfratester != {{ backtick}}{{ noterfratester }}{{ backtick }} ||
           arkivar != '{{ arkivar }}' ||
           leverandoer != '{{ leverandoer }}' ||
           tester != '{{ tester }}' ||
@@ -2361,7 +2361,9 @@
     })
 </script>
 
+{% endautoescape %}
 {% endblock content %}
+
 
 {% block footer %}
 {% include 'arkiveringsversioner/footer.html' %}

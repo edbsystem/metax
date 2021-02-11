@@ -113,11 +113,15 @@ def arkiveringsversion_view(request, avid, version=0, nystatus=None):
                 return redirect(f"/arkiveringsversioner/arkiveringsversion/{avid}/{version}/")
 
             if _ny_status:
-                _gammel_status = _version_obj.status
                 _version_obj.status = _ny_status
-                _version_obj.modtaget = datetime.strptime(request.GET.get('datoformodtagelse'), '%d-%m-%Y').date() if 'datoformodtagelse' in request.GET else _version_obj.modtaget
+                if 'datoformodtagelse' in request.GET:
+                    _version_obj.modtaget = datetime.strptime(request.GET.get('datoformodtagelse'), '%d-%m-%Y').date() if 'datoformodtagelse' in request.GET else _version_obj.modtaget
+                if _ny_status == 'Under test':
+                    _profil_obj = Profil.objects.get(initialer=request.user.username)
+                    _bruger_obj = Bruger.objects.get(profil=_profil_obj)
+                    _version_obj.tester = _bruger_obj
+
                 _version_obj.save()
-                # messages.success(request, f"Status skiftet fra '{_gammel_status}' til '{_ny_status}'.")
                 return redirect(f"/arkiveringsversioner/arkiveringsversion/{avid}/{version}/")
 
             _tester_fuldenavn = ''
@@ -189,6 +193,7 @@ def arkiveringsversion_view(request, avid, version=0, nystatus=None):
                 "godkendt_af_tester_public_opdateret": _version_obj.godkendt_af_tester_public_opdateret,
                 "godkendt_af_tester_maskine_renset": _version_obj.godkendt_af_tester_maskine_renset,
                 "dagsdato": datetime.today().strftime('%d-%m-%Y'),
+                "backtick": '`',
             })
 
         if not Arkiveringsversion.objects.filter(avid=avid).exists():
@@ -209,9 +214,9 @@ def arkiveringsversion_view(request, avid, version=0, nystatus=None):
         _noterfraarkivar = request.POST['noterfraarkivar'] if 'noterfraarkivar' in request.POST else None
         _noterfratester = request.POST['noterfratester'] if 'noterfratester' in request.POST else None
         _version = request.POST.get('version') if 'version' in request.POST else None
-        _tester = request.POST.get('tester') if 'tester' in request.POST and request.POST.get('tester') != '' else None
-        _arkivar = request.POST.get('arkivar') if 'arkivar' in request.POST and request.POST.get('arkivar') != '' else None
-        _leverandoer = Leverandoer.objects.get(navn=request.POST.get('leverandoer')) if 'leverandoer' in request.POST and request.POST.get('leverandoer') != '' else None
+        _tester = request.POST.get('tester') if 'tester' in request.POST else None
+        _arkivar = request.POST.get('arkivar') if 'arkivar' in request.POST else None
+        _leverandoer = Leverandoer.objects.get(navn=request.POST.get('leverandoer')) if 'leverandoer' in request.POST else None
         _stoerrelsemb = request.POST.get('stoerrelsemb') if 'stoerrelsemb' in request.POST else None
         # _afleveringsfrist = datetime.strptime(request.POST.get('afleveringsfrist'), '%d-%m-%Y').date() if 'afleveringsfrist' in request.POST else None
         # _modtaget = datetime.strptime(request.POST.get('modtaget'), '%d-%m-%Y').date() if 'modtaget' in request.POST else None
@@ -304,18 +309,22 @@ def arkiveringsversion_view(request, avid, version=0, nystatus=None):
             _profil_obj = Profil.objects.get(initialer=_tester)
             _bruger_obj = Bruger.objects.get(profil=_profil_obj)
             _version_obj.tester = _bruger_obj
-        else:
+        elif _tester == '':
             _version_obj.tester = None
 
         if _arkivar:
             _profil_obj = Profil.objects.get(initialer=_arkivar)
             _bruger_obj = Bruger.objects.get(profil=_profil_obj)
             _version_obj.arkivar = _bruger_obj
-        else:
+        elif _arkivar == '':
             _version_obj.arkivar = None
 
-        _version_obj.leverandoer = _leverandoer
-        _version_obj.stoerrelsemb = _stoerrelsemb
+        if _leverandoer:
+            _version_obj.leverandoer = _leverandoer
+        elif _leverandoer == '':
+            _version_obj.leverandoer = None
+
+        _version_obj.stoerrelsemb = _stoerrelsemb if _stoerrelsemb else _version_obj.stoerrelsemb
         _version_obj.modtaget_kvitteret = True if _kvitteret == 'kvitteret' else False
         _version_obj.modtaget_journaliseret = True if _journaliseret == 'journaliseret' else False
 
