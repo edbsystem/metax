@@ -2,10 +2,10 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import user_passes_test
 from django.contrib import messages
 
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from system.services import rettigheder, tjek_rettigheder
-from arkiveringsversioner.models import Arkiveringsversion, Version, Type, Leverandoer
+from arkiveringsversioner.models import Arkiveringsversion, Version, Type, Leverandoer, Helligdag
 from system.models import Profil, Bruger
 
 
@@ -222,7 +222,7 @@ def arkiveringsversion_view(request, avid, version=0, nystatus=None):
         _stoerrelsemb = request.POST.get('stoerrelsemb') if 'stoerrelsemb' in request.POST else None
         # _afleveringsfrist = datetime.strptime(request.POST.get('afleveringsfrist'), '%d-%m-%Y').date() if 'afleveringsfrist' in request.POST else None
         # _modtaget = datetime.strptime(request.POST.get('modtaget'), '%d-%m-%Y').date() if 'modtaget' in request.POST else None
-        # _adgang = datetime.strptime(request.POST.get('adgang'), '%d-%m-%Y').date() if 'adgang' in request.POST else None
+        _adgang = datetime.strptime(request.POST.get('adgang'), '%d-%m-%Y').date() if ('adgang' in request.POST and request.POST.get('adgang') != '') else None
         # _svarfrist = datetime.strptime(request.POST.get('svarfrist'), '%d-%m-%Y').date() if 'svarfrist' in request.POST else None
         # _svar = datetime.strptime(request.POST.get('svar'), '%d-%m-%Y').date() if 'svar' in request.POST else None
         _status = request.POST.get('status') if 'status' in request.POST else None
@@ -242,47 +242,6 @@ def arkiveringsversion_view(request, avid, version=0, nystatus=None):
         _public_opdateret = request.POST.get('public_opdateret') if 'public_opdateret' in request.POST else None
         _godkendt_maskine_renset = request.POST.get('godkendt_maskine_renset') if 'godkendt_maskine_renset' in request.POST else None
 
-        print('')
-        print('----------------------------------------------------------------')
-        print('_avid:', _avid)
-        print('_jnr:', _jnr)
-        print('_public_link:', _public_link)
-        print('_titel:', _titel)
-        print('_kategori:', _kategori)
-        print('_klassifikation:', _klassifikation)
-        print('_type:', _type)
-        print('_land:', _land)
-        print('_noterfraarkivar:', _noterfraarkivar)
-        print('_noterfratester:', _noterfratester)
-        print('_version:', _version)
-        print('_tester:', _tester)
-        print('_arkivar:', _arkivar)
-        print('_leverandoer:', _leverandoer)
-        print('_stoerrelsemb:', _stoerrelsemb)
-        # print('_afleveringsfrist:', _afleveringsfrist)
-        # print('_modtaget:', _modtaget)
-        # print('_adgang:', _adgang)
-        # print('_svarfrist:', _svarfrist)
-        # print('_svar:', _svar)
-        print('_status:', _status)
-        print('_kvitteret:', _kvitteret)
-        print('_journaliseret:', _journaliseret)
-        print('_kodeord:', _kodeord)
-        print('_kopieret:', _kopieret)
-        print('_modtagelse:', _modtagelse)
-        print('_fileindex:', _fileindex)
-        print('_ada:', _ada)
-        print('_nedpakket:', _nedpakket)
-        print('_maskine_renset:', _maskine_renset)
-        print('_fileindex_godkendt:', _fileindex_godkendt)
-        print('_dea:', _dea)
-        print('_mary_kontrol:', _mary_kontrol)
-        print('_meta_opdateret:', _meta_opdateret)
-        print('_public_opdateret:', _public_opdateret)
-        print('_godkendt_maskine_renset:', _godkendt_maskine_renset)
-        print('----------------------------------------------------------------')
-        print('')
-
         _arkiveringsversion_obj = None
         _version_obj = None
 
@@ -296,84 +255,133 @@ def arkiveringsversion_view(request, avid, version=0, nystatus=None):
                 messages.error(request, f"Den angivet version af arkiveringsversionen 'AVID.SA.{avid}' findes ikke.")
                 return redirect('arkiveringsversioner_view')
 
-        _arkiveringsversion_obj.jnr = _jnr if _jnr else _arkiveringsversion_obj.jnr
-        _arkiveringsversion_obj.public = _public_link if _public_link else _arkiveringsversion_obj.public
-        _arkiveringsversion_obj.titel = _titel if _titel else _arkiveringsversion_obj.titel
-        _arkiveringsversion_obj.kategori = _kategori if _kategori != None else _arkiveringsversion_obj.kategori
-        _arkiveringsversion_obj.klassifikation = _klassifikation if _klassifikation != None else _arkiveringsversion_obj.klassifikation
-        _arkiveringsversion_obj.type = _type
-        _arkiveringsversion_obj.land = _land if _land else _arkiveringsversion_obj.land
-        _arkiveringsversion_obj.arkivar_noter = _noterfraarkivar if _noterfraarkivar else _arkiveringsversion_obj.arkivar_noter
-        _arkiveringsversion_obj.tester_noter = _noterfratester if _noterfratester else _arkiveringsversion_obj.tester_noter
-        _arkiveringsversion_obj.save()
+            _arkiveringsversion_obj.jnr = _jnr if _jnr else _arkiveringsversion_obj.jnr
+            _arkiveringsversion_obj.public = _public_link if _public_link else _arkiveringsversion_obj.public
+            _arkiveringsversion_obj.titel = _titel if _titel else _arkiveringsversion_obj.titel
+            _arkiveringsversion_obj.kategori = _kategori if _kategori != None else _arkiveringsversion_obj.kategori
+            _arkiveringsversion_obj.klassifikation = _klassifikation if _klassifikation != None else _arkiveringsversion_obj.klassifikation
+            _arkiveringsversion_obj.type = _type
+            _arkiveringsversion_obj.land = _land if _land else _arkiveringsversion_obj.land
+            _arkiveringsversion_obj.arkivar_noter = _noterfraarkivar if _noterfraarkivar != None else _arkiveringsversion_obj.arkivar_noter
+            _arkiveringsversion_obj.tester_noter = _noterfratester if _noterfratester != None else _arkiveringsversion_obj.tester_noter
+            _arkiveringsversion_obj.save()
 
-        if _tester:
-            _profil_obj = Profil.objects.get(initialer=_tester)
-            _bruger_obj = Bruger.objects.get(profil=_profil_obj)
-            _version_obj.tester = _bruger_obj
-        elif _tester == '':
-            _version_obj.tester = None
+            if _tester:
+                _profil_obj = Profil.objects.get(initialer=_tester)
+                _bruger_obj = Bruger.objects.get(profil=_profil_obj)
+                _version_obj.tester = _bruger_obj
+            elif _tester == '':
+                _version_obj.tester = None
 
-        if _arkivar:
-            _profil_obj = Profil.objects.get(initialer=_arkivar)
-            _bruger_obj = Bruger.objects.get(profil=_profil_obj)
-            _version_obj.arkivar = _bruger_obj
-        elif _arkivar == '':
-            _version_obj.arkivar = None
+            if _arkivar:
+                _profil_obj = Profil.objects.get(initialer=_arkivar)
+                _bruger_obj = Bruger.objects.get(profil=_profil_obj)
+                _version_obj.arkivar = _bruger_obj
+            elif _arkivar == '':
+                _version_obj.arkivar = None
 
-        if _leverandoer:
-            _version_obj.leverandoer = _leverandoer
-        elif _leverandoer == '':
-            _version_obj.leverandoer = None
+            if _leverandoer:
+                _version_obj.leverandoer = _leverandoer
+            elif _leverandoer == '':
+                _version_obj.leverandoer = None
 
-        _version_obj.stoerrelsemb = _stoerrelsemb if _stoerrelsemb else _version_obj.stoerrelsemb
-        _version_obj.modtaget_kvitteret = True if _kvitteret == 'kvitteret' else False
-        _version_obj.modtaget_journaliseret = True if _journaliseret == 'journaliseret' else False
+            _version_obj.adgang = _adgang
 
-        if _kodeord == None:
-            _version_obj.modtaget_kodeord = False
-            _version_obj.modtaget_mangler_kodeord = False
-            _version_obj.modtaget_ikke_krypteret = False
-        elif _kodeord == 'modtaget':
-            _version_obj.modtaget_kodeord = True
-            _version_obj.modtaget_mangler_kodeord = False
-            _version_obj.modtaget_ikke_krypteret = False
-        elif _kodeord == 'mangler':
-            _version_obj.modtaget_kodeord = False
-            _version_obj.modtaget_mangler_kodeord = True
-            _version_obj.modtaget_ikke_krypteret = False
-        elif _kodeord == 'ikke_krypteret':
-            _version_obj.modtaget_kodeord = False
-            _version_obj.modtaget_mangler_kodeord = False
-            _version_obj.modtaget_ikke_krypteret = True
+            if _version_obj.adgang:
+                _version_obj.svarfrist = add_days(_version_obj.adgang, 90)
 
-        _version_obj.modtaget_kopieret = True if _kopieret == 'kopieret' else False
+            _version_obj.stoerrelsemb = _stoerrelsemb if _stoerrelsemb else _version_obj.stoerrelsemb
+            _version_obj.modtaget_kvitteret = True if _kvitteret == 'kvitteret' else False
+            _version_obj.modtaget_journaliseret = True if _journaliseret == 'journaliseret' else False
 
-        if _modtagelse == None:
-            _version_obj.modtaget_modtagelse_godkendt = False
-            _version_obj.modtaget_modtagelse_afvist = False
-        elif _modtagelse == 'godkendt':
-            _version_obj.modtaget_modtagelse_godkendt = True
-            _version_obj.modtaget_modtagelse_afvist = False
-        elif _modtagelse == 'afvist':
-            _version_obj.modtaget_modtagelse_godkendt = False
-            _version_obj.modtaget_modtagelse_afvist = True
+            if _kodeord == None:
+                _version_obj.modtaget_kodeord = False
+                _version_obj.modtaget_mangler_kodeord = False
+                _version_obj.modtaget_ikke_krypteret = False
+            elif _kodeord == 'modtaget':
+                _version_obj.modtaget_kodeord = True
+                _version_obj.modtaget_mangler_kodeord = False
+                _version_obj.modtaget_ikke_krypteret = False
+            elif _kodeord == 'mangler':
+                _version_obj.modtaget_kodeord = False
+                _version_obj.modtaget_mangler_kodeord = True
+                _version_obj.modtaget_ikke_krypteret = False
+            elif _kodeord == 'ikke_krypteret':
+                _version_obj.modtaget_kodeord = False
+                _version_obj.modtaget_mangler_kodeord = False
+                _version_obj.modtaget_ikke_krypteret = True
 
-        _version_obj.modtaget_fileindex_kopieret = True if _fileindex == 'kopieret' else False
+            _version_obj.modtaget_kopieret = True if _kopieret == 'kopieret' else False
 
-        if _ada == None:
-            _version_obj.modtaget_adatest_godkendt = False
-            _version_obj.modtaget_adatest_afvist = False
-        elif _ada == 'godkendt':
-            _version_obj.modtaget_adatest_godkendt = True
-            _version_obj.modtaget_adatest_afvist = False
-        elif _ada == 'afvist':
-            _version_obj.modtaget_adatest_godkendt = False
-            _version_obj.modtaget_adatest_afvist = True
+            if _modtagelse == None:
+                _version_obj.modtaget_modtagelse_godkendt = False
+                _version_obj.modtaget_modtagelse_afvist = False
+            elif _modtagelse == 'godkendt':
+                _version_obj.modtaget_modtagelse_godkendt = True
+                _version_obj.modtaget_modtagelse_afvist = False
+            elif _modtagelse == 'afvist':
+                _version_obj.modtaget_modtagelse_godkendt = False
+                _version_obj.modtaget_modtagelse_afvist = True
 
-        _version_obj.save()
+            _version_obj.modtaget_fileindex_kopieret = True if _fileindex == 'kopieret' else False
 
-        return redirect(f"/arkiveringsversioner/arkiveringsversion/{avid}/{version}/")
+            if _ada == None:
+                _version_obj.modtaget_adatest_godkendt = False
+                _version_obj.modtaget_adatest_afvist = False
+            elif _ada == 'godkendt':
+                _version_obj.modtaget_adatest_godkendt = True
+                _version_obj.modtaget_adatest_afvist = False
+            elif _ada == 'afvist':
+                _version_obj.modtaget_adatest_godkendt = False
+                _version_obj.modtaget_adatest_afvist = True
+
+            _version_obj.tilbagemeldt_nedpakket = True if _nedpakket == 'nedpakket' else False
+            _version_obj.tilbagemeldt_maskine_renset = True if _maskine_renset == 'maskine_renset' else False
+
+            _version_obj.save()
+
+            print('')
+            print('----------------------------------------------------------------')
+            print('_avid:', _avid)
+            print('_jnr:', _jnr)
+            print('_public_link:', _public_link)
+            print('_titel:', _titel)
+            print('_kategori:', _kategori)
+            print('_klassifikation:', _klassifikation)
+            print('_type:', _type)
+            print('_land:', _land)
+            print('_noterfraarkivar:', _noterfraarkivar)
+            print('_noterfratester:', _noterfratester)
+            print('_version:', _version)
+            print('_tester:', _tester)
+            print('_arkivar:', _arkivar)
+            print('_leverandoer:', _leverandoer)
+            print('_stoerrelsemb:', _stoerrelsemb)
+            # print('_afleveringsfrist:', _afleveringsfrist)
+            # print('_modtaget:', _modtaget)
+            print('_adgang:', _adgang)
+            # print('_svarfrist:', _svarfrist)
+            # print('_svar:', _svar)
+            print('_status:', _status)
+            print('_kvitteret:', _kvitteret)
+            print('_journaliseret:', _journaliseret)
+            print('_kodeord:', _kodeord)
+            print('_kopieret:', _kopieret)
+            print('_modtagelse:', _modtagelse)
+            print('_fileindex:', _fileindex)
+            print('_ada:', _ada)
+            print('_nedpakket:', _nedpakket)
+            print('_maskine_renset:', _maskine_renset)
+            print('_fileindex_godkendt:', _fileindex_godkendt)
+            print('_dea:', _dea)
+            print('_mary_kontrol:', _mary_kontrol)
+            print('_meta_opdateret:', _meta_opdateret)
+            print('_public_opdateret:', _public_opdateret)
+            print('_godkendt_maskine_renset:', _godkendt_maskine_renset)
+            print('----------------------------------------------------------------')
+            print('')
+
+            return redirect(f"/arkiveringsversioner/arkiveringsversion/{avid}/{version}/")
 
         if not Arkiveringsversion.objects.filter(avid=_avid).exists():
             messages.error(request, "Den angivet arkiveringsversion findes ikke.")
@@ -382,3 +390,22 @@ def arkiveringsversion_view(request, avid, version=0, nystatus=None):
     return render(request, 'arkiveringsversioner/arkiveringsversioner.html', {
         "bruger_rettigheder": rettigheder(request.user),
     })
+
+
+def add_days(start_date, added_days):
+    holidays = []
+
+    holiday_objs = Helligdag.objects.all()
+    for holiday_obj in holiday_objs:
+        holidays.append(holiday_obj.dag)
+
+    days_elapsed = 0
+    while days_elapsed < added_days:
+        test_date = start_date + timedelta(days=1)
+        start_date = test_date
+        if test_date in holidays:
+            continue
+        else:
+            days_elapsed += 1
+
+    return start_date

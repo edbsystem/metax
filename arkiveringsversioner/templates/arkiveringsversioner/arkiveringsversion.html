@@ -224,7 +224,7 @@
 
                   {% if status == 'Modtaget' %}
                   {% if 'arkiveringsversioner_status_modtaget_rediger' in bruger_rettigheder and 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder %}
-                  {% if modtaget_modtagelse_godkendt and modtaget_fileindex_kopieret and modtaget_adatest_godkendt %}
+                  {% if modtaget_modtagelse_godkendt and modtaget_fileindex_kopieret and modtaget_adatest_godkendt and adgang and stoerrelsemb != 0 %}
                   <a href="#fra_modtaget_til_klartiltest_dialog" class="modal-trigger">
                     <button id="klartiltest_knap" name="klartiltest_knap" type="button" class="btn waves-effect waves-light z-depth-0" style="margin-right: 6px; background-color: #A3BE8C; color: #4C566A;">
                       Klar til test
@@ -232,11 +232,13 @@
                   </a>
                   {% endif %}
                   {% if modtaget_modtagelse_afvist or modtaget_adatest_afvist %}
+                  {% if adgang %}
                   <a href="#fra_modtaget_til_tilbagemeldt_dialog" class="modal-trigger">
                     <button id="tilbagemeldt_knap" name="tilbagemeldt_knap" type="button" class="btn waves-effect waves-light z-depth-0" style="margin-right: 6px; background-color: #A3BE8C; color: #4C566A;">
                       Tilbagemeldt
                     </button>
                   </a>
+                  {% endif %}
                   {% endif %}
                   {% endif %}
                   {% endif %}
@@ -2364,7 +2366,7 @@
           public_opdateret !== public_opdateret_start ||
           godkendt_maskine_renset !== godkendt_maskine_renset_start
         ) &&
-        submit_clicked === false && status_change === false
+        submit_clicked === false // && status_change === false
       ) {
         e.preventDefault()
         e.returnValue = ''
