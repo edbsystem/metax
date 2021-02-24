@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Leverandoer, Type, Arkiveringsversion, Status, Version
+from .models import Leverandoer, Type, Arkiveringsversion, Status, Version, Helligdag
 
 
 class LeverandoerAdmin(admin.ModelAdmin):
@@ -28,8 +28,14 @@ class VersionAdmin(admin.ModelAdmin):
     ordering = ['nummer']
 
 
+class HelligdagAdmin(admin.ModelAdmin):
+    list_display = ('dag',)
+    ordering = ['dag']
+
+
 admin.site.register(Leverandoer, LeverandoerAdmin)
 admin.site.register(Type, TypeAdmin)
 admin.site.register(Arkiveringsversion, ArkiveringsversionAdmin)
 admin.site.register(Status, StatusAdmin)
 admin.site.register(Version, VersionAdmin)
+admin.site.register(Helligdag, HelligdagAdmin)
