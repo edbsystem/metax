@@ -5,7 +5,7 @@ from django.contrib import messages
 from datetime import datetime, timedelta
 
 from system.services import rettigheder, tjek_rettigheder
-from arkiveringsversioner.models import Arkiveringsversion, Version, Type, Leverandoer, Helligdag
+from arkiveringsversioner.models import Arkiveringsversion, Version, Type, Leverandoer, Helligdag, leverandoer
 from system.models import Profil, Bruger
 
 
@@ -113,9 +113,10 @@ def arkiveringsversion_view(request, avid, version=0, nystatus=None):
                 return redirect(f"/arkiveringsversioner/arkiveringsversion/{avid}/{version}/")
 
             if _ny_status:
-                _version_obj.status = _ny_status
                 if 'datoformodtagelse' in request.GET:
                     _version_obj.modtaget = datetime.strptime(request.GET.get('datoformodtagelse'), '%d-%m-%Y').date()
+                if 'genmodtagetdato' in request.GET:
+                    _version_obj.modtaget = datetime.strptime(request.GET.get('genmodtagetdato'), '%d-%m-%Y').date()
                 if 'datofortilbagemelding2' in request.GET:
                     _version_obj.svar = datetime.strptime(request.GET.get('datofortilbagemelding2'), '%d-%m-%Y').date()
                 if 'godkendelsesdato' in request.GET:
@@ -147,8 +148,35 @@ def arkiveringsversion_view(request, avid, version=0, nystatus=None):
                     _bruger_obj = Bruger.objects.get(profil=_profil_obj)
                     _version_obj.tester = _bruger_obj
 
-                _version_obj.save()
-                return redirect(f"/arkiveringsversioner/arkiveringsversion/{avid}/{version}/")
+                if _ny_status == 'Afventer genaflevering':
+                    _version_obj.modtaget_kvitteret = False
+                    _version_obj.modtaget_journaliseret = False
+                    _version_obj.modtaget_kodeord = False
+                    _version_obj.modtaget_mangler_kodeord = False
+                    _version_obj.modtaget_ikke_krypteret = False
+                    _version_obj.modtaget_kopieret = False
+                    _version_obj.modtaget_modtagelse_godkendt = False
+                    _version_obj.modtaget_modtagelse_afvist = False
+                    _version_obj.modtaget_fileindex_kopieret = False
+                    _version_obj.modtaget_adatest_godkendt = False
+                    _version_obj.modtaget_adatest_afvist = False
+                    _version_obj.tilbagemeldt_nedpakket = False
+                    _version_obj.tilbagemeldt_maskine_renset = False
+                    _version_obj.godkendt_af_tester_fileindex_godkendt = False
+                    _version_obj.godkendt_af_tester_afvikler_dea = False
+                    _version_obj.godkendt_af_tester_afleveret_til_dea = False
+                    _version_obj.godkendt_af_tester_retur_fra_dea = False
+                    _version_obj.godkendt_af_tester_mary_kontrol = False
+                    _version_obj.godkendt_af_tester_meta_opdateret = False
+                    _version_obj.godkendt_af_tester_public_opdateret = False
+                    _version_obj.godkendt_af_tester_maskine_renset = False
+                    _version_obj.save()
+                    _ny_version_obj = Version.objects.create(nummer=_version_obj.nummer+1, avid=_version_obj.avid, status='Afventer genaflevering', arkivar=_version_obj.arkivar, leverandoer=_version_obj.leverandoer)
+                    return redirect(f"/arkiveringsversioner/arkiveringsversion/{avid}/")
+                else:
+                    _version_obj.status = _ny_status
+                    _version_obj.save()
+                    return redirect(f"/arkiveringsversioner/arkiveringsversion/{avid}/{version}/")
 
             _tester_fuldenavn = ''
             if _version_obj.tester:
@@ -171,6 +199,8 @@ def arkiveringsversion_view(request, avid, version=0, nystatus=None):
                 if _version_obj.arkivar.profil.efternavn != '' and _version_obj.arkivar.profil.efternavn != None:
                     _arkivar_fuldenavn += ' '
                     _arkivar_fuldenavn += _version_obj.arkivar.profil.efternavn
+
+            _seneste_version = True if _version_obj.nummer == Version.objects.filter(avid=_version_obj.avid).count() else False
 
             return render(request, 'arkiveringsversioner/arkiveringsversion.html', {
                 "bruger_rettigheder": rettigheder(request.user),
@@ -219,6 +249,7 @@ def arkiveringsversion_view(request, avid, version=0, nystatus=None):
                 "godkendt_af_tester_public_opdateret": _version_obj.godkendt_af_tester_public_opdateret,
                 "godkendt_af_tester_maskine_renset": _version_obj.godkendt_af_tester_maskine_renset,
                 "dagsdato": datetime.today().strftime('%d-%m-%Y'),
+                "seneste_version": _seneste_version,
                 "backtick": '`',
             })
 

@@ -222,7 +222,7 @@
                   {% endif %}
                   {% endif %}
 
-                  {% if status == 'Modtaget' %}
+                  {% if status == 'Modtaget' and seneste_version %}
                   {% if 'arkiveringsversioner_status_modtaget_rediger' in bruger_rettigheder and 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder %}
                   {% if modtaget_modtagelse_godkendt and modtaget_fileindex_kopieret and modtaget_adatest_godkendt and adgang and stoerrelsemb != 0 %}
                   <a href="#fra_modtaget_til_klartiltest_dialog" class="modal-trigger">
@@ -268,7 +268,7 @@
                   {% endif %}
                   {% endif %}
 
-                  {% if status == 'Tilbagemeldt' %}
+                  {% if status == 'Tilbagemeldt' and seneste_version %}
                   {% if 'arkiveringsversioner_status_tilbagemeldt_rediger' in bruger_rettigheder and 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder %}
                   {% if tilbagemeldt_nedpakket and tilbagemeldt_maskine_renset %}
                   <a href="#fra_tilbagemeldt_til_afventgenaflevering_dialog" class="modal-trigger">
@@ -428,7 +428,7 @@
 
             <div class="row">
               <div class="col l12">
-                {% if status == 'Afventer aflevering' %}
+                {% if status == 'Afventer aflevering' or status == 'Afventer genaflevering'%}
                 <div class="input-field col l3">
                   <div class="form-group">
                     <label for="afleveringsfrist" class="col-form-label left" style="color: #4C566A;">Afleveringsfrist</label>
@@ -440,7 +440,7 @@
                   </div>
                 </div>
                 {% endif %}
-                {% if status != 'Afventer aflevering' %}
+                {% if status != 'Afventer aflevering' and status != 'Afventer genaflevering' %}
                 <div class="input-field col l3">
                   <div class="form-group">
                     <label for="modtaget" class="col-form-label left" style="color: #4C566A;">Modtaget</label>
@@ -493,7 +493,7 @@
                     <input type="text" name="status" id="status" class="form-control" spellcheck="false" value="{{ status | default_if_none:'' }}" style="cursor: default !important; border-bottom: 1px dotted #2E3440; box-shadow: 0 0px 0 0 #2E3440;" readonly>
                   </div>
                 </div>
-                {% if status != 'Afventer aflevering' %}
+                {% if status != 'Afventer aflevering' and status != 'Afventer genaflevering' %}
                 <div class="input-field col l2">
                   <div class="form-group">
                     {% if 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder and 'arkiveringsversioner_maskine_se' in bruger_rettigheder %}
@@ -503,11 +503,11 @@
                   </div>
                 </div>
                 {% endif %}
-                {% if status != 'Afventer aflevering' %}
+                {% if status != 'Afventer aflevering' and status != 'Afventer genaflevering' %}
                 <div class="input-field col l2">
                   <div class="form-group">
                     <label for="stoerrelsemb" class="col-form-label left" style="color: #4C566A;">Størrelse i MB</label>
-                    {% if 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder and 'arkiveringsversioner_stoerrelse_rediger' in bruger_rettigheder %}
+                    {% if 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder and 'arkiveringsversioner_stoerrelse_rediger' in bruger_rettigheder and seneste_version %}
                     <input type="text" name="stoerrelsemb" id="stoerrelsemb" class="form-control number" spellcheck="false" value="{{ stoerrelsemb | default:0 }}" oninput="updateStoerrelsemb()">
                     {% else %}
                     <input type="text" name="stoerrelsemb" id="stoerrelsemb" class="form-control" spellcheck="false" value="{{ stoerrelsemb | default:0 }}" style="cursor: default !important; border-bottom: 1px dotted #2E3440; box-shadow: 0 0px 0 0 #2E3440;" readonly>
@@ -515,7 +515,7 @@
                   </div>
                 </div>
                 {% endif %}
-                {% if status != 'Afventer aflevering' %}
+                {% if status != 'Afventer aflevering' and status != 'Afventer genaflevering' %}
                 <div class="input-field col l2">
                   <div class="form-group">
                     <label for="stoerrelsegb" class="col-form-label left" style="color: #4C566A;">Størrelse i GB</label>
@@ -531,7 +531,7 @@
             {% if status == 'Afventer genaflevering' %}
             {% endif %}
 
-            {% if status == 'Modtaget' %}
+            {% if status == 'Modtaget' and seneste_version %}
             <div class="col l12">
               <div class="card z-depth-0" style="margin-top: -2px;">
                 <div class="card-content" style="padding: 0;">
@@ -924,7 +924,7 @@
             {% if status == 'Under test' %}
             {% endif %}
 
-            {% if status == 'Tilbagemeldt' %}
+            {% if status == 'Tilbagemeldt' and seneste_version %}
             <div class="col l12">
               <div class="card z-depth-0" style="margin-top: -2px;">
                 <div class="card-content" style="padding: 0;">
@@ -1675,8 +1675,8 @@
           <form action="{% url 'arkiveringsversion_view' avid version 'modtaget' %}" id="fra_afventergenaflevering_til_modtaget_Form" method="GET">
             {% csrf_token %}
             <div class="form-group">
-              <label for="svar4_dialog" class="col-form-label left" style="color: #4C566A;">Dato for modtagelse</label>
-              <input type="text" name="svar4_dialog" id="svar4_dialog" class="form-control date" value="{{ dagsdato }}">
+              <label for="genmodtagetdato" class="col-form-label left" style="color: #4C566A;">Dato for modtagelse</label>
+              <input type="text" name="genmodtagetdato" id="genmodtagetdato" class="form-control date" value="{{ dagsdato }}">
             </div>
             <br><br>
         </div>
@@ -1890,7 +1890,7 @@
     let svar_date
     let svar_dialog
 
-    date_str = document.getElementById('svar4_dialog').value
+    date_str = document.getElementById('genmodtagetdato').value
     if (date_str !== '') {
       date_parts = date_str.split('-');
       year = date_parts[2]
