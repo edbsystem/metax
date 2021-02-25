@@ -114,6 +114,11 @@ class Version(models.Model):
         blank=True,
     )
 
+    genafleveringsfrist = models.DateField(
+        null=True,
+        blank=True,
+    )
+
     stoerrelsemb = models.IntegerField(
         default=0,
         verbose_name="Størrelse i MB"
