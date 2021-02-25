@@ -19,7 +19,8 @@ $(document).ready(function () {
 
     $('.modal').modal({
         onOpenEnd: function () {
-            $('#medie_navn').focus();
+            $('#wmedie_navn').focus();
+            $('#avid_create').focus();
         },
     })
 
@@ -122,6 +123,17 @@ $(document).ready(function () {
             },
         }
     )
+
+    $('#opret_dialog').modal(
+        {
+            dismissible: false,
+
+            onCloseEnd: function () {
+                status_change = false
+            },
+        }
+    )
+
 
     $(".clickable-row").click(function () {
         window.location.href = $(this).data("href");

@@ -16,6 +16,13 @@ def tjek(user):
 @user_passes_test(tjek, login_url='/', redirect_field_name=None)
 def arkiveringsversion_view(request, avid, version=0, nystatus=None):
 
+    print(avid, version, nystatus, request)
+
+    if avid == '0' and version == '0' and nystatus == 'opret':
+        _arkiveringsversion_obj = Arkiveringsversion.objects.create(avid=request.GET.get('avid_opret'))
+        _version_obj = Version.objects.create(nummer=1, avid=_arkiveringsversion_obj, status='Oprettet')
+        return redirect(f"/arkiveringsversioner/arkiveringsversion/{_arkiveringsversion_obj.avid}/")
+
     _url_error = False
 
     try:
@@ -258,7 +265,6 @@ def arkiveringsversion_view(request, avid, version=0, nystatus=None):
             return redirect('arkiveringsversioner_view')
 
     if request.method == 'POST':
-        print('request.POST.get(kategori):', request.POST.get('kategori'))
 
         _avid = request.POST.get('avid') if 'avid' in request.POST else None
         _jnr = request.POST.get('jnr') if 'jnr' in request.POST else None

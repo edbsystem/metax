@@ -32,6 +32,7 @@ class Version(models.Model):
     )
 
     STATUS = (
+        ('Oprettet', 'Oprettet'),
         ('Afventer aflevering', 'Afventer aflevering'),
         ('Modtaget', 'Modtaget'),
         ('Klar til test', 'Klar til test'),

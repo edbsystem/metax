@@ -14,10 +14,11 @@
               <tr style="color: #4C566A;">
                 <th>
                   {% if 'arkiveringsversioner_se' in bruger_rettigheder and 'arkiveringsversioner_arkiveringsversion_opret' in bruger_rettigheder %}
-                  <form action="" method="POST">
-                    {% csrf_token %}
-                    <Button type="submit" class="btn-flat"><i class="material-icons" style="color: #4C566A;">add</i></a>
-                  </form>
+                  <a href="#opret_dialog" class="modal-trigger">
+                    <button type="button" class="btn z-depth-0" style="background-color: transparent;">
+                      <i class="material-icons" style="color: #4C566A;">add</i>
+                    </button>
+                  </a>
                   {% endif %}
                 </th>
                 <th style="cursor: default !important;">AVID</th>
@@ -51,6 +52,82 @@
     </div>
   </div>
 </section>
+
+<aside>
+  <div class="modal" id="opret_dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Opret</h5>
+        </div>
+        <div class="modal-body">
+          <br>
+          <form action="{% url 'arkiveringsversion_view' 0 0 'opret' %}" id="opret_avid_form" method="GET">
+            {% csrf_token %}
+            <div class="form-group">
+              <label for="avid_create" class="col-form-label left" style="color: #4C566A;">AVID</label>
+              <input type="text" name="avid_opret" id="avid_create" class="form-control number" maxlength="5" autofocus>
+            </div>
+            <br><br>
+        </div>
+        <div class="modal-footer">
+          <a href="#!">
+            <button id="" name="" type="button" class="modal-close btn waves-effect waves-light z-depth-0" style="background-color: #BF616A; color: #ECEFF4;">
+              Fortryd
+            </button>
+          </a>
+          <button type="button" class="btn waves-effect waves-light z-depth-0" style="margin-left: 6px; background-color: #A3BE8C; color: #2E3440;" onclick="return validation()">
+            Bekræft
+          </button>
+        </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</aside>
+
+<aside>
+  <div class="modal bottom-sheet" id="fejl">
+    <div class="modal-content">
+      <ul class="collection">
+        <li class="collection-item" style="background-color: #BF616A; color: #2E3440;">'AVID' er ikke valid.</li>
+      </ul>
+    </div>
+  </div>
+</aside>
+
+
+<script>
+  Array.from(document.getElementsByClassName('number')).forEach(elem => {
+    elem.addEventListener('input', event => {
+      event.target.value = event.target.value.replace(/[^0-9]/g, '');
+    });
+  });
+
+  function validation() {
+    dialog = false
+    avid = document.getElementById('avid_create').value
+
+    console.log(avid.length)
+    if (avid.length !== 5) {
+      dialog = false
+    }
+    else {
+      dialog = true
+    }
+
+    if (dialog != true) {
+      $('#fejl').modal('open')
+      return false;
+    }
+    else {
+      console.log(avid)
+      console.log('submit')
+      document.getElementById('opret_avid_form').submit();
+    }
+  }
+
+</script>
 
 {% endblock content %}
 

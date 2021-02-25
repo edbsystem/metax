@@ -32,13 +32,11 @@ class Arkiveringsversion(models.Model):
     jnr = models.CharField(
         max_length=32,
         blank=True,
-        unique=True
     )
 
     public = models.CharField(
         max_length=255,
         blank=True,
-        unique=True
     )
 
     titel = models.CharField(
