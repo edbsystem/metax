@@ -118,6 +118,30 @@ def arkiveringsversion_view(request, avid, version=0, nystatus=None):
                     _version_obj.modtaget = datetime.strptime(request.GET.get('datoformodtagelse'), '%d-%m-%Y').date()
                 if 'datofortilbagemelding2' in request.GET:
                     _version_obj.svar = datetime.strptime(request.GET.get('datofortilbagemelding2'), '%d-%m-%Y').date()
+                if 'godkendelsesdato' in request.GET:
+                    _version_obj.svar = datetime.strptime(request.GET.get('godkendelsesdato'), '%d-%m-%Y').date()
+                    _version_obj.modtaget_kvitteret = False
+                    _version_obj.modtaget_journaliseret = False
+                    _version_obj.modtaget_kodeord = False
+                    _version_obj.modtaget_mangler_kodeord = False
+                    _version_obj.modtaget_ikke_krypteret = False
+                    _version_obj.modtaget_kopieret = False
+                    _version_obj.modtaget_modtagelse_godkendt = False
+                    _version_obj.modtaget_modtagelse_afvist = False
+                    _version_obj.modtaget_fileindex_kopieret = False
+                    _version_obj.modtaget_adatest_godkendt = False
+                    _version_obj.modtaget_adatest_afvist = False
+                    _version_obj.tilbagemeldt_nedpakket = False
+                    _version_obj.tilbagemeldt_maskine_renset = False
+                    _version_obj.godkendt_af_tester_fileindex_godkendt = False
+                    _version_obj.godkendt_af_tester_afvikler_dea = False
+                    _version_obj.godkendt_af_tester_afleveret_til_dea = False
+                    _version_obj.godkendt_af_tester_retur_fra_dea = False
+                    _version_obj.godkendt_af_tester_mary_kontrol = False
+                    _version_obj.godkendt_af_tester_meta_opdateret = False
+                    _version_obj.godkendt_af_tester_public_opdateret = False
+                    _version_obj.godkendt_af_tester_maskine_renset = False
+
                 if _ny_status == 'Under test':
                     _profil_obj = Profil.objects.get(initialer=request.user.username)
                     _bruger_obj = Bruger.objects.get(profil=_profil_obj)
@@ -337,6 +361,30 @@ def arkiveringsversion_view(request, avid, version=0, nystatus=None):
 
             _version_obj.tilbagemeldt_nedpakket = True if _nedpakket == 'nedpakket' else False
             _version_obj.tilbagemeldt_maskine_renset = True if _maskine_renset == 'maskine_renset' else False
+
+            _version_obj.godkendt_af_tester_fileindex_godkendt = True if _fileindex_godkendt else False
+
+            if _dea == None:
+                _version_obj.godkendt_af_tester_afvikler_dea = False
+                _version_obj.godkendt_af_tester_afleveret_til_dea = False
+                _version_obj.godkendt_af_tester_retur_fra_dea = False
+            elif _dea == 'afvikler':
+                _version_obj.godkendt_af_tester_afvikler_dea = True
+                _version_obj.godkendt_af_tester_afleveret_til_dea = False
+                _version_obj.godkendt_af_tester_retur_fra_dea = False
+            elif _dea == 'afleveret':
+                _version_obj.godkendt_af_tester_afvikler_dea = False
+                _version_obj.godkendt_af_tester_afleveret_til_dea = True
+                _version_obj.godkendt_af_tester_retur_fra_dea = False
+            elif _dea == 'retur':
+                _version_obj.godkendt_af_tester_afvikler_dea = False
+                _version_obj.godkendt_af_tester_afleveret_til_dea = False
+                _version_obj.godkendt_af_tester_retur_fra_dea = True
+
+            _version_obj.godkendt_af_tester_mary_kontrol = True if _mary_kontrol == 'mary_kontrol' else False
+            _version_obj.godkendt_af_tester_meta_opdateret = True if _meta_opdateret == 'meta_opdateret' else False
+            _version_obj.godkendt_af_tester_public_opdateret = True if _public_opdateret == 'public_opdateret' else False
+            _version_obj.godkendt_af_tester_maskine_renset = True if _godkendt_maskine_renset == 'godkendt_maskine_renset' else False
 
             _version_obj.save()
 

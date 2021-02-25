@@ -507,7 +507,7 @@
                 <div class="input-field col l2">
                   <div class="form-group">
                     <label for="stoerrelsemb" class="col-form-label left" style="color: #4C566A;">Størrelse i MB</label>
-                    {% if 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder and 'arkiveringsversioner_størrelse_rediger' in bruger_rettigheder %}
+                    {% if 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder and 'arkiveringsversioner_stoerrelse_rediger' in bruger_rettigheder %}
                     <input type="text" name="stoerrelsemb" id="stoerrelsemb" class="form-control number" spellcheck="false" value="{{ stoerrelsemb | default:0 }}" oninput="updateStoerrelsemb()">
                     {% else %}
                     <input type="text" name="stoerrelsemb" id="stoerrelsemb" class="form-control" spellcheck="false" value="{{ stoerrelsemb | default:0 }}" style="cursor: default !important; border-bottom: 1px dotted #2E3440; box-shadow: 0 0px 0 0 #2E3440;" readonly>
@@ -1100,8 +1100,8 @@
                             <span style="color: #2E3440;">Retur fra DEA</span>
                           </label>
                           {% endif %}
-                          {% elif 'arkiveringsversioner_status_godkendt_af_tester_se' in bruger_rettigheder and 'arkiveringsversioner_arkiveringsversion_se' in bruger_rettigheder %}
-                          <label class="col l4" onchange="updateAfvikler_dea()">
+                          <label class="col l4">
+                            {% elif 'arkiveringsversioner_status_godkendt_af_tester_se' in bruger_rettigheder and 'arkiveringsversioner_arkiveringsversion_se' in bruger_rettigheder %}
                             {% if godkendt_af_tester_afvikler_dea %}
                             <input type="checkbox" class="radio" name="dea" value="afvikler" checked readonly onclick="return false" />
                             <span style="color: #2E3440; cursor: default !important;">Afvikler 'Send til DEA'</span>
@@ -1110,7 +1110,7 @@
                             <span style="color: #2E3440; cursor: default !important;">Afvikler 'Send til DEA'</span>
                             {% endif %}
                           </label>
-                          <label class="col l4" onchange="updateAfleveret_til_dea()">
+                          <label class="col l4">
                             {% if godkendt_af_tester_afleveret_til_dea %}
                             <input type="checkbox" class="radio" name="dea" value="afleveret" checked readonly onclick="return false" />
                             <span style="color: #2E3440; cursor: default !important;">Afleveret til DEA</span>
@@ -1119,7 +1119,7 @@
                             <span style="color: #2E3440; cursor: default !important;">Afleveret til DEA</span>
                             {% endif %}
                           </label>
-                          <label class="col l4" onchange="updateRetur_fra_dea()">
+                          <label class="col l4">
                             {% if godkendt_af_tester_retur_fra_dea %}
                             <input type="checkbox" class="radio" name="dea" value="retur" checked readonly onclick="return false" />
                             <span style="color: #2E3440; cursor: default !important;">Retur fra DEA</span>
@@ -1603,8 +1603,8 @@
           <form action="{% url 'arkiveringsversion_view' avid version 'godkendt' %}" id="fra_parattilgodkendelse_til_godkendt_Form" method="GET">
             {% csrf_token %}
             <div class="form-group">
-              <label for="svar3_dialog" class="col-form-label left" style="color: #4C566A;">Dato for godkendelse</label>
-              <input type="text" name="svar3_dialog" id="svar3_dialog" class="form-control date" value="{{ dagsdato }}">
+              <label for="godkendelsesdato" class="col-form-label left" style="color: #4C566A;">Dato for godkendelse</label>
+              <input type="text" name="godkendelsesdato" id="godkendelsesdato" class="form-control date" value="{{ dagsdato }}">
             </div>
             <br><br>
         </div>
@@ -1857,7 +1857,7 @@
     let svar_date
     let svar_dialog
 
-    date_str = document.getElementById('svar3_dialog').value
+    date_str = document.getElementById('godkendelsesdato').value
     if (date_str !== '') {
       date_parts = date_str.split('-');
       year = date_parts[2]
