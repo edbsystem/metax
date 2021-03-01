@@ -27,6 +27,7 @@ class Arkiveringsversion(models.Model):
     avid = models.IntegerField(
         blank=False,
         null=False,
+        unique=True
     )
 
     jnr = models.CharField(

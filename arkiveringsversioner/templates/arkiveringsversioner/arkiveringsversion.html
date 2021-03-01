@@ -214,11 +214,13 @@
 
                   {% if status == 'Afventer aflevering' %}
                   {% if 'arkiveringsversioner_status_afventer_aflevering_rediger' in bruger_rettigheder and 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder %}
+                  {% if avid and jnr and public and titel and kategori and klassifikation and arkivar %}
                   <a href="#fra_afventeraflevering_til_modtaget_dialog" class="modal-trigger">
                     <button id="modtaget_knap" name="modtaget_knap" type="button" class="btn waves-effect waves-light z-depth-0" style="margin-right: 6px; background-color: #A3BE8C; color: #4C566A;">
                       Modtaget
                     </button>
                   </a>
+                  {% endif %}
                   {% endif %}
                   {% endif %}
 
@@ -357,7 +359,7 @@
                 <div class="input-field col l4">
                   <div class="form-group">
                     <label for="arkivar" class="col-form-label left" style="color: #4C566A;">Arkivar</label>
-                    {% if 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder and 'arkiveringsversioner_arkivar_rediger' in bruger_rettigheder %}
+                    {% if 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder and 'arkiveringsversioner_arkivar_rediger' in bruger_rettigheder and seneste_version %}
                     <select name="arkivar" id="arkivar" onchange="updateArkivar()">
                       {% else %}
                       <select name="arkivar" id="arkivar" disabled>
@@ -380,7 +382,7 @@
                 <div class="input-field col l4">
                   <div class="form-group">
                     <label for="leverandoer" class="col-form-label left" style="color: #4C566A;">Leverandør</label>
-                    {% if 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder and 'arkiveringsversioner_leverandoer_av_rediger' in bruger_rettigheder %}
+                    {% if 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder and 'arkiveringsversioner_leverandoer_av_rediger' in bruger_rettigheder and seneste_version %}
                     <select name="leverandoer" id="leverandoer" onchange="updateLeverandoer()">
                       {% else %}
                       <select name="leverandoer" id="leverandoer" disabled>
@@ -403,7 +405,7 @@
                 <div class="input-field col l4">
                   <div class="form-group">
                     <label for="tester" class="col-form-label left" style="color: #4C566A;">Tester</label>
-                    {% if 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder and 'arkiveringsversioner_tester_rediger' in bruger_rettigheder %}
+                    {% if 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder and 'arkiveringsversioner_tester_rediger' in bruger_rettigheder and seneste_version %}
                     <select name="tester" id="tester" onchange="updateTester()">
                       {% else %}
                       <select name="tester" id="tester" disabled>
@@ -433,7 +435,7 @@
                   <div class="form-group">
                     <label for="afleveringsfrist" class="col-form-label left" style="color: #4C566A;">Afleveringsfrist</label>
                     {% if 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder and 'arkiveringsversioner_afleveringsfrist_rediger' in bruger_rettigheder %}
-                    <input type="text" name="afleveringsfrist" id="afleveringsfrist" class="form-control date" value="{{ afleveringsfrist | default_if_none:'' }}" oninput="updateAfleveringsfrist()">
+                    <input type="text" name="afleveringsfrist" id="afleveringsfrist" class="form-control datepicker" value="{{ afleveringsfrist | default_if_none:'' }}" oninput="updateAfleveringsfrist()">
                     {% else %}
                     <input type="text" name="afleveringsfrist" id="afleveringsfrist" class="form-control" style="cursor: default !important; border-bottom: 1px dotted #2E3440; box-shadow: 0 0px 0 0 #2E3440;" value="{{ afleveringsfrist | default_if_none:'' }}" readonly>
                     {% endif %}
@@ -454,10 +456,10 @@
                 <div class="input-field col l3">
                   <div class="form-group">
                     <label for="adgang" class="col-form-label left" style="color: #4C566A;">Adgang</label>
-                    {% if 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder and 'arkiveringsversioner_adgang_rediger' in bruger_rettigheder %}
-                    <input type="text" name="adgang" id="adgang" class="form-control date" value="{{ adgang | default_if_none:'' }}" oninput="updateAdgang()">
+                    {% if 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder and 'arkiveringsversioner_adgang_rediger' in bruger_rettigheder and status == 'Modtaget' %}
+                    <input type="text" name="adgang" id="adgang" class="form-control datepicker" value="{{ adgang | default_if_none:'' }}">
                     {% else %}
-                    <input type="text" name="adgang" id="adgang" class="form-control" style="cursor: default !important; border-bottom: 1px dotted #2E3440; box-shadow: 0 0px 0 0 #2E3440;" value="{{ adgang | default_if_none:'' }}" readonly>
+                    <input type="text" name="adgang" id="adgang" class="form-control" style="cursor: default !important; border-bottom: 1px dotted #2E3440; box-shadow: 0 0px 0 0 #2E3440;" value="{{ adgang | default_if_none:'' }}" readonly onclick="return false">
                     {% endif %}
                   </div>
                 </div>
@@ -1240,10 +1242,10 @@
                             {% if 'arkiveringsversioner_status_godkendt_af_tester_rediger' in bruger_rettigheder and 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder %}
                             {% if godkendt_af_tester_public_opdateret %}
                             <input type="checkbox" class="radio" name="public_opdateret" value="public_opdateret" checked />
-                            <span style="color: #2E3440;">IB-feltet 'Størrelse' opdateret i Public 360 med størrelse fra feltet 'Størrelse i GB'</span>
+                            <span style="color: #2E3440;">IB-feltet "IT: Størrelse(GB)" opdateret i Public360 med størrelse fra META-feltet "Størrelse i MB"</span>
                             {% else %}
                             <input type="checkbox" class="radio" name="public_opdateret" value="public_opdateret" />
-                            <span style="color: #2E3440;">IB-feltet 'Størrelse' opdateret i Public 360 med størrelse fra feltet 'Størrelse i GB'</span>
+                            <span style="color: #2E3440;">IB-feltet "IT: Størrelse(GB)" opdateret i Public360 med størrelse fra META-feltet "Størrelse i MB"</span>
                             {% endif %}
                             {% elif 'arkiveringsversioner_status_godkendt_af_tester_se' in bruger_rettigheder and 'arkiveringsversioner_arkiveringsversion_se' in bruger_rettigheder %}
                             {% if godkendt_af_tester_public_opdateret %}
@@ -1420,7 +1422,7 @@
             </div>
             <br>
             <div class="form-group">
-              <label for="datoforafleveringsfrist" class="col-form-label left" style="color: #4C566A;">Dato for afleveringsfrist</label>
+              <label for="datoforafleveringsfrist" class="col-form-label left" style="color: #4C566A;">Dato for genafleveringsfrist</label>
               <input type="text" name="datoforafleveringsfrist" id="datoforafleveringsfrist" class="form-control date" value="">
             </div>
             <br><br>
@@ -1642,7 +1644,7 @@
           <h5 class="modal-title">Statusskift</h5>
         </div>
         <div class="modal-body">
-          <p>Bekræft at du ønsker statusskift for <i>AVID.SA.{{avid}}</i><br>fra '<b>Tilbagmeldt</b>' til '<b>Afventer genaflevering</b>'</p>
+          <p>Bekræft at du ønsker statusskift for <i>AVID.SA.{{avid}}</i><br>fra '<b>Tilbagemeldt</b>' til '<b>Afventer genaflevering</b>'</p>
           <br><br>
         </div>
         <div class="modal-footer">
@@ -1722,6 +1724,8 @@
       }
     });
   });
+
+
 
   function validation_fra_afventeraflevering_til_modtaget() {
     let date_str
@@ -1808,7 +1812,7 @@
       return false;
     }
     else {
-      document.getElementById('fra_modtaget_til_tilbagemeldt_Form').submit();
+      document.getElementById('regForm').submit();
     }
   }
 

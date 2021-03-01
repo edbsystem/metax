@@ -98,6 +98,14 @@
 
 
 <script>
+  $('#avid_create').ready(function () {
+    $('#avid_create').keydown(function (event) {
+      if (event.keyCode == 13) {
+        validation()
+      }
+    });
+  });
+
   Array.from(document.getElementsByClassName('number')).forEach(elem => {
     elem.addEventListener('input', event => {
       event.target.value = event.target.value.replace(/[^0-9]/g, '');

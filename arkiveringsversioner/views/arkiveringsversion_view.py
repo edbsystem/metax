@@ -16,12 +16,16 @@ def tjek(user):
 @user_passes_test(tjek, login_url='/', redirect_field_name=None)
 def arkiveringsversion_view(request, avid, version=0, nystatus=None):
 
-    print(avid, version, nystatus, request)
-
     if avid == '0' and version == '0' and nystatus == 'opret':
-        _arkiveringsversion_obj = Arkiveringsversion.objects.create(avid=request.GET.get('avid_opret'))
-        _version_obj = Version.objects.create(nummer=1, avid=_arkiveringsversion_obj, status='Oprettet')
-        return redirect(f"/arkiveringsversioner/arkiveringsversion/{_arkiveringsversion_obj.avid}/")
+
+        _avid = request.GET.get('avid_opret')
+
+        if not Arkiveringsversion.objects.filter(avid=_avid).exists():
+            _arkiveringsversion_obj = Arkiveringsversion.objects.create(avid=_avid)
+            _version_obj = Version.objects.create(nummer=1, avid=_arkiveringsversion_obj, status='Afventer aflevering')
+            return redirect(f"/arkiveringsversioner/arkiveringsversion/{_avid}/")
+        else:
+            return redirect(f"/arkiveringsversioner/arkiveringsversion/{_avid}/")
 
     _url_error = False
 
@@ -124,8 +128,12 @@ def arkiveringsversion_view(request, avid, version=0, nystatus=None):
                     _version_obj.modtaget = datetime.strptime(request.GET.get('datoformodtagelse'), '%d-%m-%Y').date()
                 if 'genmodtagetdato' in request.GET:
                     _version_obj.modtaget = datetime.strptime(request.GET.get('genmodtagetdato'), '%d-%m-%Y').date()
+                if 'datofortilbagemelding' in request.GET:
+                    _version_obj.svar = datetime.strptime(request.GET.get('datofortilbagemelding'), '%d-%m-%Y').date()
                 if 'datofortilbagemelding2' in request.GET:
                     _version_obj.svar = datetime.strptime(request.GET.get('datofortilbagemelding2'), '%d-%m-%Y').date()
+                if 'datoforafleveringsfrist' in request.GET:
+                    _version_obj.genafleveringsfrist = datetime.strptime(request.GET.get('datoforafleveringsfrist'), '%d-%m-%Y').date()
                 if 'godkendelsesdato' in request.GET:
                     _version_obj.svar = datetime.strptime(request.GET.get('godkendelsesdato'), '%d-%m-%Y').date()
                     _version_obj.modtaget_kvitteret = False
@@ -178,7 +186,7 @@ def arkiveringsversion_view(request, avid, version=0, nystatus=None):
                     _version_obj.godkendt_af_tester_public_opdateret = False
                     _version_obj.godkendt_af_tester_maskine_renset = False
                     _version_obj.save()
-                    _ny_version_obj = Version.objects.create(nummer=_version_obj.nummer+1, avid=_version_obj.avid, status='Afventer genaflevering', arkivar=_version_obj.arkivar, leverandoer=_version_obj.leverandoer)
+                    Version.objects.create(nummer=_version_obj.nummer+1, avid=_version_obj.avid, status='Afventer genaflevering', arkivar=_version_obj.arkivar, leverandoer=_version_obj.leverandoer, afleveringsfrist=_version_obj.genafleveringsfrist)
                     return redirect(f"/arkiveringsversioner/arkiveringsversion/{avid}/")
                 else:
                     _version_obj.status = _ny_status
@@ -279,8 +287,9 @@ def arkiveringsversion_view(request, avid, version=0, nystatus=None):
         _version = request.POST.get('version') if 'version' in request.POST else None
         _tester = request.POST.get('tester') if 'tester' in request.POST else None
         _arkivar = request.POST.get('arkivar') if 'arkivar' in request.POST else None
-        _leverandoer = Leverandoer.objects.get(navn=request.POST.get('leverandoer')) if 'leverandoer' in request.POST else None
+        _leverandoer = Leverandoer.objects.get(navn=request.POST.get('leverandoer')) if 'leverandoer' in request.POST and request.POST.get('leverandoer') != '' else None
         _stoerrelsemb = request.POST.get('stoerrelsemb') if 'stoerrelsemb' in request.POST else None
+        _afleveringsfrist = datetime.strptime(request.POST.get('afleveringsfrist'), '%d-%m-%Y').date() if ('afleveringsfrist' in request.POST and request.POST.get('afleveringsfrist') != '') else None
         # _afleveringsfrist = datetime.strptime(request.POST.get('afleveringsfrist'), '%d-%m-%Y').date() if 'afleveringsfrist' in request.POST else None
         # _modtaget = datetime.strptime(request.POST.get('modtaget'), '%d-%m-%Y').date() if 'modtaget' in request.POST else None
         _adgang = datetime.strptime(request.POST.get('adgang'), '%d-%m-%Y').date() if ('adgang' in request.POST and request.POST.get('adgang') != '') else None
@@ -302,6 +311,47 @@ def arkiveringsversion_view(request, avid, version=0, nystatus=None):
         _meta_opdateret = request.POST.get('meta_opdateret') if 'meta_opdateret' in request.POST else None
         _public_opdateret = request.POST.get('public_opdateret') if 'public_opdateret' in request.POST else None
         _godkendt_maskine_renset = request.POST.get('godkendt_maskine_renset') if 'godkendt_maskine_renset' in request.POST else None
+
+        print('')
+        print('----------------------------------------------------------------')
+        print('_avid:', _avid)
+        print('_jnr:', _jnr)
+        print('_public_link:', _public_link)
+        print('_titel:', _titel)
+        print('_kategori:', _kategori)
+        print('_klassifikation:', _klassifikation)
+        print('_type:', _type)
+        print('_land:', _land)
+        print('_noterfraarkivar:', _noterfraarkivar)
+        print('_noterfratester:', _noterfratester)
+        print('_version:', _version)
+        print('_tester:', _tester)
+        print('_arkivar:', _arkivar)
+        print('_leverandoer:', _leverandoer)
+        print('_stoerrelsemb:', _stoerrelsemb)
+        print('_afleveringsfrist:', _afleveringsfrist)
+        # print('_modtaget:', _modtaget)
+        print('_adgang:', _adgang)
+        # print('_svarfrist:', _svarfrist)
+        # print('_svar:', _svar)
+        print('_status:', _status)
+        print('_kvitteret:', _kvitteret)
+        print('_journaliseret:', _journaliseret)
+        print('_kodeord:', _kodeord)
+        print('_kopieret:', _kopieret)
+        print('_modtagelse:', _modtagelse)
+        print('_fileindex:', _fileindex)
+        print('_ada:', _ada)
+        print('_nedpakket:', _nedpakket)
+        print('_maskine_renset:', _maskine_renset)
+        print('_fileindex_godkendt:', _fileindex_godkendt)
+        print('_dea:', _dea)
+        print('_mary_kontrol:', _mary_kontrol)
+        print('_meta_opdateret:', _meta_opdateret)
+        print('_public_opdateret:', _public_opdateret)
+        print('_godkendt_maskine_renset:', _godkendt_maskine_renset)
+        print('----------------------------------------------------------------')
+        print('')
 
         _arkiveringsversion_obj = None
         _version_obj = None
@@ -343,10 +393,11 @@ def arkiveringsversion_view(request, avid, version=0, nystatus=None):
 
             if _leverandoer:
                 _version_obj.leverandoer = _leverandoer
-            elif _leverandoer == '':
+            elif _leverandoer == None:
                 _version_obj.leverandoer = None
 
             _version_obj.adgang = _adgang
+            _version_obj.afleveringsfrist = _afleveringsfrist
 
             if _version_obj.adgang:
                 _version_obj.svarfrist = add_days(_version_obj.adgang, 90)
@@ -424,47 +475,6 @@ def arkiveringsversion_view(request, avid, version=0, nystatus=None):
             _version_obj.godkendt_af_tester_maskine_renset = True if _godkendt_maskine_renset == 'godkendt_maskine_renset' else False
 
             _version_obj.save()
-
-            print('')
-            print('----------------------------------------------------------------')
-            print('_avid:', _avid)
-            print('_jnr:', _jnr)
-            print('_public_link:', _public_link)
-            print('_titel:', _titel)
-            print('_kategori:', _kategori)
-            print('_klassifikation:', _klassifikation)
-            print('_type:', _type)
-            print('_land:', _land)
-            print('_noterfraarkivar:', _noterfraarkivar)
-            print('_noterfratester:', _noterfratester)
-            print('_version:', _version)
-            print('_tester:', _tester)
-            print('_arkivar:', _arkivar)
-            print('_leverandoer:', _leverandoer)
-            print('_stoerrelsemb:', _stoerrelsemb)
-            # print('_afleveringsfrist:', _afleveringsfrist)
-            # print('_modtaget:', _modtaget)
-            print('_adgang:', _adgang)
-            # print('_svarfrist:', _svarfrist)
-            # print('_svar:', _svar)
-            print('_status:', _status)
-            print('_kvitteret:', _kvitteret)
-            print('_journaliseret:', _journaliseret)
-            print('_kodeord:', _kodeord)
-            print('_kopieret:', _kopieret)
-            print('_modtagelse:', _modtagelse)
-            print('_fileindex:', _fileindex)
-            print('_ada:', _ada)
-            print('_nedpakket:', _nedpakket)
-            print('_maskine_renset:', _maskine_renset)
-            print('_fileindex_godkendt:', _fileindex_godkendt)
-            print('_dea:', _dea)
-            print('_mary_kontrol:', _mary_kontrol)
-            print('_meta_opdateret:', _meta_opdateret)
-            print('_public_opdateret:', _public_opdateret)
-            print('_godkendt_maskine_renset:', _godkendt_maskine_renset)
-            print('----------------------------------------------------------------')
-            print('')
 
             return redirect(f"/arkiveringsversioner/arkiveringsversion/{avid}/{version}/")
 
