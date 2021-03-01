@@ -29,27 +29,6 @@ $(document).ready(function () {
         },
     })
 
-    $('.datepicker').datepicker({
-        'autoClose': true,
-        'format': 'dd-mm-yyyy',
-        'firstDay': 1,
-        'yearRange': 5,
-        'showMonthAfterYear': false,
-        'disableWeekends': false,
-        'showClearBtn': true,
-        'showDaysInNextAndPreviousMonths': true,
-        i18n: {
-            months: ['januar', 'februar', 'marts', 'april', 'maj', 'juni', 'juli', 'august', 'september', 'oktober', 'november', 'december'],
-            monthsShort: ["jan", "feb", "mar", "apr", "maj", "jun", "jul", "aug", "sep", "okt", "nov", "dec"],
-            weekdays: ["mandag", "tirsdag", "onsdag", "torsdag", "fredag", "lørdag", "søndag"],
-            weekdaysShort: ["man", "tir", "ons", "tor", "fre", "lør", "søn"],
-            cancel: '',
-            done: '',
-            clear: 'Ryd',
-            formatSubmit: 'dd-mm-yyyy',
-        }
-    });
-
     $('#fra_afventeraflevering_til_modtaget_dialog').modal(
         {
             dismissible: false,

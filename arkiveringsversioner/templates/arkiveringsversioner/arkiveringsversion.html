@@ -2376,6 +2376,33 @@
         e.returnValue = ''
       }
     })
+
+  $(document).ready(function () {
+    $('.datepicker').datepicker({
+      'autoClose': true,
+      'format': 'dd-mm-yyyy',
+      'firstDay': 1,
+      'yearRange': 0,
+      'showMonthAfterYear': false,
+      'disableWeekends': true,
+      'showClearBtn': true,
+      'showDaysInNextAndPreviousMonths': true,
+      'minDate': new Date(document.getElementById('modtaget').value.split('-')[2], document.getElementById('modtaget').value.split('-')[1] - 1, document.getElementById('modtaget').value.split('-')[0]),
+      'defaultDate': new Date(document.getElementById('modtaget').value.split('-')[2], document.getElementById('modtaget').value.split('-')[1] - 1, document.getElementById('modtaget').value.split('-')[0]),
+      'setDefaultDate': false,
+      i18n: {
+        months: ['januar', 'februar', 'marts', 'april', 'maj', 'juni', 'juli', 'august', 'september', 'oktober', 'november', 'december'],
+        monthsShort: ["jan", "feb", "mar", "apr", "maj", "jun", "jul", "aug", "sep", "okt", "nov", "dec"],
+        weekdays: ["mandag", "tirsdag", "onsdag", "torsdag", "fredag", "lørdag", "søndag"],
+        weekdaysShort: ["man", "tir", "ons", "tor", "fre", "lør", "søn"],
+        cancel: '',
+        done: '',
+        clear: 'Ryd',
+        formatSubmit: 'dd-mm-yyyy',
+      }
+    });
+  })
+
 </script>
 
 {% endblock content %}
