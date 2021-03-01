@@ -55,7 +55,7 @@ footer div {
     box-shadow: 0 0px 0 0 #D8DEE9;
 }
 
-#initialer, #fornavn, #mellemnavn, #efternavn, #epost, #telefon, #nuvaerende_adgangskode, #ny_adgangskode, #bekraeft_adgangskode, #navn, #producent, #kapacitet, #medie_navn, #processor, #bundkort, #arbejdshukommelse, #kommentar, #brugernavn, #adgangskode, #public_link, #avid, #jnr, #titel, #noterfraarkivar, #noterfratester, #leverandoer, #afleveringsfrist, #modtaget, #adgang, #svarfrist, #svar, #tester, #arkivar, #status, #stoerrelsemb, #svar_dialog, #afleveringsfrist_dialog, #datoformodtagelse, #datofortilbagemelding2, #avid_create, #datofortilbagemelding, #datoforafleveringsfrist  {
+#initialer, #fornavn, #mellemnavn, #efternavn, #epost, #telefon, #nuvaerende_adgangskode, #ny_adgangskode, #bekraeft_adgangskode, #navn, #producent, #kapacitet, #medie_navn, #processor, #bundkort, #arbejdshukommelse, #kommentar, #brugernavn, #adgangskode, #public_link, #avid, #jnr, #titel, #noterfraarkivar, #noterfratester, #leverandoer, #afleveringsfrist, #modtaget, #adgang, #svarfrist, #svar, #tester, #arkivar, #status, #stoerrelsemb, #svar_dialog, #afleveringsfrist_dialog, #datoformodtagelse, #datofortilbagemelding2, #avid_create, #datofortilbagemelding, #datoforafleveringsfrist, #genmodtagetdato, #godkendelsesdato  {
     border-bottom: 1px solid #2E3440;
     box-shadow: 0 0px 0 0 #2E3440;
 }
@@ -145,7 +145,7 @@ input {
     color: #2E3440 !important;
 }
 
-div#fra_afventeraflevering_til_modtaget_dialog, div#fra_modtaget_til_klartiltest_dialog, div#fra_modtaget_til_tilbagemeldt_dialog, div#fra_klartiltest_til_begyndtest_dialog, div#fra_undertest_til_tilbagemeldt_dialog, div#fra_undertest_til_godkendtaftester_dialog, div#fra_godkendtaftester_til_parattilgodkendelse_dialog, div#fra_parattilgodkendelse_til_godkendt_dialog, div#fra_tilbagemeldt_til_afventgenaflevering_dialog, div#fra_afventergenaflevering_til_modtaget_dialog {
+div#fra_afventeraflevering_til_modtaget_dialog, div#fra_modtaget_til_klartiltest_dialog, div#fra_modtaget_til_tilbagemeldt_dialog, div#fra_klartiltest_til_begyndtest_dialog, div#fra_undertest_til_tilbagemeldt_dialog, div#fra_undertest_til_godkendtaftester_dialog, div#fra_godkendtaftester_til_parattilgodkendelse_dialog, div#fra_parattilgodkendelse_til_godkendt_dialog, div#fra_tilbagemeldt_til_afventgenaflevering_dialog, div#fra_afventergenaflevering_til_modtaget_dialog  {
     width: 600px;
 }
 
