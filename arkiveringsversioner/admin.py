@@ -24,7 +24,7 @@ class StatusAdmin(admin.ModelAdmin):
 
 
 class VersionAdmin(admin.ModelAdmin):
-    list_display = ('nummer', 'avid')
+    list_display = ('nummer', 'avid', 'tester', 'arkivar')
     ordering = ['nummer']
 
 

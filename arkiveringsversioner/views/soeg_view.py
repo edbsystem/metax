@@ -1,10 +1,10 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import user_passes_test
 from django.db.models import Q
-from itertools import chain
 
 from system.services import rettigheder, tjek_rettigheder
 from arkiveringsversioner.models import Arkiveringsversion, Type, Version
+from system.models import Bruger, Profil
 
 
 def tjek(user):
@@ -19,7 +19,6 @@ def soeg_view(request):
     _titel = request.GET.get('titel_soeg') if 'titel_soeg' in request.GET and request.GET.get('titel_soeg') != '' else None
     _land = request.GET.getlist('land_soeg') if 'land_soeg' in request.GET else None
     _status = request.GET.getlist('status_soeg') if 'status_soeg' in request.GET else None
-    print('_status:', _status)
     _kategori = request.GET.getlist('kategori_soeg') if 'kategori_soeg' in request.GET else None
     _klassifikation = request.GET.getlist('klassifikation_soeg') if 'klassifikation_soeg' in request.GET else None
     _type = request.GET.getlist('type_soeg') if 'type_soeg' in request.GET else None
@@ -74,6 +73,8 @@ def soeg_view(request):
 
     _version_objs = Version.objects.filter(avid__in=(av for av in _avs_objs))
     _version_objs = _version_objs.filter(qtq([Q(status=value) for value in _status])) if _status else _version_objs
+    _version_objs = _version_objs.filter(qtq([Q(arkivar=Bruger.objects.get(profil=value)) for value in [Profil.objects.get(initialer=value) for value in _arkivar]])) if _arkivar else _version_objs
+    _version_objs = _version_objs.filter(qtq([Q(tester=Bruger.objects.get(profil=value)) for value in [Profil.objects.get(initialer=value) for value in _tester]])) if _tester else _version_objs
 
     return render(request, 'arkiveringsversioner/soeg.html', {
         "bruger_rettigheder": rettigheder(request.user),
