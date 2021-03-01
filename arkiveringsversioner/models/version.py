@@ -108,6 +108,11 @@ class Version(models.Model):
         blank=True,
     )
 
+    test_begyndt = models.DateField(
+        null=True,
+        blank=True,
+    )
+
     svar = models.DateField(
         null=True,
         blank=True,

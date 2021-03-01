@@ -85,6 +85,10 @@ class Arkiveringsversion(models.Model):
         blank=True,
     )
 
+    afsluttet = models.BooleanField(
+        default=False,
+    )
+
     def __str__(self):
         return str(self.avid)
 

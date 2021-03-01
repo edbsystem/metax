@@ -162,6 +162,7 @@ def arkiveringsversion_view(request, avid, version=0, nystatus=None):
                     _profil_obj = Profil.objects.get(initialer=request.user.username)
                     _bruger_obj = Bruger.objects.get(profil=_profil_obj)
                     _version_obj.tester = _bruger_obj
+                    _version_obj.test_begyndt = datetime.today()
 
                 if _ny_status == 'Afventer genaflevering':
                     _version_obj.modtaget_kvitteret = False
