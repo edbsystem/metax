@@ -19,6 +19,7 @@ def soeg_view(request):
     _titel = request.GET.get('titel_soeg') if 'titel_soeg' in request.GET and request.GET.get('titel_soeg') != '' else None
     _land = request.GET.getlist('land_soeg') if 'land_soeg' in request.GET else None
     _status = request.GET.getlist('status_soeg') if 'status_soeg' in request.GET else None
+    print('_status:', _status)
     _kategori = request.GET.getlist('kategori_soeg') if 'kategori_soeg' in request.GET else None
     _klassifikation = request.GET.getlist('klassifikation_soeg') if 'klassifikation_soeg' in request.GET else None
     _type = request.GET.getlist('type_soeg') if 'type_soeg' in request.GET else None
@@ -62,49 +63,27 @@ def soeg_view(request):
     # print('svar_fra_soeg:', _svar_fra)
     # print('svar_til_soeg:', _svar_til)
 
-    avs_objs = Arkiveringsversion.objects.all()
+    _avs_objs = Arkiveringsversion.objects.all()
+    _avs_objs = _avs_objs.filter(avid__icontains=_avid) if _avid else _avs_objs
+    _avs_objs = _avs_objs.filter(jnr__icontains=_jnr) if _jnr else _avs_objs
+    _avs_objs = _avs_objs.filter(titel__icontains=_titel) if _titel else _avs_objs
+    _avs_objs = _avs_objs.filter(qtq([Q(land=value) for value in _land])) if _land else _avs_objs
+    _avs_objs = _avs_objs.filter(qtq([Q(kategori=value) for value in _kategori])) if _kategori else _avs_objs
+    _avs_objs = _avs_objs.filter(qtq([Q(klassifikation=value) for value in _klassifikation])) if _klassifikation else _avs_objs
+    _avs_objs = _avs_objs.filter(qtq([Q(type=value) for value in [Type.objects.get(navn=value) for value in _type]])) if _type else _avs_objs
 
-    if _avid:
-        avs_objs = avs_objs.filter(avid__icontains=_avid)
-
-    if _jnr:
-        avs_objs = avs_objs.filter(jnr__icontains=_jnr)
-
-    if _titel:
-        avs_objs = avs_objs.filter(titel__icontains=_titel)
-
-    if _land:
-        queries = [Q(land=value) for value in _land]
-        query = queries.pop()
-        for item in queries:
-            query |= item
-        avs_objs = avs_objs.filter(query)
-
-    if _kategori:
-        queries = [Q(kategori=value) for value in _kategori]
-        query = queries.pop()
-        for item in queries:
-            query |= item
-        avs_objs = avs_objs.filter(query)
-
-    if _klassifikation:
-        queries = [Q(klassifikation=value) for value in _klassifikation]
-        query = queries.pop()
-        for item in queries:
-            query |= item
-        avs_objs = avs_objs.filter(query)
-
-    if _type:
-        _type_objs = [Type.objects.get(navn=value) for value in _type]
-        queries = [Q(type=value) for value in _type_objs]
-        query = queries.pop()
-        for item in queries:
-            query |= item
-        avs_objs = avs_objs.filter(query)
-
-    _version_objs = Version.objects.filter(avid__in=(av for av in avs_objs))
+    _version_objs = Version.objects.filter(avid__in=(av for av in _avs_objs))
+    _version_objs = _version_objs.filter(qtq([Q(status=value) for value in _status])) if _status else _version_objs
 
     return render(request, 'arkiveringsversioner/soeg.html', {
         "bruger_rettigheder": rettigheder(request.user),
-        "arkiveringsversioner": avs_objs,
+        "arkiveringsversioner": _avs_objs,
+        "versioner": _version_objs
     })
+
+
+def qtq(queries):
+    query = queries.pop()
+    for item in queries:
+        query |= item
+    return query
