@@ -1,6 +1,6 @@
 from django.db.models.functions import Lower
 
-from arkiveringsversioner.models import Arkiveringsversion, Type, Leverandoer
+from arkiveringsversioner.models import Arkiveringsversion, Type, Leverandoer, Version
 from system.models import Titel, Profil
 
 
@@ -26,6 +26,11 @@ def subject_renderer(request):
     for _leverandoer_obj in Leverandoer.objects.all():
         _leverandoerer.append(_leverandoer_obj.navn)
 
+    _statusser = []
+    for _status in list(Version._meta.get_field('status').choices):
+        _statusser.append(_status[1])
+    _statusser.append('Afsluttet')
+
     _arkiveringsversioner = Arkiveringsversion.objects.all()
 
     return {
@@ -35,4 +40,5 @@ def subject_renderer(request):
         "lande": _lande,
         "leverandoerer": _leverandoerer,
         "arkiveringsversioner": _arkiveringsversioner,
+        "statusser": _statusser
     }

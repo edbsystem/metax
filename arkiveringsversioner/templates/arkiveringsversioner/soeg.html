@@ -1,0 +1,285 @@
+{% extends 'base.html' %}
+
+{% block title %}Arkiveringsversioner/Søg{% endblock %}
+
+{% block content %}
+
+{{ arkiveringsversioner }}
+
+<section class="section center">
+  <form action="{% url 'soeg_view' %}" method="GET">
+    <div class="row">
+      <div class="col l12">
+        <div class="card z-depth-0">
+          <div class="card-content">
+
+            <div class="row">
+
+              <div class="input-field col l1">
+                <div class="form-group">
+                  <label for="avid_soeg" class="col-form-label left" style="color: #4C566A;">AVID</label>
+                  <input type="text" name="avid_soeg" id="avid_soeg" class="form-control avid_nummer" maxlength="5">
+                </div>
+              </div>
+
+              <div class="input-field col l1">
+                <div class="form-group">
+                  <label for="jnr_soeg" class="col-form-label left" style="color: #4C566A;">J.nr.</label>
+                  <input type="text" name="jnr_soeg" id="jnr_soeg" class="form-control j_nummer">
+                </div>
+              </div>
+
+              <div class="input-field col l6">
+                <div class="form-group">
+                  <label for="titel_soeg" class="col-form-label left" style="color: #4C566A;">Titel</label>
+                  <input type="text" name="titel_soeg" id="titel_soeg" class="form-control">
+                </div>
+              </div>
+
+              <div class="input-field col l2">
+                <div class="form-group">
+                  <label for="land_soeg" class="col-form-label left" style="color: #4C566A;">Land</label>
+                  <select name="land_soeg" id="land_soeg" multiple>
+                    {% for l in lande %}
+                    <option value="{{ l }}" style="color: #4C566A;">{{ l }}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+              </div>
+
+              <div class="input-field col l2">
+                <div class="form-group">
+                  <label for="status_soeg" class="col-form-label left" style="color: #4C566A;">Status</label>
+                  <select name="status_soeg" id="status_soeg" multiple>
+                    {% for s in statusser %}
+                    <option value="{{ s }}" style="color: #4C566A;">{{ s }}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+              </div>
+
+            </div>
+
+            <div class="row">
+
+              <div class="input-field col l2">
+                <div class="form-group">
+                  <label for="kategori_soeg" class="col-form-label left" style="color: #4C566A;">Kategori</label>
+                  <select name="kategori_soeg" id="kategori_soeg" multiple>
+                    {% for k in kategorier %}
+                    <option value="{{ k }}" style="color: #4C566A;">{{ k }}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+              </div>
+
+              <div class="input-field col l2">
+                <div class="form-group">
+                  <label for="klassifikation_soeg" class="col-form-label left" style="color: #4C566A;">Klassifikation</label>
+                  <select name="klassifikation_soeg" id="klassifikation_soeg" multiple>
+                    {% for k in klassifikationer %}
+                    <option value="{{ k }}" style="color: #4C566A;">{{ k }}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+              </div>
+
+              <div class="input-field col l2">
+                <div class="form-group">
+                  <label for="type_soeg" class="col-form-label left" style="color: #4C566A;">Type</label>
+                  <select name="type_soeg" id="type_soeg" multiple>
+                    {% for t in typer %}
+                    <option value="{{ t }}" style="color: #4C566A;">{{ t }}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+              </div>
+
+              <div class="input-field col l2">
+                <div class="form-group">
+                  <label for="arkivar_soeg" class="col-form-label left" style="color: #4C566A;">Arkivar</label>
+                  <select name="arkivar_soeg" id="arkivar_soeg" multiple>
+                    {% for a in arkivarer %}
+                    <option value="{{ a.0 }}" style="color: #4C566A;">{{ a.1 }}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+              </div>
+
+              <div class="input-field col l2">
+                <div class="form-group">
+                  <label for="leverandoer_soeg" class="col-form-label left" style="color: #4C566A;">Leverandør</label>
+                  <select name="leverandoer_soeg" id="leverandoer_soeg" multiple>
+                    {% for l in leverandoerer %}
+                    <option value="{{ l }}" style="color: #4C566A;">{{ l }}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+              </div>
+
+              <div class="input-field col l2">
+                <div class="form-group">
+                  <label for="tester_soeg" class="col-form-label left" style="color: #4C566A;">Tester</label>
+                  <select name="tester_soeg" id="tester_soeg" multiple>
+                    {% for t in testere %}
+                    <option value="{{ t.0 }}" style="color: #4C566A;">{{ t.1 }}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+              </div>
+
+            </div>
+
+            <div class="row">
+
+              <div class="input-field col l1">
+                <div class="form-group">
+                  <label for="afleveringsfrist_fra_soeg" class="col-form-label left" style="color: #4C566A;">Afleveringsfrist (fra)</label>
+                  <input type="text" name="afleveringsfrist_fra_soeg" id="afleveringsfrist_fra_soeg" class="form-control datepicker">
+                </div>
+              </div>
+
+              <div class="input-field col l1">
+                <div class="form-group">
+                  <label for="afleveringsfrist_til_soeg" class="col-form-label left" style="color: #4C566A;">Afleveringsfrist (til)</label>
+                  <input type="text" name="afleveringsfrist_til_soeg" id="afleveringsfrist_til_soeg" class="form-control datepicker">
+                </div>
+              </div>
+
+              <div class="input-field col l1">
+                <div class="form-group">
+                  <label for="modtaget_fra_soeg" class="col-form-label left" style="color: #4C566A;">Modtaget (fra)</label>
+                  <input type="text" name="modtaget_fra_soeg" id="modtaget_fra_soeg" class="form-control datepicker">
+                </div>
+              </div>
+
+              <div class="input-field col l1">
+                <div class="form-group">
+                  <label for="modtaget_til_soeg" class="col-form-label left" style="color: #4C566A;">Modtaget (til)</label>
+                  <input type="text" name="modtaget_til_soeg" id="modtaget_til_soeg" class="form-control datepicker">
+                </div>
+              </div>
+
+              <div class="input-field col l1">
+                <div class="form-group">
+                  <label for="adgang_fra_soeg" class="col-form-label left" style="color: #4C566A;">Adgang (fra)</label>
+                  <input type="text" name="adgang_fra_soeg" id="adgang_fra_soeg" class="form-control datepicker">
+                </div>
+              </div>
+
+              <div class="input-field col l1">
+                <div class="form-group">
+                  <label for="adgang_til_soeg" class="col-form-label left" style="color: #4C566A;">Adgang (til)</label>
+                  <input type="text" name="adgang_til_soeg" id="adgang_til_soeg" class="form-control datepicker">
+                </div>
+              </div>
+
+              <div class="input-field col l1">
+                <div class="form-group">
+                  <label for="svarfrist_fra_soeg" class="col-form-label left" style="color: #4C566A;">Svarfrist (fra)</label>
+                  <input type="text" name="svarfrist_fra_soeg" id="svarfrist_fra_soeg" class="form-control datepicker">
+                </div>
+              </div>
+
+              <div class="input-field col l1">
+                <div class="form-group">
+                  <label for="svarfrist_til_soeg" class="col-form-label left" style="color: #4C566A;">Svarfrist (til)</label>
+                  <input type="text" name="svarfrist_til_soeg" id="svarfrist_til_soeg" class="form-control datepicker">
+                </div>
+              </div>
+
+              <div class="input-field col l1">
+                <div class="form-group">
+                  <label for="genafleveringsfrist_fra_soeg" class="col-form-label left" style="color: #4C566A;">Genafleveringsfrist (fra)</label>
+                  <input type="text" name="genafleveringsfrist_fra_soeg" id="genafleveringsfrist_fra_soeg" class="form-control datepicker">
+                </div>
+              </div>
+
+              <div class="input-field col l1">
+                <div class="form-group">
+                  <label for="genafleveringsfrist_til_soeg" class="col-form-label left" style="color: #4C566A;">Genafleveringsfrist (til)</label>
+                  <input type="text" name="genafleveringsfrist_til_soeg" id="genafleveringsfrist_til_soeg" class="form-control datepicker">
+                </div>
+              </div>
+
+              <div class="input-field col l1">
+                <div class="form-group">
+                  <label for="svar_fra_soeg" class="col-form-label left" style="color: #4C566A;">Svar (fra)</label>
+                  <input type="text" name="svar_fra_soeg" id="svar_fra_soeg" class="form-control datepicker">
+                </div>
+              </div>
+
+              <div class="input-field col l1">
+                <div class="form-group">
+                  <label for="svar_til_soeg" class="col-form-label left" style="color: #4C566A;">Svar (til)</label>
+                  <input type="text" name="svar_til_soeg" id="svar_til_soeg" class="form-control datepicker">
+                </div>
+              </div>
+
+            </div>
+
+            <div class="row">
+              <div class="col l12">
+                <div class="card z-depth-0">
+                  <div class="card-content">
+                    <div class="row">
+                      <div class="card-action col l12">
+                        <div class="col right" style="padding: 0; padding-top: 30px; margin: 0;">
+                          <button class="btn waves-effect waves-light z-depth-0" style="margin-right: -15px; background-color: #4C566A; color: #D8DEE9;" type="submit" id="gem" name="gem">Søg</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</section>
+
+<script>
+  Array.from(document.getElementsByClassName('avid_nummer')).forEach(elem => {
+    elem.addEventListener('input', event => {
+      event.target.value = event.target.value.replace(/[^0-9]/g, '');
+    });
+  });
+
+  Array.from(document.getElementsByClassName('j_nummer')).forEach(elem => {
+    elem.addEventListener('input', event => {
+      event.target.value = event.target.value.replace(/[^0-9\/\-]/g, '');
+    });
+  });
+
+  $(document).ready(function () {
+    $('.datepicker').datepicker({
+      'autoClose': true,
+      'format': 'dd-mm-yyyy',
+      'firstDay': 1,
+      'yearRange': 5,
+      'showMonthAfterYear': false,
+      'disableWeekends': true,
+      'showClearBtn': true,
+      'showDaysInNextAndPreviousMonths': true,
+      i18n: {
+        months: ['januar', 'februar', 'marts', 'april', 'maj', 'juni', 'juli', 'august', 'september', 'oktober', 'november', 'december'],
+        monthsShort: ["jan", "feb", "mar", "apr", "maj", "jun", "jul", "aug", "sep", "okt", "nov", "dec"],
+        weekdays: ["mandag", "tirsdag", "onsdag", "torsdag", "fredag", "lørdag", "søndag"],
+        weekdaysShort: ["man", "tir", "ons", "tor", "fre", "lør", "søn"],
+        cancel: '',
+        done: '',
+        clear: 'Ryd',
+        formatSubmit: 'dd-mm-yyyy',
+      }
+    });
+  })
+</script>
+
+{% endblock content %}
+
+{% block footer %}
+{% include 'arkiveringsversioner/footer.html' %}
+{% endblock footer %}
