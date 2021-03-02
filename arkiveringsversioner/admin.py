@@ -14,7 +14,7 @@ class TypeAdmin(admin.ModelAdmin):
 
 
 class ArkiveringsversionAdmin(admin.ModelAdmin):
-    list_display = ('avid', 'jnr', 'titel')
+    list_display = ('avid', 'jnr', 'titel', 'type')
     ordering = ['avid']
 
 
@@ -24,7 +24,7 @@ class StatusAdmin(admin.ModelAdmin):
 
 
 class VersionAdmin(admin.ModelAdmin):
-    list_display = ('nummer', 'avid', 'tester', 'arkivar')
+    list_display = ('nummer', 'avid', 'tester', 'arkivar', 'modtaget', 'svar')
     ordering = ['nummer']
 
 
