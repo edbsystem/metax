@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %}Arkiveringsversioner/Import{% endblock %}
+
+{% block content %}
+
+<section class="section center">
+  <div class="row">
+    <div class="col l2 offset-l5">
+      <div class="card z-depth-0">
+        <div class="card-content">
+          <!-- <form action="{% url 'import_view' %}" method="POST">
+            {% csrf_token %}
+            <button type="submit" class="btn waves-effect waves-light z-depth-0" style="margin-right: 6px; background-color: #A3BE8C; color: #4C566A;">
+              Import
+            </button>
+          </form> -->
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock content %}
+
+{% block footer %}
+{% include 'arkiveringsversioner/footer.html' %}
+{% endblock footer %}

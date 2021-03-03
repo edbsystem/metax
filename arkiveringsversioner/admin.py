@@ -4,7 +4,7 @@ from .models import Leverandoer, Type, Arkiveringsversion, Status, Version, Hell
 
 
 class LeverandoerAdmin(admin.ModelAdmin):
-    list_display = ('navn',)
+    list_display = ('pk', 'navn',)
     ordering = ['navn']
 
 
@@ -14,7 +14,7 @@ class TypeAdmin(admin.ModelAdmin):
 
 
 class ArkiveringsversionAdmin(admin.ModelAdmin):
-    list_display = ('avid', 'jnr', 'titel', 'type')
+    list_display = ('avid', 'jnr', 'titel', 'kategori', 'klassifikation', 'type', 'land', 'public')
     ordering = ['avid']
 
 

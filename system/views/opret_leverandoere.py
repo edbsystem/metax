@@ -1,0 +1,82 @@
+import sqlite3
+
+from arkiveringsversioner.models import Leverandoer
+
+leverandoer_conn = sqlite3.connect(f'''C:\\Users\\Thomas\\Repos\\metax\\old_db.sqlite3''')
+leverandoer_cursor = leverandoer_conn.cursor()
+leverandoer_cursor.execute('''select * from avs_leverandor''')
+leverandoer_rows = leverandoer_cursor.fetchall()
+leverandoer_conn.close()
+
+Leverandoer.objects.all().delete()
+[Leverandoer.objects.create(pk=leverandoer_row[0], navn=leverandoer_row[1]) for leverandoer_row in leverandoer_rows]
+
+leverandoere = {
+    251: 'Selvlavet',
+    252: 'KMD A/S',
+    253: 'Fujitsu',
+    254: 'Formpipe',
+    255: 'EG A/S',
+    256: 'Rigsarkivet',
+    257: 'NOVAX A/S',
+    258: 'DST',
+    259: 'Consit',
+    260: 'RDFined',
+    261: 'IST Danmark',
+    262: 'Miranda Partners',
+    263: 'Globeteam',
+    264: 'Atkins',
+    265: 'Lector',
+    266: 'FS-Data',
+    267: 'CSC Danmark A/S',
+    268: 'Tieto',
+    269: 'L-R Software A/S',
+    270: 'cBrain A/S',
+    271: 'Ciber Danmark',
+    272: 'Tommy Balle',
+    273: 'CGI',
+    274: 'Ditmer A/S',
+    275: 'DXC Technology',
+    276: 'Axpoint A/S',
+    277: 'IBM',
+    278: 'Geokon A/S',
+    279: 'SAS Institute',
+    280: 'Convergens A/S',
+    281: 'IMS A/S',
+    282: 'Netcompany A/S',
+    283: 'TM Care A/S',
+    284: 'IT Relation A/S',
+    285: 'Datasign A/S',
+    286: 'Inopi A/S',
+    287: 'NNIT A/S',
+    288: 'Aestas GIS',
+    289: 'Empisto A/S',
+    290: 'Dansk Scanning',
+    291: '2ndC',
+    292: 'Tribits',
+    293: '2doIT',
+    294: 'Doccura',
+    295: 'Strator',
+    296: 'EG Team Online Aps',
+    297: 'ESDH Konsulenterne',
+    298: 'UFM',
+    299: 'CGM',
+    300: 'Visma Consulting',
+    301: 'LR Consult',
+    302: 'Statens Serum Institut',
+    303: 'IntraNote',
+    304: 'Wenited',
+    305: 'Rigsarkivet IV',
+    306: 'Doit',
+    307: 'JO Informatik ApS',
+    308: 'Scanning.dk',
+    309: 'Bartholdy A/S',
+    310: 'Sofus',
+    311: 'IT Matters',
+    312: 'NNIT',
+    313: 'Northtech ApS',
+    314: 'Konform A/S',
+    315: 'Codeo Danmark ApS',
+    316: 'Datafiler',
+    317: 'Solteq',
+}

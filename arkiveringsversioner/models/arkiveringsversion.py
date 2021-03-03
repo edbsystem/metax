@@ -8,7 +8,7 @@ class Arkiveringsversion(models.Model):
 
     KATEGORI = (
         ('Statslig', 'Statslig'),
-        ('Kommunal', 'Kommunal'),
+        ('', 'Kommunal'),
         ('Privat', 'Privat'),
         ('Forskning', 'Forskning')
     )
@@ -38,6 +38,7 @@ class Arkiveringsversion(models.Model):
     public = models.CharField(
         max_length=255,
         blank=True,
+        null=True,
     )
 
     titel = models.CharField(

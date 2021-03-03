@@ -5,3 +5,4 @@ from .leverandoer_view import leverandoer_view
 from .type_view import type_view
 from .arkiveringsversion_view import arkiveringsversion_view
 from .soeg_view import soeg_view
+from .import_view import import_view

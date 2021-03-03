@@ -4,7 +4,7 @@ from .models import Profil, Bruger, Gruppe, Rettighed, Titel
 
 
 class ProfilAdmin(admin.ModelAdmin):
-    list_display = ('initialer',)
+    list_display = ('initialer', 'titel')
     ordering = ['initialer']
 
 
