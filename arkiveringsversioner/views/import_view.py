@@ -81,10 +81,11 @@ def import_view(request):
         else:
             status = None
 
+        # if av_row[16] = hvad der svarer til DST så Selvlavet
         leverandoer = Leverandoer.objects.get(pk=av_row[16]) if av_row[16] else None
         public = re.search("(https:).*", av_row[23]).group() if av_row[23] else None
 
-        if avid not in avids and public:
+        if avid not in avids:
             avids.add(avid)
             Arkiveringsversion.objects.create(avid=avid, jnr=jnr, public=public, titel=titel, kategori=kategori, klassifikation=klassifikation, land=land)
 
