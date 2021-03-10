@@ -59,7 +59,9 @@ def arkiveringsversion_view(request, avid, version=0, nystatus=None):
         if Arkiveringsversion.objects.filter(avid=avid).exists():
             _arkiveringsversion_obj = Arkiveringsversion.objects.get(avid=avid)
 
-            version = version if version != 0 else Version.objects.filter(avid=_arkiveringsversion_obj).count()
+            _version = Version.objects.filter(avid=_arkiveringsversion_obj).order_by('nummer').last().nummer
+
+            version = version if version != 0 else _version
 
             if Version.objects.filter(nummer=version, avid=_arkiveringsversion_obj).exists():
                 _version_obj = Version.objects.get(nummer=version, avid=_arkiveringsversion_obj)
