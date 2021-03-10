@@ -3,7 +3,6 @@
 {% block title %}Arkiveringsversioner/Arkiveringsversion{% endblock %}
 
 {% block content %}
-{{ seneste_version }}
 <section class="section">
   {% if 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder %}
   <form action="{% url 'arkiveringsversion_view' avid version %}" method="POST">
@@ -322,34 +321,22 @@
 
                 </div>
                 <div class="col right" style="margin-bottom: -7px;">
-                  {% for _ in versioner %}
-                  {% if version == forloop.counter %}
-                  <a href="{% url 'arkiveringsversion_view' avid forloop.counter %}" style="margin: 0;">
-                    {% if versioner|length == forloop.counter %}
-                    <button class="btn waves-effect waves-light z-depth-0" style="background-color: #4C566A; color: #D8DEE9;" type="button" id="{{ forloop.counter }}" name="{{ forloop.counter }}">{{ forloop.counter }}</button>
-                    {% else %}
-                    <button class="btn waves-effect waves-light z-depth-0" style="background-color: #4C566A; color: #D8DEE9;" type="button" id="{{ forloop.counter }}" name="{{ forloop.counter }}">{{ forloop.counter }}</button>
-                    {% endif %}
+                  {% for v in versioner %}
+
+                  {% if v.nummer == version %}
+                  <a href="{% url 'arkiveringsversion_view' avid v %}" style="margin: 0;">
+                    <button class="btn waves-effect waves-light z-depth-0" style="background-color: #4C566A; color: #D8DEE9;" type="button" id="{{ v }}" name="{{ v }}">{{ v }}</button>
                   </a>
-                  {% if versioner|length == forloop.counter %}
-                  <span style="margin-right: -12px;"></span>
-                  {% else %}
                   <span style="margin-right: 6px;"></span>
-                  {% endif %}
+
                   {% else %}
-                  <a href="{% url 'arkiveringsversion_view' avid forloop.counter %}" style="margin: 0;">
-                    {% if versioner|length == forloop.counter %}
-                    <button class="btn waves-effect waves-light z-depth-0" style="background-color: #81A1C1; color: #D8DEE9;" type="button" id="{{ forloop.counter }}" name="{{ forloop.counter }}">{{ forloop.counter }}</button>
-                    {% else %}
-                    <button class="btn waves-effect waves-light z-depth-0" style="background-color: #81A1C1; color: #D8DEE9;" type="button" id="{{ forloop.counter }}" name="{{ forloop.counter }}">{{ forloop.counter }}</button>
-                    {% endif %}
+                  <a href="{% url 'arkiveringsversion_view' avid v %}" style="margin: 0;">
+                    <button class="btn waves-effect waves-light z-depth-0" style="background-color: #81A1C1; color: #D8DEE9;" type="button" id="{{ v }}" name="{{ v }}">{{ v }}</button>
                   </a>
-                  {% if versioner|length == forloop.counter %}
-                  <span style="margin-right: -12px;"></span>
-                  {% else %}
                   <span style="margin-right: 6px;"></span>
+
                   {% endif %}
-                  {% endif %}
+
                   {% endfor %}
                 </div>
               </div>
