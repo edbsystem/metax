@@ -301,7 +301,7 @@ def arkiveringsversion_view(request, avid, version=0, nystatus=None):
         _adgang = datetime.strptime(request.POST.get('adgang'), '%d-%m-%Y').date() if ('adgang' in request.POST and request.POST.get('adgang') != '') else None
         # _svarfrist = datetime.strptime(request.POST.get('svarfrist'), '%d-%m-%Y').date() if 'svarfrist' in request.POST else None
         # _svar = datetime.strptime(request.POST.get('svar'), '%d-%m-%Y').date() if 'svar' in request.POST else None
-        _status = request.POST.get('status') if 'status' in request.POST else None
+        # _status = request.POST.get('status') if 'status' in request.POST else None
         _kvitteret = request.POST.get('kvitteret') if 'kvitteret' in request.POST else None
         _journaliseret = request.POST.get('journaliseret') if 'journaliseret' in request.POST else None
         _kodeord = request.POST.get('kodeord') if 'kodeord' in request.POST else None
@@ -317,47 +317,6 @@ def arkiveringsversion_view(request, avid, version=0, nystatus=None):
         _meta_opdateret = request.POST.get('meta_opdateret') if 'meta_opdateret' in request.POST else None
         _public_opdateret = request.POST.get('public_opdateret') if 'public_opdateret' in request.POST else None
         _godkendt_maskine_renset = request.POST.get('godkendt_maskine_renset') if 'godkendt_maskine_renset' in request.POST else None
-
-        print('')
-        print('----------------------------------------------------------------')
-        print('_avid:', _avid)
-        print('_jnr:', _jnr)
-        print('_public_link:', _public_link)
-        print('_titel:', _titel)
-        print('_kategori:', _kategori)
-        print('_klassifikation:', _klassifikation)
-        print('_type:', _type)
-        print('_land:', _land)
-        print('_noterfraarkivar:', _noterfraarkivar)
-        print('_noterfratester:', _noterfratester)
-        print('_version:', _version)
-        print('_tester:', _tester)
-        print('_arkivar:', _arkivar)
-        print('_leverandoer:', _leverandoer)
-        print('_stoerrelsemb:', _stoerrelsemb)
-        print('_afleveringsfrist:', _afleveringsfrist)
-        # print('_modtaget:', _modtaget)
-        print('_adgang:', _adgang)
-        # print('_svarfrist:', _svarfrist)
-        # print('_svar:', _svar)
-        print('_status:', _status)
-        print('_kvitteret:', _kvitteret)
-        print('_journaliseret:', _journaliseret)
-        print('_kodeord:', _kodeord)
-        print('_kopieret:', _kopieret)
-        print('_modtagelse:', _modtagelse)
-        print('_fileindex:', _fileindex)
-        print('_ada:', _ada)
-        print('_nedpakket:', _nedpakket)
-        print('_maskine_renset:', _maskine_renset)
-        print('_fileindex_godkendt:', _fileindex_godkendt)
-        print('_dea:', _dea)
-        print('_mary_kontrol:', _mary_kontrol)
-        print('_meta_opdateret:', _meta_opdateret)
-        print('_public_opdateret:', _public_opdateret)
-        print('_godkendt_maskine_renset:', _godkendt_maskine_renset)
-        print('----------------------------------------------------------------')
-        print('')
 
         _arkiveringsversion_obj = None
         _version_obj = None

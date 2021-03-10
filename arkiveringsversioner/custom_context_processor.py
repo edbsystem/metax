@@ -23,7 +23,7 @@ def subject_renderer(request):
         _lande.append(_land[1])
 
     _leverandoerer = []
-    for _leverandoer_obj in Leverandoer.objects.all():
+    for _leverandoer_obj in Leverandoer.objects.all().order_by('navn'):
         _leverandoerer.append(_leverandoer_obj.navn)
 
     _statusser = []
