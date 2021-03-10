@@ -1,10 +1,11 @@
 from django.contrib import admin
 
+
 from .models import Profil, Bruger, Gruppe, Rettighed, Titel
 
 
 class ProfilAdmin(admin.ModelAdmin):
-    list_display = ('initialer', 'titel')
+    list_display = ('pk', 'initialer', 'titel')
     ordering = ['initialer']
 
 

@@ -3,6 +3,7 @@
 {% block title %}Arkiveringsversioner/Arkiveringsversion{% endblock %}
 
 {% block content %}
+{{ seneste_version }}
 <section class="section">
   {% if 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder %}
   <form action="{% url 'arkiveringsversion_view' avid version %}" method="POST">

@@ -220,7 +220,7 @@ def arkiveringsversion_view(request, avid, version=0, nystatus=None):
                     _arkivar_fuldenavn += ' '
                     _arkivar_fuldenavn += _version_obj.arkivar.profil.efternavn
 
-            _seneste_version = True if _version_obj.nummer == Version.objects.filter(avid=_version_obj.avid).count() else False
+            _seneste_version = True if _version_obj.nummer == Version.objects.filter(avid=_version_obj.avid).order_by('nummer').last().nummer else False
 
             return render(request, 'arkiveringsversioner/arkiveringsversion.html', {
                 "bruger_rettigheder": rettigheder(request.user),

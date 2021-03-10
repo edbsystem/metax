@@ -1,8 +1,11 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 import sqlite3
 import re
+from datetime import datetime
+from django.contrib.auth.models import User
 
 from arkiveringsversioner.models import Arkiveringsversion, Version, Leverandoer, Type
+from system.models import Profil, Bruger
 
 
 def import_view(request):
@@ -52,8 +55,6 @@ def import_view(request):
 
         type = Type.objects.get(navn='DST') if av_row[16] == 258 else None
 
-        # if av_row[16] = hvad der svarer til DST så Selvlavet, og opret type DST og så denne
-
         public = re.search("(https:).*", av_row[23]).group() if av_row[23] else None
 
         if not Arkiveringsversion.objects.filter(avid=avid).exists():
@@ -93,22 +94,27 @@ def import_view(request):
             status = None
 
         stoerrelse = 0
-        modtaget = av_row[9] if av_row[9] else None
-        adgang = av_row[10] if av_row[10] else None
-        svarfrist = av_row[11] if av_row[11] else None
-        svar = av_row[12] if av_row[12] else None
+        modtaget = datetime.strptime(av_row[9], '%Y-%m-%d').date() if av_row[9] else None
+        adgang = datetime.strptime(av_row[10], '%Y-%m-%d').date() if av_row[10] else None
+        svarfrist = datetime.strptime(av_row[11], '%Y-%m-%d').date() if av_row[11] else None
+        svar = datetime.strptime(av_row[12], '%Y-%m-%d').date() if av_row[12] else None
         leverandoer = Leverandoer.objects.get(pk=av_row[16]) if av_row[16] else None
 
-        if avid == '19922':
-            print('avid:', avid, 'version:', version)
-        if version and not Version.objects.filter(avid=avid, nummer=version).exists():
-            _avid = Arkiveringsversion.objects.get(avid=avid).first()
-            if avid == '19922':
-                print('_avid:', _avid)
-            Version.objects.create(avid=_avid, nummer=version)
-            if avid == '19922':
-                _obj = Version.objects.filter(avid=_avid, nummer=version)
-                print(_obj)
+        # TODO: if av_row[16] = hvad der svarer til DST så Selvlavet, og opret type DST og så denne
 
-    return render(request, 'arkiveringsversioner/import.html', {
-    })
+        testere = {4: 'THH', 5: 'IHA', 6: 'SLL', 7: 'NRS', 8: 'BGJ', 9: 'PMT', 10: 'JDS', 11: 'ABN', 12: 'REM', 13: 'AKE', 14: 'IGC', 15: 'FHK', 16: 'ASS', 17: 'TBO', 18: 'PBP', 19: 'USN', 20: 'KVG', 21: 'STL', 23: 'LUK', 24: 'IHL', 25: 'CBM'}
+
+        tester = None
+        if av_row[18]:
+            initialer = testere[av_row[18]] if av_row[18] != 1 else None
+
+            if initialer:
+                user_obj = User.objects.get(username=initialer)
+                profil_obj = Profil.objects.get(initialer=user_obj.username)
+                tester = Bruger.objects.get(profil=profil_obj)
+
+        if version and not Version.objects.filter(avid=avid, nummer=version).exists():
+            _avid = Arkiveringsversion.objects.get(avid=avid)
+            Version.objects.create(avid=_avid, nummer=version, status=status, stoerrelsemb=stoerrelse, leverandoer=leverandoer, modtaget=modtaget, adgang=adgang, svarfrist=svarfrist, svar=svar, tester=tester)
+
+    return redirect('arkiveringsversioner_view')
