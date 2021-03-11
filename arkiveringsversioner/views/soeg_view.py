@@ -91,8 +91,6 @@ def soeg_view(request):
 
     return render(request, 'arkiveringsversioner/soeg.html', {
         "bruger_rettigheder": rettigheder(request.user),
-        "arkiveringsversioner": _avs_objs,
-        "versioner": _version_objs,
         "avid": _avid,
         "jnr": _jnr,
         "titel": _titel,
@@ -116,6 +114,8 @@ def soeg_view(request):
         "genafleveringsfrist_til": _genafleveringsfrist_til,
         "svar_fra": _svar_fra,
         "svar_til": _svar_til,
+        # "arkiveringsversioner": _avs_objs,
+        "versioner": _version_objs,
     })
 
 
