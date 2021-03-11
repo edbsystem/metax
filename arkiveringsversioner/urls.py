@@ -10,6 +10,7 @@ urlpatterns = [
     path('arkiveringsversion/<str:avid>/<str:version>/<str:nystatus>/', arkiveringsversion_view, name='arkiveringsversion_view'),
 
     path('soeg/', soeg_view, name='soeg_view'),
+    path('soeg/<int:nulstil>/', soeg_view, name='soeg_view'),
     path('import/', import_view, name='import_view'),
 
     path('leverandoerer/', leverandoerer_view, name='leverandoerer_view'),

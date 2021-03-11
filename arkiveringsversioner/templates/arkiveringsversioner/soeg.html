@@ -4,8 +4,6 @@
 
 {% block content %}
 
-{{ versioner }}
-
 <section class="section center">
   <form action="{% url 'soeg_view' %}" method="GET">
     <div class="row">
@@ -29,7 +27,7 @@
                 </div>
               </div>
 
-              <div class="input-field col l6">
+              <div class="input-field col l4">
                 <div class="form-group">
                   <label for="titel_soeg" class="col-form-label left" style="color: #4C566A;">Titel</label>
                   <input type="text" name="titel_soeg" id="titel_soeg" class="form-control" value="{{ titel | default_if_none:'' }}">
@@ -63,6 +61,20 @@
                     {% endif %}
                     {% endfor %}
                   </select>
+                </div>
+              </div>
+
+              <div class="input-field col l2">
+                <div class="form-group">
+                  <br>
+                  <label for="enkelte_versioner">
+                    {% if enkelte_versioner == True %}
+                    <input type="checkbox" name="enkelte_versioner" id="enkelte_versioner" checked />
+                    {% else %}
+                    <input type="checkbox" name="enkelte_versioner" id="enkelte_versioner" />
+                    {% endif%}
+                    <span style="color: #4C566A;">Vis enkelte versioner</span>
+                  </label>
                 </div>
               </div>
 
@@ -251,17 +263,282 @@
             </div>
 
             <div class="row">
+
+              <div class="input-field col l1">
+                <div class="form-group">
+                  <br>
+                  <label for="vis_avid" class="left">
+                    {% if vis_avid == True %}
+                    <input type="checkbox" name="vis_avid" id="vis_avid" checked />
+                    {% else %}
+                    <input type="checkbox" name="vis_avid" id="vis_avid" />
+                    {% endif%}
+                    <span style="color: #4C566A;">AVID</span>
+                  </label>
+                </div>
+              </div>
+
+              <div class="input-field col l1">
+                <div class="form-group">
+                  <br>
+                  <label for="vis_version" class="left">
+                    {% if vis_version == True %}
+                    <input type="checkbox" name="vis_version" id="vis_version" checked />
+                    {% else %}
+                    <input type="checkbox" name="vis_version" id="vis_version" />
+                    {% endif%}
+                    <span style="color: #4C566A;">Version</span>
+                  </label>
+                </div>
+              </div>
+
+              <div class="input-field col l1">
+                <div class="form-group">
+                  <br>
+                  <label for="vis_jnr" class="left">
+                    {% if vis_jnr == True %}
+                    <input type="checkbox" name="vis_jnr" id="vis_jnr" checked />
+                    {% else %}
+                    <input type="checkbox" name="vis_jnr" id="vis_jnr" />
+                    {% endif%}
+                    <span style="color: #4C566A;">J.nr.</span>
+                  </label>
+                </div>
+              </div>
+
+              <div class="input-field col l1">
+                <div class="form-group">
+                  <br>
+                  <label for="vis_titel" class="left">
+                    {% if vis_titel == True %}
+                    <input type="checkbox" name="vis_titel" id="vis_titel" checked />
+                    {% else %}
+                    <input type="checkbox" name="vis_titel" id="vis_titel" />
+                    {% endif%}
+                    <span style="color: #4C566A;">Titel</span>
+                  </label>
+                </div>
+              </div>
+
+              <div class="input-field col l1">
+                <div class="form-group">
+                  <br>
+                  <label for="vis_land" class="left">
+                    {% if vis_land == True %}
+                    <input type="checkbox" name="vis_land" id="vis_land" checked />
+                    {% else %}
+                    <input type="checkbox" name="vis_land" id="vis_land" />
+                    {% endif%}
+                    <span style="color: #4C566A;">Land</span>
+                  </label>
+                </div>
+              </div>
+
+              <div class="input-field col l1">
+                <div class="form-group">
+                  <br>
+                  <label for="vis_status" class="left">
+                    {% if vis_status == True %}
+                    <input type="checkbox" name="vis_status" id="vis_status" checked />
+                    {% else %}
+                    <input type="checkbox" name="vis_status" id="vis_status" />
+                    {% endif%}
+                    <span style="color: #4C566A;">Status</span>
+                  </label>
+                </div>
+              </div>
+
+              <div class="input-field col l1">
+                <div class="form-group">
+                  <br>
+                  <label for="vis_kategori" class="left">
+                    {% if vis_kategori == True %}
+                    <input type="checkbox" name="vis_kategori" id="vis_kategori" checked />
+                    {% else %}
+                    <input type="checkbox" name="vis_kategori" id="vis_kategori" />
+                    {% endif%}
+                    <span style="color: #4C566A;">Kategori</span>
+                  </label>
+                </div>
+              </div>
+
+              <div class="input-field col l1">
+                <div class="form-group">
+                  <br>
+                  <label for="vis_klassifikation" class="left">
+                    {% if vis_klassifikation == True %}
+                    <input type="checkbox" name="vis_klassifikation" id="vis_klassifikation" checked />
+                    {% else %}
+                    <input type="checkbox" name="vis_klassifikation" id="vis_klassifikation" />
+                    {% endif%}
+                    <span style="color: #4C566A;">Klassifikation</span>
+                  </label>
+                </div>
+              </div>
+
+              <div class="input-field col l1">
+                <div class="form-group">
+                  <br>
+                  <label for="vis_type" class="left">
+                    {% if vis_type == True %}
+                    <input type="checkbox" name="vis_type" id="vis_type" checked />
+                    {% else %}
+                    <input type="checkbox" name="vis_type" id="vis_type" />
+                    {% endif%}
+                    <span style="color: #4C566A;">Type</span>
+                  </label>
+                </div>
+              </div>
+
+              <div class="input-field col l1">
+                <div class="form-group">
+                  <br>
+                  <label for="vis_arkivar" class="left">
+                    {% if vis_arkivar == True %}
+                    <input type="checkbox" name="vis_arkivar" id="vis_arkivar" checked />
+                    {% else %}
+                    <input type="checkbox" name="vis_arkivar" id="vis_arkivar" />
+                    {% endif%}
+                    <span style="color: #4C566A;">Arkivar</span>
+                  </label>
+                </div>
+              </div>
+
+              <div class="input-field col l1">
+                <div class="form-group">
+                  <br>
+                  <label for="vis_leverandoer" class="left">
+                    {% if vis_leverandoer == True %}
+                    <input type="checkbox" name="vis_leverandoer" id="vis_leverandoer" checked />
+                    {% else %}
+                    <input type="checkbox" name="vis_leverandoer" id="vis_leverandoer" />
+                    {% endif%}
+                    <span style="color: #4C566A;">Leverandør</span>
+                  </label>
+                </div>
+              </div>
+
+              <div class="input-field col l1">
+                <div class="form-group">
+                  <br>
+                  <label for="vis_tester" class="left">
+                    {% if vis_tester == True %}
+                    <input type="checkbox" name="vis_tester" id="vis_tester" checked />
+                    {% else %}
+                    <input type="checkbox" name="vis_tester" id="vis_tester" />
+                    {% endif%}
+                    <span style="color: #4C566A;">Tester</span>
+                  </label>
+                </div>
+              </div>
+
+            </div>
+
+            <div class="row">
+
+              <div class="input-field col l1">
+                <div class="form-group">
+                  <br>
+                  <label for="vis_afleveringsfrist" class="left">
+                    {% if vis_afleveringsfrist == True %}
+                    <input type="checkbox" name="vis_afleveringsfrist" id="vis_afleveringsfrist" checked />
+                    {% else %}
+                    <input type="checkbox" name="vis_afleveringsfrist" id="vis_afleveringsfrist" />
+                    {% endif%}
+                    <span style="color: #4C566A;">Afleverings...</span>
+                  </label>
+                </div>
+              </div>
+
+              <div class="input-field col l1">
+                <div class="form-group">
+                  <br>
+                  <label for="vis_modtaget" class="left">
+                    {% if vis_modtaget == True %}
+                    <input type="checkbox" name="vis_modtaget" id="vis_modtaget" checked />
+                    {% else %}
+                    <input type="checkbox" name="vis_modtaget" id="vis_modtaget" />
+                    {% endif%}
+                    <span style="color: #4C566A;">Modtaget</span>
+                  </label>
+                </div>
+              </div>
+
+              <div class="input-field col l1">
+                <div class="form-group">
+                  <br>
+                  <label for="vis_adgang" class="left">
+                    {% if vis_adgang == True %}
+                    <input type="checkbox" name="vis_adgang" id="vis_adgang" checked />
+                    {% else %}
+                    <input type="checkbox" name="vis_adgang" id="vis_adgang" />
+                    {% endif%}
+                    <span style="color: #4C566A;">Adgang</span>
+                  </label>
+                </div>
+              </div>
+
+              <div class="input-field col l1">
+                <div class="form-group">
+                  <br>
+                  <label for="vis_svarfrist" class="left">
+                    {% if vis_svarfrist == True %}
+                    <input type="checkbox" name="vis_svarfrist" id="vis_svarfrist" checked />
+                    {% else %}
+                    <input type="checkbox" name="vis_svarfrist" id="vis_svarfrist" />
+                    {% endif%}
+                    <span style="color: #4C566A;">Svarfrist</span>
+                  </label>
+                </div>
+              </div>
+
+              <div class="input-field col l1">
+                <div class="form-group">
+                  <br>
+                  <label for="vis_genafleveringsfrist" class="left">
+                    {% if vis_genafleveringsfrist == True %}
+                    <input type="checkbox" name="vis_genafleveringsfrist" id="vis_genafleveringsfrist" checked />
+                    {% else %}
+                    <input type="checkbox" name="vis_genafleveringsfrist" id="vis_genafleveringsfrist" />
+                    {% endif%}
+                    <span style="color: #4C566A;">Genafleve...</span>
+                  </label>
+                </div>
+              </div>
+
+              <div class="input-field col l1">
+                <div class="form-group">
+                  <br>
+                  <label for="vis_svar" class="left">
+                    {% if vis_svar == True %}
+                    <input type="checkbox" name="vis_svar" id="vis_svar" checked />
+                    {% else %}
+                    <input type="checkbox" name="vis_svar" id="vis_svar" />
+                    {% endif%}
+                    <span style="color: #4C566A;">Svar</span>
+                  </label>
+                </div>
+              </div>
+
+            </div>
+
+            <div class="row">
               <div class="col l12">
                 <div class="card z-depth-0">
                   <div class="card-content">
                     <div class="row">
                       <div class="card-action col l12">
                         <div class="col right" style="padding: 0; padding-top: 30px; margin: 0;">
-                          <button class="btn waves-effect waves-light z-depth-0" style="margin-right: -15px; background-color: #4C566A; color: #D8DEE9;" type="submit" id="gem" name="gem">Søg</button>
+                          <button class="btn waves-effect waves-light z-depth-0" style="margin-right: -15px; background-color: #4C566A; color: #D8DEE9;" type="submit" id="soeg" name="soeg">Søg</button>
                         </div>
                         <div class="col right" style="padding: 0; padding-top: 30px; margin: 0;">
-                          <a href="{% url 'soeg_view' %}">
+                          <a href="{% url 'soeg_view' 1 %}">
                             <button class="btn waves-effect waves-light z-depth-0" style="margin-right: 20px; background-color: #D08770; color: #4C566A;" type="button" id="fortryd" name="fortryd">Nulstil</button>
+                          </a>
+                        </div>
+                        <div class="col left" style="padding: 0; padding-top: 30px; margin: 0;">
+                          <a href="#!">
+                            <button class="btn waves-effect waves-light z-depth-0" style="margin-left: -10px; background-color: #A3BE8C; color: #4C566A;" type="button" id="gem" name="gem">Gem Søgning</button>
                           </a>
                         </div>
                       </div>
@@ -276,6 +553,66 @@
       </div>
     </div>
   </form>
+
+  {% if not nulstil %}
+  <div class="row">
+    <div class="col l12">
+      <div class="card z-depth-0">
+        <div class="card-content">
+          <table>
+            <thead>
+              <tr style="color: #4C566A;">
+                {% if vis_avid %}<th style="cursor: default !important;">AVID</th>{% endif %}
+                {% if vis_version and enkelte_versioner %}<th style="cursor: default !important;">Version</th>{% endif %}
+                {% if vis_jnr %}<th style="cursor: default !important;">J.nr</th>{% endif %}
+                {% if vis_titel %}<th style="cursor: default !important;">Titel</th>{% endif %}
+                {% if vis_land %}<th style="cursor: default !important;">Land</th>{% endif %}
+                {% if vis_status %}<th style="cursor: default !important;">Status</th>{% endif %}
+                {% if vis_kategori %}<th style="cursor: default !important;">Kategori</th>{% endif %}
+                {% if vis_klassifikation %}<th style="cursor: default !important;">Klassifikation</th>{% endif %}
+                {% if vis_type %}<th style="cursor: default !important;">Type</th>{% endif %}
+                {% if vis_arkivar %}<th style="cursor: default !important;">Arkivar</th>{% endif %}
+                {% if vis_leverandoer %}<th style="cursor: default !important;">Leverandør</th>{% endif %}
+                {% if vis_tester %}<th style="cursor: default !important;">Tester</th>{% endif %}
+                {% if vis_afleveringsfrist %}<th style="cursor: default !important;">Afl...</th>{% endif %}
+                {% if vis_modtaget %}<th style="cursor: default !important;">Modtaget</th>{% endif %}
+                {% if vis_adgang %}<th style="cursor: default !important;">Adgang</th>{% endif %}
+                {% if vis_svarfrist %}<th style="cursor: default !important;">Svarfrist</th>{% endif %}
+                {% if vis_genafleveringsfrist %}<th style="cursor: default !important;">Genafl...</th>{% endif %}
+                {% if vis_svar %}<th style="cursor: default !important;">Svar</th>{% endif %}
+              </tr>
+            </thead>
+            <tbody>
+              {% for r in resultat %}
+              <tr style="line-height: 1; cursor: pointer;" class='clickable-row' data-href="#">
+                {% if vis_avid %}<td>{{ r.avid }}</td>{% endif %}
+                {% if vis_version and enkelte_versioner %}<td>{{ r.version }}</td>{% endif %}
+                {% if vis_jnr %}<td>{{ r.jnr }}</td>{% endif %}
+                {% if vis_titel %}<td>{{ r.titel }}</td>{% endif %}
+                {% if vis_land %}<td>{{ r.land }}</td>{% endif %}
+                {% if vis_status %}<td>{{ r.status }}</td>{% endif %}
+                {% if vis_kategori %}<td>{{ r.kategori }}</td>{% endif %}
+                {% if vis_klassifikation %}<td>{{ r.klassifikation }}</td>{% endif %}
+                {% if vis_type %}<td>{{ r.type }}</td>{% endif %}
+                {% if vis_arkivar %}<td>{{ r.arkivar }}</td>{% endif %}
+                {% if vis_leverandoer %}<td>{{ r.leverandoer }}</td>{% endif %}
+                {% if vis_tester %}<td>{{ r.tester }}</td>{% endif %}
+                {% if vis_afleveringsfrist %}<td>{{ r.afleveringsfrist }}</td>{% endif %}
+                {% if vis_modtaget %}<td>{{ r.modtaget }}</td>{% endif %}
+                {% if vis_adgang %}<td>{{ r.adgang }}</td>{% endif %}
+                {% if vis_svarfrist %}<td>{{ r.svarfrist }}</td>{% endif %}
+                {% if vis_genafleveringsfrist %}<td>{{ r.genafleveringsfrist }}</td>{% endif %}
+                {% if vis_svar %}<td>{{ r.svar }}</td>{% endif %}
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+
 </section>
 
 <script>
