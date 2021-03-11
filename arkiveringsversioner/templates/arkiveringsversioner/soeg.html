@@ -8,10 +8,11 @@
   <form action="{% url 'soeg_view' %}" method="GET">
     <div class="row">
       <div class="col l12">
-        <div class="card z-depth-0">
+        <div class="card z-depth-0" style="margin-top: -20px;">
           <div class="card-content">
 
             <div class="row">
+              <span class="card-title left" style="cursor: default !important;">Søgekriterier</span><br><br>
 
               <div class="input-field col l1">
                 <div class="form-group">
@@ -261,6 +262,16 @@
               </div>
 
             </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col l12">
+        <div class="card z-depth-0">
+          <div class="card-content">
+            <span class="card-title left" style="cursor: default !important;">Resultatvisning</span><br><br>
 
             <div class="row">
 
@@ -523,34 +534,28 @@
             </div>
 
             <div class="row">
-              <div class="col l12">
-                <div class="card z-depth-0">
-                  <div class="card-content">
-                    <div class="row">
-                      <div class="card-action col l12">
-                        <div class="col right" style="padding: 0; padding-top: 30px; margin: 0;">
-                          <button class="btn waves-effect waves-light z-depth-0" style="margin-right: -15px; background-color: #4C566A; color: #D8DEE9;" type="submit" id="soeg" name="soeg">Søg</button>
-                        </div>
-                        <div class="col right" style="padding: 0; padding-top: 30px; margin: 0;">
-                          <a href="{% url 'soeg_view' 1 %}">
-                            <button class="btn waves-effect waves-light z-depth-0" style="margin-right: 20px; background-color: #D08770; color: #4C566A;" type="button" id="fortryd" name="fortryd">Nulstil</button>
-                          </a>
-                        </div>
-                        <div class="col left" style="padding: 0; padding-top: 30px; margin: 0;">
-                          <a href="#!">
-                            <button class="btn waves-effect waves-light z-depth-0" style="margin-left: -10px; background-color: #A3BE8C; color: #4C566A;" type="button" id="gem" name="gem">Gem Søgning</button>
-                          </a>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+              <div class="card-action col l12">
+                <div class="col right" style="padding: 0; padding-top: 30px; margin: 0;">
+                  <button class="btn waves-effect waves-light z-depth-0" style="margin-right: -15px; background-color: #4C566A; color: #D8DEE9;" type="submit" id="soeg" name="soeg">Søg</button>
+                </div>
+                <div class="col right" style="padding: 0; padding-top: 30px; margin: 0;">
+                  <a href="{% url 'soeg_view' 1 %}">
+                    <button class="btn waves-effect waves-light z-depth-0" style="margin-right: 20px; background-color: #D08770; color: #4C566A;" type="button" id="fortryd" name="fortryd">Nulstil</button>
+                  </a>
+                </div>
+                <div class="col left" style="padding: 0; padding-top: 30px; margin: 0;">
+                  <a href="#!">
+                    <button class="btn waves-effect waves-light z-depth-0" style="margin-left: -10px; background-color: #A3BE8C; color: #4C566A;" type="button" id="gem" name="gem">Gem Søgning</button>
+                  </a>
                 </div>
               </div>
             </div>
 
           </div>
+
         </div>
       </div>
+
     </div>
   </form>
 
@@ -562,8 +567,9 @@
           <table>
             <thead>
               <tr style="color: #4C566A;">
+                <th></th>
                 {% if vis_avid %}<th style="cursor: default !important;">AVID</th>{% endif %}
-                {% if vis_version and enkelte_versioner %}<th style="cursor: default !important;">Version</th>{% endif %}
+                {% if vis_version %}<th style="cursor: default !important;">Version</th>{% endif %}
                 {% if vis_jnr %}<th style="cursor: default !important;">J.nr</th>{% endif %}
                 {% if vis_titel %}<th style="cursor: default !important;">Titel</th>{% endif %}
                 {% if vis_land %}<th style="cursor: default !important;">Land</th>{% endif %}
@@ -584,9 +590,10 @@
             </thead>
             <tbody>
               {% for r in resultat %}
-              <tr style="line-height: 1; cursor: pointer;" class='clickable-row' data-href="#">
+              <tr style="line-height: 1; cursor: pointer;" class='clickable-row' data-href="{% url 'arkiveringsversion_view' r.avid r.version %}">
+                <td><a href="{% url 'arkiveringsversion_view' r.avid r.version %}"><i class="material-icons" style="color: #4C566A;">edit</i></a></td>
                 {% if vis_avid %}<td>{{ r.avid }}</td>{% endif %}
-                {% if vis_version and enkelte_versioner %}<td>{{ r.version }}</td>{% endif %}
+                {% if vis_version %}<td>{{ r.version }}</td>{% endif %}
                 {% if vis_jnr %}<td>{{ r.jnr }}</td>{% endif %}
                 {% if vis_titel %}<td>{{ r.titel }}</td>{% endif %}
                 {% if vis_land %}<td>{{ r.land }}</td>{% endif %}

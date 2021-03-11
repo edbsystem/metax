@@ -152,6 +152,7 @@ def soeg_view(request, nulstil=0):
                 _resultat.append({
                     "avid": av.avid,
                     "jnr": av.jnr,
+                    "version": version_last.nummer,
                     "titel": av.titel,
                     "land": av.land,
                     "status": version_last.status,

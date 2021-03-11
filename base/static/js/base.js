@@ -13,9 +13,9 @@
 //    var instances = M.FormSelect.init(elems, options);
 //});
 
-function preventBack() { window.history.forward(); }
-setTimeout("preventBack()", 0);
-window.onunload = function () { null };
+// function preventBack() { window.history.forward(); }
+// setTimeout("preventBack()", 0);
+// window.onunload = function () { null };
 
 let status_change = false
 
