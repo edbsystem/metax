@@ -185,7 +185,7 @@ def soeg_view(request, nulstil=0):
                     "genafleveringsfrist": '{:%d-%m-%Y}'.format(version_last.genafleveringsfrist) if version_last.genafleveringsfrist != None else '',
                     "svar": '{:%d-%m-%Y}'.format(version_last.svar) if version_last.svar != None else '',
                 })
-
+    #
     # _sorted_resultat = sorted(_resultat, key=lambda i: (i['avid'], i['version']))
     #_sorted_resultat = sorted(_resultat, key=lambda i: (i['titel'], i['avid'], i['version']))
 
