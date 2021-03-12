@@ -73,6 +73,7 @@ def soeg_view(request, nulstil=0):
     _bookmark = True if 'bookmark' in request.GET else False
 
     _resultat = list()
+    _sorted_resultat = list()
 
     if nulstil:
         _vis_avid = True
@@ -185,12 +186,80 @@ def soeg_view(request, nulstil=0):
                     "genafleveringsfrist": '{:%d-%m-%Y}'.format(version_last.genafleveringsfrist) if version_last.genafleveringsfrist != None else '',
                     "svar": '{:%d-%m-%Y}'.format(version_last.svar) if version_last.svar != None else '',
                 })
-    #
-    # _sorted_resultat = sorted(_resultat, key=lambda i: (i['avid'], i['version']))
-    #_sorted_resultat = sorted(_resultat, key=lambda i: (i['titel'], i['avid'], i['version']))
 
-    # tjek for felt er None before sort
-    _sorted_resultat = sorted(_resultat, key=lambda i: (notnonedate(i['svarfrist']), i['avid'], i['version']), reverse=True)
+    if _sortering_avid:
+        if _sortering_faldende:
+            _sorted_resultat = sorted(_resultat, key=lambda i: (i['avid'], i['version']), reverse=True)
+        else:
+            _sorted_resultat = sorted(_resultat, key=lambda i: (i['avid'], i['version']))
+
+    if _sortering_titel:
+        if _sortering_faldende:
+            _sorted_resultat = sorted(_resultat, key=lambda i: (i['titel'], i['avid'], i['version']), reverse=True)
+        else:
+            _sorted_resultat = sorted(_resultat, key=lambda i: (i['titel'], i['avid'], i['version']))
+
+    if _sortering_status:
+        if _sortering_faldende:
+            _sorted_resultat = sorted(_resultat, key=lambda i: (i['status'], i['avid'], i['version']), reverse=True)
+        else:
+            _sorted_resultat = sorted(_resultat, key=lambda i: (i['status'], i['avid'], i['version']))
+
+    if _sortering_kategori:
+        if _sortering_faldende:
+            _sorted_resultat = sorted(_resultat, key=lambda i: (i['kategori'], i['avid'], i['version']), reverse=True)
+        else:
+            _sorted_resultat = sorted(_resultat, key=lambda i: (i['kategori'], i['avid'], i['version']))
+
+    if _sortering_klassifikation:
+        if _sortering_faldende:
+            _sorted_resultat = sorted(_resultat, key=lambda i: (i['klassifikation'], i['avid'], i['version']), reverse=True)
+        else:
+            _sorted_resultat = sorted(_resultat, key=lambda i: (i['klassifikation'], i['avid'], i['version']))
+
+    if _sortering_type:
+        if _sortering_faldende:
+            _sorted_resultat = sorted(_resultat, key=lambda i: (str(i['type']), i['avid'], i['version']), reverse=True)
+        else:
+            _sorted_resultat = sorted(_resultat, key=lambda i: (str(i['type']), i['avid'], i['version']))
+
+    if _sortering_afleveringsfrist:
+        if _sortering_faldende:
+            _sorted_resultat = sorted(_resultat, key=lambda i: (notnonedate(i['afleveringsfrist']), i['avid'], i['version']), reverse=True)
+        else:
+            _sorted_resultat = sorted(_resultat, key=lambda i: (notnonedate(i['afleveringsfrist']), i['avid'], i['version']))
+
+    if _sortering_modtaget:
+        if _sortering_faldende:
+            _sorted_resultat = sorted(_resultat, key=lambda i: (notnonedate(i['modtaget']), i['avid'], i['version']), reverse=True)
+        else:
+            _sorted_resultat = sorted(_resultat, key=lambda i: (notnonedate(i['modtaget']), i['avid'], i['version']))
+
+    if _sortering_adgang:
+        if _sortering_faldende:
+            _sorted_resultat = sorted(_resultat, key=lambda i: (notnonedate(i['adgang']), i['avid'], i['version']), reverse=True)
+        else:
+            _sorted_resultat = sorted(_resultat, key=lambda i: (notnonedate(i['adgang']), i['avid'], i['version']))
+
+    if _sortering_svarfrist:
+        if _sortering_faldende:
+            _sorted_resultat = sorted(_resultat, key=lambda i: (notnonedate(i['svarfrist']), i['avid'], i['version']), reverse=True)
+        else:
+            _sorted_resultat = sorted(_resultat, key=lambda i: (notnonedate(i['svarfrist']), i['avid'], i['version']))
+
+    if _sortering_genafleveringsfrist:
+        if _sortering_faldende:
+            _sorted_resultat = sorted(_resultat, key=lambda i: (notnonedate(i['genafleveringsfrist']), i['avid'], i['version']), reverse=True)
+        else:
+            _sorted_resultat = sorted(_resultat, key=lambda i: (notnonedate(i['genafleveringsfrist']), i['avid'], i['version']))
+
+    if _sortering_svar:
+        if _sortering_faldende:
+            _sorted_resultat = sorted(_resultat, key=lambda i: (notnonedate(i['svar']), i['avid'], i['version']), reverse=True)
+        else:
+            _sorted_resultat = sorted(_resultat, key=lambda i: (notnonedate(i['svar']), i['avid'], i['version']))
+
+    # _sorted_resultat = sorted(_resultat, key=lambda i: (notnonedate(i['svarfrist']), i['avid'], i['version']), reverse=True)
 
     return render(request, 'arkiveringsversioner/soeg.html', {
         "bruger_rettigheder": rettigheder(request.user),
