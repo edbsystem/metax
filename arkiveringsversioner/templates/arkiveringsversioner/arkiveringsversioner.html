@@ -28,7 +28,7 @@
               </tr>
             </thead>
             <tbody>
-              {% for arkiveringsversion in arkiveringsversioner %}
+              {% for arkiveringsversion in arkiveringsversionere %}
               {% if 'arkiveringsversioner_arkiveringsversion_se' in bruger_rettigheder and 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder %}
               <tr style="line-height: 1; cursor: pointer;" class='clickable-row' data-href="{% url 'arkiveringsversion_view' arkiveringsversion.avid %}">
                 <td><a href="{% url 'arkiveringsversion_view' arkiveringsversion.avid %}"><i class="material-icons" style="color: #4C566A;">edit</i></a></td>
