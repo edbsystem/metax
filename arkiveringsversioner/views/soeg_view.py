@@ -74,6 +74,7 @@ def soeg_view(request, nulstil=0):
 
     _resultat = list()
     _sorted_resultat = list()
+    _arkiveringsversioner = set()
 
     if nulstil:
         _vis_avid = True
@@ -136,6 +137,7 @@ def soeg_view(request, nulstil=0):
 
         if _enkelte_versioner:
             for version in _version_objs:
+                _arkiveringsversioner.add(version.avid.avid)
                 _resultat.append({
                     "avid": version.avid.avid,
                     "version": version.nummer,
@@ -146,7 +148,7 @@ def soeg_view(request, nulstil=0):
                     "kategori": version.avid.kategori,
                     "klassifikation": version.avid.klassifikation,
                     "type": version.avid.type if version.avid.type else '',
-                    "stoerrelse": version.stoerrelsemb,
+                    "stoerrelse": int(version.stoerrelsemb / 1024),
                     "arkivar": version.arkivar if version.arkivar else '',
                     "leverandoer": version.leverandoer,
                     "tester": version.tester if version.tester else '',
@@ -159,10 +161,9 @@ def soeg_view(request, nulstil=0):
                 })
 
         if not _enkelte_versioner:
-            avs = set()
             for version in _version_objs:
-                avs.add(version.avid.avid)
-            for avid in avs:
+                _arkiveringsversioner.add(version.avid.avid)
+            for avid in _arkiveringsversioner:
                 av = Arkiveringsversion.objects.get(avid=avid)
                 version_last = Version.objects.filter(avid=av).order_by('nummer').last()
                 _resultat.append({
@@ -175,7 +176,7 @@ def soeg_view(request, nulstil=0):
                     "kategori": av.kategori,
                     "klassifikation": av.klassifikation,
                     "type": av.type if av.type else '',
-                    "stoerrelse": version_last.stoerrelsemb,
+                    "stoerrelse": int(version_last.stoerrelsemb / 1024),
                     "arkivar": version_last.arkivar if version_last.arkivar else '',
                     "leverandoer": version_last.leverandoer if version_last.leverandoer else '',
                     "tester": version_last.tester if version_last.tester else '',
@@ -250,6 +251,11 @@ def soeg_view(request, nulstil=0):
     else:
         _sorted_resultat = _resultat
 
+    _samlet_stoerrrelse = 0
+    for r in _sorted_resultat:
+        _samlet_stoerrrelse += r['stoerrelse']
+    _samlet_stoerrrelse = str(int(_samlet_stoerrrelse))
+
     return render(request, 'arkiveringsversioner/soeg.html', {
         "bruger_rettigheder": rettigheder(request.user),
         "avid": _avid,
@@ -309,6 +315,8 @@ def soeg_view(request, nulstil=0):
         "sortering_svar": _sortering_svar,
         "sortering_faldende": _sortering_faldende,
         "resultat": _sorted_resultat,
+        "arkiveringsversioner": _arkiveringsversioner,
+        "samlet_stoerrelse": _samlet_stoerrrelse,
         "bookmark": _bookmark,
     })
 

@@ -726,6 +726,22 @@
     <div class="col l12">
       <div class="card z-depth-0">
         <div class="card-content">
+          {% if enkelte_versioner == True %}
+          <span class="card-title center" style="cursor: default !important;">{{ resultat|length }} versioner af {{ arkiveringsversioner|length }} arkiveringsversioner med en samlet størrelse på {{ samlet_stoerrelse }} GB</span><br><br>
+          {% else %}
+          <span class="card-title center" style="cursor: default !important;">{{ resultat|length }} arkiveringsversioner med en samlet størrelse på {{ samlet_stoerrelse }} GB</span><br><br>
+          {% endif %}
+          <div class="row">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col l12">
+      <div class="card z-depth-0" style="margin-top: -105px;">
+        <div class="card-content">
           <table>
             <thead>
               <tr style="color: #4C566A;">
