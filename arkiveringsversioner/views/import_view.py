@@ -36,7 +36,7 @@ def import_view(request):
         elif av_row[5] == 'Privat':
             kategori = 'Privat'
         elif av_row[5] == 'Klassificeret':
-            kategori = 'Stat'
+            kategori = 'Statslig'
         elif av_row[5] == 'Forskningsdata':
             kategori = 'Forskning'
         else:
