@@ -57,6 +57,20 @@ def soeg_view(request, nulstil=0):
     _vis_svarfrist = True if request.GET.get('vis_svarfrist') != None else False
     _vis_genafleveringsfrist = True if request.GET.get('vis_genafleveringsfrist') != None else False
     _vis_svar = True if request.GET.get('vis_svar') != None else False
+    _sortering_avid = True if request.GET.get('sortering') == 'sortering_avid' else False
+    _sortering_titel = True if request.GET.get('sortering') == 'sortering_titel' else False
+    _sortering_status = True if request.GET.get('sortering') == 'sortering_status' else False
+    _sortering_kategori = True if request.GET.get('sortering') == 'sortering_kategori' else False
+    _sortering_klassifikation = True if request.GET.get('sortering') == 'sortering_klassifikation' else False
+    _sortering_type = True if request.GET.get('sortering') == 'sortering_type' else False
+    _sortering_afleveringsfrist = True if request.GET.get('sortering') == 'sortering_afleveringsfrist' else False
+    _sortering_modtaget = True if request.GET.get('sortering') == 'sortering_modtaget' else False
+    _sortering_adgang = True if request.GET.get('sortering') == 'sortering_adgang' else False
+    _sortering_svarfrist = True if request.GET.get('sortering') == 'sortering_svarfrist' else False
+    _sortering_genafleveringsfrist = True if request.GET.get('sortering') == 'sortering_genafleveringsfrist' else False
+    _sortering_svar = True if request.GET.get('sortering') == 'sortering_svar' else False
+    _sortering_faldende = True if request.GET.get('sortering_faldende') != None else False
+    _bookmark = True if 'bookmark' in request.GET else False
 
     _resultat = list()
 
@@ -131,6 +145,7 @@ def soeg_view(request, nulstil=0):
                     "kategori": version.avid.kategori,
                     "klassifikation": version.avid.klassifikation,
                     "type": version.avid.type if version.avid.type else '',
+                    "stoerrelse": version.stoerrelsemb,
                     "arkivar": version.arkivar if version.arkivar else '',
                     "leverandoer": version.leverandoer,
                     "tester": version.tester if version.tester else '',
@@ -159,6 +174,7 @@ def soeg_view(request, nulstil=0):
                     "kategori": av.kategori,
                     "klassifikation": av.klassifikation,
                     "type": av.type if av.type else '',
+                    "stoerrelse": version_last.stoerrelsemb,
                     "arkivar": version_last.arkivar if version_last.arkivar else '',
                     "leverandoer": version_last.leverandoer if version_last.leverandoer else '',
                     "tester": version_last.tester if version_last.tester else '',
@@ -169,6 +185,12 @@ def soeg_view(request, nulstil=0):
                     "genafleveringsfrist": '{:%d-%m-%Y}'.format(version_last.genafleveringsfrist) if version_last.genafleveringsfrist != None else '',
                     "svar": '{:%d-%m-%Y}'.format(version_last.svar) if version_last.svar != None else '',
                 })
+
+    # _sorted_resultat = sorted(_resultat, key=lambda i: (i['avid'], i['version']))
+    #_sorted_resultat = sorted(_resultat, key=lambda i: (i['titel'], i['avid'], i['version']))
+
+    # tjek for felt er None before sort
+    _sorted_resultat = sorted(_resultat, key=lambda i: (notnonedate(i['svarfrist']), i['avid'], i['version']), reverse=True)
 
     return render(request, 'arkiveringsversioner/soeg.html', {
         "bruger_rettigheder": rettigheder(request.user),
@@ -215,9 +237,21 @@ def soeg_view(request, nulstil=0):
         "vis_svarfrist": _vis_svarfrist,
         "vis_genafleveringsfrist": _vis_genafleveringsfrist,
         "vis_svar": _vis_svar,
-        # "arkiveringsversioner": _avs_objs,
-        # "versioner": _version_objs,
-        "resultat": _resultat,
+        "sortering_avid": _sortering_avid,
+        "sortering_titel": _sortering_titel,
+        "sortering_status": _sortering_status,
+        "sortering_kategori": _sortering_kategori,
+        "sortering_klassifikation": _sortering_klassifikation,
+        "sortering_type": _sortering_type,
+        "sortering_afleveringsfrist": _sortering_afleveringsfrist,
+        "sortering_modtaget": _sortering_modtaget,
+        "sortering_adgang": _sortering_adgang,
+        "sortering_svarfrist": _sortering_svarfrist,
+        "sortering_genafleveringsfrist": _sortering_genafleveringsfrist,
+        "sortering_svar": _sortering_svar,
+        "sortering_faldende": _sortering_faldende,
+        "resultat": _sorted_resultat,
+        "bookmark": _bookmark,
     })
 
 
@@ -226,3 +260,10 @@ def qtq(queries):
     for item in queries:
         query |= item
     return query
+
+
+def notnonedate(date):
+    if date:
+        return datetime.strptime(date, '%d-%m-%Y').date()
+    else:
+        return datetime.strptime('01-01-1970', '%d-%m-%Y').date()

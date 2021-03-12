@@ -5,6 +5,7 @@
 {% block content %}
 
 <section class="section center">
+  {% if not bookmark %}
   <form action="{% url 'soeg_view' %}" method="GET">
 
     <div class="row" style="margin: 0;">
@@ -596,10 +597,10 @@
                   <br>
                   <label class="left">
                     {% if sortering_modtaget %}
-                    <input type="checkbox" class="radio" name="sortering" value="sortering_sortering_modtaget" checked />
+                    <input type="checkbox" class="radio" name="sortering" value="sortering_modtaget" checked />
                     <span style="color: #2E3440;">Modtaget</span>
                     {% else %}
-                    <input type="checkbox" class="radio" name="sortering" value="sortering_sortering_modtaget" />
+                    <input type="checkbox" class="radio" name="sortering" value="sortering_modtaget" />
                     <span style="color: #2E3440;">Modtaget</span>
                     {% endif %}
                   </label>
@@ -623,11 +624,11 @@
                 <div class="form-group" style="margin-top: -25px;">
                   <br>
                   <label class="left">
-                    {% if sortering_svarfirst %}
-                    <input type="checkbox" class="radio" name="sortering" value="sortering_svarfirst" checked />
+                    {% if sortering_svarfrist %}
+                    <input type="checkbox" class="radio" name="sortering" value="sortering_svarfrist" checked />
                     <span style="color: #2E3440;">Svarfrist</span>
                     {% else %}
-                    <input type="checkbox" class="radio" name="sortering" value="sortering_svarfirst" />
+                    <input type="checkbox" class="radio" name="sortering" value="sortering_svarfrist" />
                     <span style="color: #2E3440;">Svarfrist</span>
                     {% endif %}
                   </label>
@@ -661,7 +662,30 @@
                   </label>
                 </div>
               </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
+    <div class="row">
+      <div class="col l12">
+        <div class="card z-depth-0" style="margin-top: -45px;">
+          <div class="card-content">
+            <div class="row" style="margin: 0;  margin-left: 5px;">
+              <div class="input-field col l1">
+                <div class="form-group" style="margin-top: -25px;">
+                  <label class="left">
+                    {% if sortering_faldende %}
+                    <input type="checkbox" class="radio" name="sortering_faldende" checked />
+                    <span style="color: #2E3440;">Faldende</span>
+                    {% else %}
+                    <input type="checkbox" class="radio" name="sortering_faldende" />
+                    <span style="color: #2E3440;">Faldende</span>
+                    {% endif %}
+                  </label>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -695,6 +719,7 @@
     </div>
 
   </form>
+  {% endif %}
 
   {% if not nulstil %}
   <div class="row">
@@ -714,6 +739,7 @@
                 {% if vis_kategori %}<th style="cursor: default !important;">Kategori</th>{% endif %}
                 {% if vis_klassifikation %}<th style="cursor: default !important;">Klassifikation</th>{% endif %}
                 {% if vis_type %}<th style="cursor: default !important;">Type</th>{% endif %}
+                <th style="cursor: default !important;">Størrelse</th>
                 {% if vis_arkivar %}<th style="cursor: default !important;">Arkivar</th>{% endif %}
                 {% if vis_leverandoer %}<th style="cursor: default !important;">Leverandør</th>{% endif %}
                 {% if vis_tester %}<th style="cursor: default !important;">Tester</th>{% endif %}
@@ -738,6 +764,7 @@
                 {% if vis_kategori %}<td>{{ r.kategori }}</td>{% endif %}
                 {% if vis_klassifikation %}<td>{{ r.klassifikation }}</td>{% endif %}
                 {% if vis_type %}<td>{{ r.type }}</td>{% endif %}
+                <td>{{ r.stoerrelse }}</td>
                 {% if vis_arkivar %}<td>{{ r.arkivar }}</td>{% endif %}
                 {% if vis_leverandoer %}<td>{{ r.leverandoer }}</td>{% endif %}
                 {% if vis_tester %}<td>{{ r.tester }}</td>{% endif %}
