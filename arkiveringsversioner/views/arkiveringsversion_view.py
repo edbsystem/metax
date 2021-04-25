@@ -3,10 +3,12 @@ from django.contrib.auth.decorators import user_passes_test
 from django.contrib import messages
 
 from datetime import datetime, timedelta
+import json
 
 from system.services import rettigheder, tjek_rettigheder
-from arkiveringsversioner.models import Arkiveringsversion, Version, Type, Leverandoer, Helligdag, leverandoer
+from arkiveringsversioner.models import Arkiveringsversion, Version, Type, Leverandoer, Helligdag, arkiveringsversion, leverandoer
 from system.models import Profil, Bruger
+from hardware.models import Medie
 
 
 def tjek(user):
@@ -222,6 +224,12 @@ def arkiveringsversion_view(request, avid, version=0, nystatus=None):
 
             _seneste_version = True if _version_obj.nummer == Version.objects.filter(avid=_version_obj.avid).order_by('nummer').last().nummer else False
 
+            _ibrugtaget_medier = []
+            _ibrugtaget_medier_objs = Medie.objects.filter(versioner=_version_obj).order_by()
+            for _ibrugtaget_medie_obj in _ibrugtaget_medier_objs:
+                _ibrugtaget_medier.append({'tag': _ibrugtaget_medie_obj.navn})
+            _ibrugtaget_medier = json.dumps(_ibrugtaget_medier)
+
             return render(request, 'arkiveringsversioner/arkiveringsversion.html', {
                 "bruger_rettigheder": rettigheder(request.user),
                 "avid": _arkiveringsversion_obj.avid,
@@ -272,6 +280,7 @@ def arkiveringsversion_view(request, avid, version=0, nystatus=None):
                 "dagsdato": datetime.today().strftime('%d-%m-%Y'),
                 "seneste_version": _seneste_version,
                 "backtick": '`',
+                "ibrugtaget_medier": _ibrugtaget_medier,
             })
 
         if not Arkiveringsversion.objects.filter(avid=avid).exists():
@@ -317,6 +326,8 @@ def arkiveringsversion_view(request, avid, version=0, nystatus=None):
         _meta_opdateret = request.POST.get('meta_opdateret') if 'meta_opdateret' in request.POST else None
         _public_opdateret = request.POST.get('public_opdateret') if 'public_opdateret' in request.POST else None
         _godkendt_maskine_renset = request.POST.get('godkendt_maskine_renset') if 'godkendt_maskine_renset' in request.POST else None
+        _medier = request.POST.get('av_medier') if 'av_medier' in request.POST else None
+        _old_medier = request.POST.get('old_medier') if 'old_medier' in request.POST else None
 
         _arkiveringsversion_obj = None
         _version_obj = None
@@ -438,6 +449,24 @@ def arkiveringsversion_view(request, avid, version=0, nystatus=None):
             _version_obj.godkendt_af_tester_meta_opdateret = True if _meta_opdateret == 'meta_opdateret' else False
             _version_obj.godkendt_af_tester_public_opdateret = True if _public_opdateret == 'public_opdateret' else False
             _version_obj.godkendt_af_tester_maskine_renset = True if _godkendt_maskine_renset == 'godkendt_maskine_renset' else False
+
+            old_medier = []
+            for m in json.loads(_old_medier):
+                old_medier.append(m['tag'].upper())
+            for old_medie in old_medier:
+                old_m = Medie.objects.filter(navn=old_medie).first()
+                if old_m:
+                    old_m.versioner.remove(_version_obj)
+
+            medier = []
+            for m in json.loads(_medier):
+                medier.append(m['tag'].upper())
+            for medie in medier:
+                m = Medie.objects.filter(navn=medie).first()
+                if m:
+                    m.versioner.add(_version_obj)
+                else:
+                    messages.error(request, f"Mediet '{medie}' findes ikke.")
 
             _version_obj.save()
 

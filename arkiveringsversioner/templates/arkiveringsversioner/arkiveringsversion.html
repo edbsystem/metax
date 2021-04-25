@@ -906,6 +906,19 @@
                 </div>
               </div>
             </div>
+
+            <div class="row">
+              <div class="col l12">
+                <div class="input-field col l12">
+                  <div class="form-group">
+                    <label for="av_medier" class="col-form-label left" style="color: #2E3440;">Medie(r)</label>
+                    <input type="hidden" id="av_medier" name="av_medier" value="{{ ibrugtaget_medier }}">
+                    <input type="hidden" id="old_medier" name="old_medier" value="{{ ibrugtaget_medier }}">
+                    <div class="chips chips-initial av_medier"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
             {% endif %}
 
             {% if status == 'Klar til test' %}
@@ -2366,6 +2379,7 @@
     })
 
   $(document).ready(function () {
+    
     $('.datepicker').datepicker({
       'autoClose': true,
       'format': 'dd-mm-yyyy',
@@ -2389,8 +2403,26 @@
         formatSubmit: 'dd-mm-yyyy',
       }
     });
-  })
 
+    if (document.getElementById('av_medier')) {
+        av_data = JSON.parse($("#av_medier").val());
+        $('.chips-initial.av_medier').chips({
+            data: av_data,
+            onChipAdd: (event, chip) => {
+                var chipsData = M.Chips.getInstance($('.av_medier')).chipsData;
+                var chipsDataJson = JSON.stringify(chipsData);
+                var av_medier = document.getElementById('av_medier');
+                av_medier.value = chipsDataJson;
+            },
+            onChipDelete: () => {
+                var chipsData = M.Chips.getInstance($('.av_medier')).chipsData;
+                var chipsDataJson = JSON.stringify(chipsData);
+                var av_medier = document.getElementById('av_medier');
+                av_medier.value = chipsDataJson;
+            }
+        });
+    } 
+  })
 </script>
 
 {% endblock content %}

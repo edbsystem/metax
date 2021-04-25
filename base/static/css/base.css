@@ -176,3 +176,20 @@ div#opret_dialog {
 .date-picker-clear {
     color: #BF616A;
 }
+
+.chips {
+    min-height: 65px;
+}
+
+.chips.focus {
+    border-bottom: 1px solid #4C566A;
+    box-shadow: 0 1px 0 0 #4C566A;
+}
+.chip {
+    margin-top: 23px;
+    background-color: #81A1C1 !important;
+}
+
+.chip:focus {
+  background-color: #4C566A !important;
+}

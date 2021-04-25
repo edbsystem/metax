@@ -1,5 +1,7 @@
 from django.db import models
 
+from arkiveringsversioner.models import Version
+
 
 class Medie(models.Model):
     TYPE = (
@@ -31,6 +33,12 @@ class Medie(models.Model):
         max_length=255,
         blank=True,
         choices=TYPE
+    )
+
+    versioner = models.ManyToManyField(
+        Version,
+        blank=True,
+        related_name='versioner'
     )
 
     def __str__(self):

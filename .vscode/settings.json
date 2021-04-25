@@ -37,5 +37,5 @@
     "editor.occurrencesHighlight": false,
     "editor.renderLineHighlight": "none",
     "editor.selectionHighlight": false,
-    "python.pythonPath": ".venv\\Scripts\\python.exe",
+    "python.pythonPath": "C:\\Users\\Thomas\\Repos\\metax\\.venv\\Scripts\\python.exe",
 }
