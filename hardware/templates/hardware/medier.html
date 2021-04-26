@@ -23,7 +23,7 @@
                 <th style="cursor: default !important;">Navn</th>
                 <th style="cursor: default !important;">Producent</th>
                 <th style="cursor: default !important;">Kapacitet i GB</th>
-                <th style="cursor: default !important;">Type</th>
+                <th style="cursor: default !important;">Arkiveringsversioner</th>
               </tr>
             </thead>
             <tbody>
@@ -41,7 +41,11 @@
                 <td>{{ medie.navn }}</td>
                 <td>{{ medie.producent }}</td>
                 <td>{{ medie.kapacitet }}</td>
-                <td>{{ medie.type }}</td>
+                <td>
+                  {% for v in medie.versioner %}
+                  <a href="{% url 'arkiveringsversion_view' v %}">{{ v }},</a>
+                  {% endfor %}
+                </td>
               </tr>
               {% endfor %}
             </tbody>

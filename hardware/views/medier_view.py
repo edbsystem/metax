@@ -14,8 +14,24 @@ def tjek(user):
 def medier_view(request):
 
     _medier_objs = sorted(Medie.objects.all(), key=lambda _medie: _medie.navn)
+    
+    _medier = []
+    for _medie_obj in _medier_objs:
+        versioner_objs = _medie_obj.versioner.all()
+        versioner = []
+        for v in versioner_objs:
+            versioner.append(v.avid.avid)
+        _medier.append({
+            "pk": _medie_obj.pk,
+            "navn": _medie_obj.navn,
+            "producent": _medie_obj.producent,
+            "kapacitet": _medie_obj.kapacitet,
+            "versioner": versioner,
+        })
+    
+    print(_medier)
 
     return render(request, 'hardware/medier.html', {
         "bruger_rettigheder": rettigheder(request.user),
-        "medier": _medier_objs,
+        "medier": _medier,
     })

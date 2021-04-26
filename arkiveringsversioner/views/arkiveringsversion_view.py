@@ -225,10 +225,15 @@ def arkiveringsversion_view(request, avid, version=0, nystatus=None):
             _seneste_version = True if _version_obj.nummer == Version.objects.filter(avid=_version_obj.avid).order_by('nummer').last().nummer else False
 
             _ibrugtaget_medier = []
-            _ibrugtaget_medier_objs = Medie.objects.filter(versioner=_version_obj).order_by()
+            _ibrugtaget_medier_objs = Medie.objects.filter(versioner=_version_obj).order_by('navn')
             for _ibrugtaget_medie_obj in _ibrugtaget_medier_objs:
                 _ibrugtaget_medier.append({'tag': _ibrugtaget_medie_obj.navn})
             _ibrugtaget_medier = json.dumps(_ibrugtaget_medier)
+
+            if len(_ibrugtaget_medier_objs) > 0:
+                _version_obj.modtaget_kopieret = True
+            else:
+                _version_obj.modtaget_kopieret = False
 
             return render(request, 'arkiveringsversioner/arkiveringsversion.html', {
                 "bruger_rettigheder": rettigheder(request.user),
@@ -261,7 +266,7 @@ def arkiveringsversion_view(request, avid, version=0, nystatus=None):
                 "modtaget_kodeord": _version_obj.modtaget_kodeord,
                 "modtaget_mangler_kodeord": _version_obj.modtaget_mangler_kodeord,
                 "modtaget_ikke_krypteret": _version_obj.modtaget_ikke_krypteret,
-                "modtaget_kopieret": _version_obj.modtaget_kopieret,
+                "modtaget_kopieret": True if len(_ibrugtaget_medier_objs) > 0 else False,
                 "modtaget_modtagelse_godkendt": _version_obj.modtaget_modtagelse_godkendt,
                 "modtaget_modtagelse_afvist": _version_obj.modtaget_modtagelse_afvist,
                 "modtaget_fileindex_kopieret": _version_obj.modtaget_fileindex_kopieret,

@@ -1,0 +1,128 @@
+{% extends 'base.html' %}
+
+{% block title %}Arkiveringsversioner{% endblock %}
+
+{% block content %}
+
+<section class="section center">
+  <div class="row">
+    <div class="col l8 offset-l2">
+      <div class="card z-depth-0">
+        <div class="card-content">
+          <table style="margin-top: -14px;">
+            <thead>
+              <tr style="color: #4C566A;">
+                <th style="cursor: default !important;">AVID</th>
+                <th style="cursor: default !important;">J.nr</th>
+                <th style="cursor: default !important;">Titel</th>
+                <th style="cursor: default !important;">Kategori</th>
+                <th style="cursor: default !important;">Svarfrist</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for version in versioner %}
+              <tr style="line-height: 1; cursor: pointer;" class='clickable-row' data-href="">
+                <td>{{ version.avid }}</td>
+                <td>{{ version.jnr }}</td>
+                <td>{{ version.titel }}</td>
+                <td>{{ version.kategori }}</td>
+                <td>{{ version.svarfrist }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<aside>
+  <div class="modal" id="opret_dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Opret</h5>
+        </div>
+        <div class="modal-body">
+          <br>
+          <form action="{% url 'arkiveringsversion_view' 0 0 'opret' %}" id="opret_avid_form" method="GET">
+            {% csrf_token %}
+            <div class="form-group">
+              <label for="avid_create" class="col-form-label left" style="color: #4C566A;">AVID</label>
+              <input type="text" name="avid_opret" id="avid_create" class="form-control number" maxlength="5" autofocus>
+            </div>
+            <br><br>
+        </div>
+        <div class="modal-footer">
+          <a href="#!">
+            <button id="" name="" type="button" class="modal-close btn waves-effect waves-light z-depth-0" style="background-color: #BF616A; color: #ECEFF4;">
+              Fortryd
+            </button>
+          </a>
+          <button type="button" class="btn waves-effect waves-light z-depth-0" style="margin-left: 6px; background-color: #A3BE8C; color: #2E3440;" onclick="return validation()">
+            Bekræft
+          </button>
+        </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</aside>
+
+<aside>
+  <div class="modal bottom-sheet" id="fejl">
+    <div class="modal-content">
+      <ul class="collection">
+        <li class="collection-item" style="background-color: #BF616A; color: #2E3440;">'AVID' er ikke valid.</li>
+      </ul>
+    </div>
+  </div>
+</aside>
+
+
+<script>
+  $('#avid_create').ready(function () {
+    $('#avid_create').keydown(function (event) {
+      if (event.keyCode == 13) {
+        validation()
+      }
+    });
+  });
+
+  Array.from(document.getElementsByClassName('number')).forEach(elem => {
+    elem.addEventListener('input', event => {
+      event.target.value = event.target.value.replace(/[^0-9]/g, '');
+    });
+  });
+
+  function validation() {
+    dialog = false
+    avid = document.getElementById('avid_create').value
+
+    console.log(avid.length)
+    if (avid.length !== 5) {
+      dialog = false
+    }
+    else {
+      dialog = true
+    }
+
+    if (dialog != true) {
+      $('#fejl').modal('open')
+      return false;
+    }
+    else {
+      console.log(avid)
+      console.log('submit')
+      document.getElementById('opret_avid_form').submit();
+    }
+  }
+
+</script>
+
+{% endblock content %}
+
+{% block footer %}
+{% include 'arkiveringsversioner/footer.html' %}
+{% endblock footer %}

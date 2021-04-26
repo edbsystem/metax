@@ -699,15 +699,7 @@
                       <div class="input-field col l12" style="margin: 0; padding-bottom: 4px; margin-top: 4px;">
                         <div class="form-group">
                           <label class="col l6" onchange="updateKopieret()">
-                            {% if 'arkiveringsversioner_status_modtaget_rediger' in bruger_rettigheder and 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder %}
-                            {% if modtaget_kopieret %}
-                            <input type="checkbox" class="radio" name="kopieret" value="kopieret" checked />
-                            <span style="color: #2E3440;">Kopieret til testmedie</span>
-                            {% else %}
-                            <input type="checkbox" class="radio" name="kopieret" value="kopieret" />
-                            <span style="color: #2E3440;">Kopieret til testmedie</span>
-                            {% endif %}
-                            {% elif 'arkiveringsversioner_status_modtaget_se' in bruger_rettigheder and 'arkiveringsversioner_arkiveringsversion_se' in bruger_rettigheder %}
+                            {% if 'arkiveringsversioner_status_modtaget_se' in bruger_rettigheder and 'arkiveringsversioner_arkiveringsversion_se' in bruger_rettigheder %}
                             {% if modtaget_kopieret %}
                             <input type="checkbox" class="radio" name="kopieret" value="kopieret" checked readonly onclick="return false" />
                             <span style="color: #2E3440; cursor: default !important;">Kopieret til testmedie</span>
