@@ -164,6 +164,10 @@ class Version(models.Model):
         default=False,
     )
 
+    modtaget_ada_startet = models.BooleanField(
+        default=False,
+    )
+
     modtaget_adatest_godkendt = models.BooleanField(
         default=False,
     )

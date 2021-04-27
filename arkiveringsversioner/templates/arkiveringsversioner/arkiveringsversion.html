@@ -728,6 +728,7 @@
                   {% endif %}
                   {% endif %}
 
+                  {% if modtaget_kopieret %}
                   <div class="row">
                     <div class="col l12">
                       <div class="input-field col l12" style="margin: 0; padding-bottom: 4px; margin-top: 4px;">
@@ -790,7 +791,9 @@
                   </div>
                   {% endif %}
                   {% endif %}
+                  {% endif %}
 
+                  {% if maskine %}
                   <div class="row">
                     <div class="col l12">
                       <div class="input-field col l12" style="margin: 0; padding-bottom: 4px; margin-top: 4px;">
@@ -811,6 +814,48 @@
                             {% else %}
                             <input type="checkbox" class="radio" name="fileindex" value="kopieret" readonly onclick="return false" />
                             <span style="color: #2E3440; cursor: default !important;">Filindeks kopieret</span>
+                            {% endif %}
+                            {% endif %}
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {% if 'arkiveringsversioner_arkiveringsversion_se' in bruger_rettigheder or 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder %}
+                  {% if 'arkiveringsversioner_status_modtaget_se' in bruger_rettigheder or 'arkiveringsversioner_status_modtaget_rediger' in bruger_rettigheder %}
+                  <div class="row">
+                    <div class="col l12">
+                      {% if 'arkiveringsversioner_status_modtaget_rediger' in bruger_rettigheder and 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder %}
+                      <div class="divider" style="border-top: 1px solid #4C566A;"></div>
+                      {% elif 'arkiveringsversioner_status_modtaget_se' in bruger_rettigheder %}
+                      <div class="divider" style="border-top: 1px dotted #4C566A;"></div>
+                      {% endif %}
+                    </div>
+                  </div>
+                  {% endif %}
+                  {% endif %}
+
+                  <div class="row">
+                    <div class="col l12">
+                      <div class="input-field col l12" style="margin: 0; padding-bottom: 4px; margin-top: 4px;">
+                        <div class="form-group">
+                          <label class="col l4" onchange="updateAda_startet()">
+                            {% if 'arkiveringsversioner_status_modtaget_rediger' in bruger_rettigheder and 'arkiveringsversioner_arkiveringsversion_rediger' in bruger_rettigheder %}
+                            {% if modtaget_ada_startet %}
+                            <input type="checkbox" class="radio" name="ada_startet" value="startet" checked />
+                            <span style="color: #2E3440;">ADA startet</span>
+                            {% else %}
+                            <input type="checkbox" class="radio" name="ada_startet" value="startet" />
+                            <span style="color: #2E3440;">ADA startet</span>
+                            {% endif %}
+                            {% elif 'arkiveringsversioner_status_modtaget_se' in bruger_rettigheder and 'arkiveringsversioner_arkiveringsversion_se' in bruger_rettigheder %}
+                            {% if modtaget_ada_startet %}
+                            <input type="checkbox" class="radio" name="ada_afvikling" value="startet" checked readonly onclick="return false" />
+                            <span style="color: #2E3440; cursor: default !important;">ADA startet</span>
+                            {% else %}
+                            <input type="checkbox" class="radio" name="ada_afvikling" value="startet" readonly onclick="return false" />
+                            <span style="color: #2E3440; cursor: default !important;">ADA startet</span>
                             {% endif %}
                             {% endif %}
                           </label>
@@ -892,6 +937,7 @@
                       {% endif %}
                     </div>
                   </div>
+                  {% endif %}
                   {% endif %}
                   {% endif %}
 
@@ -1986,6 +2032,8 @@
   let modtagelse_afvist_start = undefined
   let fileindex = undefined
   let fileindex_start = undefined
+  let ada_startet = undefined
+  let ada_startet_start = undefined
   let ada_godkendt = undefined
   let ada_godkendt_start = undefined
   let ada_afvist = undefined
@@ -2256,6 +2304,7 @@
     }
   }
   updateFileindex = () => fileindex = !fileindex
+  updateAda_startet = () => ada_startet = !ada_startet
   updateAda_godkendt = () => {
     if (ada_godkendt === true && ada_afvist === false) {
       ada_godkendt = false
@@ -2350,6 +2399,7 @@
           modtagelse_godkendt !== modtagelse_godkendt_start ||
           modtagelse_afvist !== modtagelse_afvist_start ||
           fileindex !== fileindex_start ||
+          ada_startet !== ada_startet_start ||
           ada_godkendt !== ada_godkendt_start ||
           ada_afvist !== ada_afvist_start ||
           nedpakket != nedpakket_start ||
@@ -2371,7 +2421,7 @@
     })
 
   $(document).ready(function () {
-    
+
     $('.datepicker').datepicker({
       'autoClose': true,
       'format': 'dd-mm-yyyy',
@@ -2397,23 +2447,23 @@
     });
 
     if (document.getElementById('av_medier')) {
-        av_data = JSON.parse($("#av_medier").val());
-        $('.chips-initial.av_medier').chips({
-            data: av_data,
-            onChipAdd: (event, chip) => {
-                var chipsData = M.Chips.getInstance($('.av_medier')).chipsData;
-                var chipsDataJson = JSON.stringify(chipsData);
-                var av_medier = document.getElementById('av_medier');
-                av_medier.value = chipsDataJson;
-            },
-            onChipDelete: () => {
-                var chipsData = M.Chips.getInstance($('.av_medier')).chipsData;
-                var chipsDataJson = JSON.stringify(chipsData);
-                var av_medier = document.getElementById('av_medier');
-                av_medier.value = chipsDataJson;
-            }
-        });
-    } 
+      av_data = JSON.parse($("#av_medier").val());
+      $('.chips-initial.av_medier').chips({
+        data: av_data,
+        onChipAdd: (event, chip) => {
+          var chipsData = M.Chips.getInstance($('.av_medier')).chipsData;
+          var chipsDataJson = JSON.stringify(chipsData);
+          var av_medier = document.getElementById('av_medier');
+          av_medier.value = chipsDataJson;
+        },
+        onChipDelete: () => {
+          var chipsData = M.Chips.getInstance($('.av_medier')).chipsData;
+          var chipsDataJson = JSON.stringify(chipsData);
+          var av_medier = document.getElementById('av_medier');
+          av_medier.value = chipsDataJson;
+        }
+      });
+    }
   })
 </script>
 

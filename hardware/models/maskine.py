@@ -1,6 +1,6 @@
 from django.db import models
 
-from hardware.models import Placering
+from .placering import Placering
 
 
 class Maskine(models.Model):

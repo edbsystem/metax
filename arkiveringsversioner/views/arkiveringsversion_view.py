@@ -1,3 +1,4 @@
+from hardware.models.maskine import Maskine
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import user_passes_test
 from django.contrib import messages
@@ -149,6 +150,7 @@ def arkiveringsversion_view(request, avid, version=0, nystatus=None):
                     _version_obj.modtaget_modtagelse_godkendt = False
                     _version_obj.modtaget_modtagelse_afvist = False
                     _version_obj.modtaget_fileindex_kopieret = False
+                    _version_obj.modtaget_ada_startet = False
                     _version_obj.modtaget_adatest_godkendt = False
                     _version_obj.modtaget_adatest_afvist = False
                     _version_obj.tilbagemeldt_nedpakket = False
@@ -180,6 +182,7 @@ def arkiveringsversion_view(request, avid, version=0, nystatus=None):
                     _version_obj.modtaget_modtagelse_godkendt = False
                     _version_obj.modtaget_modtagelse_afvist = False
                     _version_obj.modtaget_fileindex_kopieret = False
+                    _version_obj.modtaget_ada_startet = False
                     _version_obj.modtaget_adatest_godkendt = False
                     _version_obj.modtaget_adatest_afvist = False
                     _version_obj.tilbagemeldt_nedpakket = False
@@ -225,15 +228,13 @@ def arkiveringsversion_view(request, avid, version=0, nystatus=None):
             _seneste_version = True if _version_obj.nummer == Version.objects.filter(avid=_version_obj.avid).order_by('nummer').last().nummer else False
 
             _ibrugtaget_medier = []
+            _maskine = None
             _ibrugtaget_medier_objs = Medie.objects.filter(versioner=_version_obj).order_by('navn')
             for _ibrugtaget_medie_obj in _ibrugtaget_medier_objs:
                 _ibrugtaget_medier.append({'tag': _ibrugtaget_medie_obj.navn})
+                if _ibrugtaget_medie_obj.maskine != None:
+                    _maskine = _ibrugtaget_medie_obj.maskine.navn
             _ibrugtaget_medier = json.dumps(_ibrugtaget_medier)
-
-            if len(_ibrugtaget_medier_objs) > 0:
-                _version_obj.modtaget_kopieret = True
-            else:
-                _version_obj.modtaget_kopieret = False
 
             return render(request, 'arkiveringsversioner/arkiveringsversion.html', {
                 "bruger_rettigheder": rettigheder(request.user),
@@ -248,7 +249,6 @@ def arkiveringsversion_view(request, avid, version=0, nystatus=None):
                 "noterfraarkivar": _arkiveringsversion_obj.arkivar_noter,
                 "noterfratester": _arkiveringsversion_obj.tester_noter,
                 "versioner": Version.objects.filter(avid=_arkiveringsversion_obj),
-                # "versioner": [''] * Version.objects.filter(avid=_arkiveringsversion_obj).count(),
                 "version": int(version),
                 "tester": _tester_fuldenavn,
                 "arkivar": _arkivar_fuldenavn,
@@ -261,15 +261,17 @@ def arkiveringsversion_view(request, avid, version=0, nystatus=None):
                 "svarfrist": '{:%d-%m-%Y}'.format(_version_obj.svarfrist) if _version_obj.svarfrist != None else '',
                 "svar": '{:%d-%m-%Y}'.format(_version_obj.svar) if _version_obj.svar != None else '',
                 "status": _version_obj.status,
+                "maskine": _maskine,
                 "modtaget_kvitteret": _version_obj.modtaget_kvitteret,
                 "modtaget_journaliseret": _version_obj.modtaget_journaliseret,
                 "modtaget_kodeord": _version_obj.modtaget_kodeord,
                 "modtaget_mangler_kodeord": _version_obj.modtaget_mangler_kodeord,
                 "modtaget_ikke_krypteret": _version_obj.modtaget_ikke_krypteret,
-                "modtaget_kopieret": True if len(_ibrugtaget_medier_objs) > 0 else False,
+                "modtaget_kopieret": _version_obj.modtaget_kopieret,
                 "modtaget_modtagelse_godkendt": _version_obj.modtaget_modtagelse_godkendt,
                 "modtaget_modtagelse_afvist": _version_obj.modtaget_modtagelse_afvist,
                 "modtaget_fileindex_kopieret": _version_obj.modtaget_fileindex_kopieret,
+                "modtaget_ada_startet": _version_obj.modtaget_ada_startet,
                 "modtaget_adatest_godkendt": _version_obj.modtaget_adatest_godkendt,
                 "modtaget_adatest_afvist": _version_obj.modtaget_adatest_afvist,
                 "tilbagemeldt_nedpakket": _version_obj.tilbagemeldt_nedpakket,
@@ -322,6 +324,7 @@ def arkiveringsversion_view(request, avid, version=0, nystatus=None):
         _kopieret = request.POST.get('kopieret') if 'kopieret' in request.POST else None
         _modtagelse = request.POST.get('modtagelse') if 'modtagelse' in request.POST else None
         _fileindex = request.POST.get('fileindex') if 'fileindex' in request.POST else None
+        _ada_startet = request.POST.get('ada_startet') if 'ada_startet' in request.POST else None
         _ada = request.POST.get('ada') if 'ada' in request.POST else None
         _nedpakket = request.POST.get('nedpakket') if 'nedpakket' in request.POST else None
         _maskine_renset = request.POST.get('maskine_renset') if 'maskine_renset' in request.POST else None
@@ -418,6 +421,8 @@ def arkiveringsversion_view(request, avid, version=0, nystatus=None):
 
             _version_obj.modtaget_fileindex_kopieret = True if _fileindex == 'kopieret' else False
 
+            _version_obj.modtaget_ada_startet = True if _ada_startet == 'startet' else False
+
             if _ada == None:
                 _version_obj.modtaget_adatest_godkendt = False
                 _version_obj.modtaget_adatest_afvist = False
@@ -456,22 +461,30 @@ def arkiveringsversion_view(request, avid, version=0, nystatus=None):
             _version_obj.godkendt_af_tester_maskine_renset = True if _godkendt_maskine_renset == 'godkendt_maskine_renset' else False
 
             old_medier = []
-            for m in json.loads(_old_medier):
-                old_medier.append(m['tag'].upper())
-            for old_medie in old_medier:
-                old_m = Medie.objects.filter(navn=old_medie).first()
-                if old_m:
-                    old_m.versioner.remove(_version_obj)
+            if _old_medier:
+                for m in json.loads(_old_medier):
+                    old_medier.append(m['tag'].upper())
+                for old_medie in old_medier:
+                    old_m = Medie.objects.filter(navn=old_medie).first()
+                    if old_m:
+                        old_m.versioner.remove(_version_obj)
 
             medier = []
-            for m in json.loads(_medier):
-                medier.append(m['tag'].upper())
-            for medie in medier:
-                m = Medie.objects.filter(navn=medie).first()
-                if m:
-                    m.versioner.add(_version_obj)
-                else:
-                    messages.error(request, f"Mediet '{medie}' findes ikke.")
+            if _medier:
+                for m in json.loads(_medier):
+                    medier.append(m['tag'].upper())
+                for medie in medier:
+                    m = Medie.objects.filter(navn=medie).first()
+                    if m:
+                        m.versioner.add(_version_obj)
+                    else:
+                        messages.error(request, f"Mediet '{medie}' findes ikke.")
+
+            print(len(medier))
+            if len(medier) > 0:
+                _version_obj.modtaget_kopieret = True
+            else:
+                _version_obj.modtaget_kopieret = False
 
             _version_obj.save()
 

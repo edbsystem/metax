@@ -1,6 +1,7 @@
 from django.db import models
 
 from arkiveringsversioner.models import Version
+from .maskine import Maskine
 
 
 class Medie(models.Model):
@@ -39,6 +40,13 @@ class Medie(models.Model):
         Version,
         blank=True,
         related_name='versioner'
+    )
+
+    maskine = models.ForeignKey(
+        Maskine,
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL
     )
 
     def __str__(self):

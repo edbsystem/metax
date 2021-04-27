@@ -24,6 +24,7 @@
                 <th style="cursor: default !important;">Producent</th>
                 <th style="cursor: default !important;">Kapacitet i GB</th>
                 <th style="cursor: default !important;">Arkiveringsversioner</th>
+                <th style="cursor: default !important;">Maskine</th>
               </tr>
             </thead>
             <tbody>
@@ -46,6 +47,7 @@
                   <a href="{% url 'arkiveringsversion_view' v %}">{{ v }},</a>
                   {% endfor %}
                 </td>
+                <td>{{ medie.maskine | default_if_none:'' }}</td>
               </tr>
               {% endfor %}
             </tbody>
