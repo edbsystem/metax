@@ -325,13 +325,13 @@
 
                   {% if v.nummer == version %}
                   <a href="{% url 'arkiveringsversion_view' avid v %}" style="margin: 0;">
-                    <button class="btn waves-effect waves-light z-depth-0" style="background-color: #4C566A; color: #D8DEE9;" type="button" id="{{ v }}" name="{{ v }}">{{ v }}</button>
+                    <button class="btn waves-effect waves-light z-depth-0" style="background-color: #4C566A; color: #D8DEE9;" type="button" id="{{ v.nummer }}" name="{{ v.nummer }}">{{ v.nummer }}</button>
                   </a>
                   <span style="margin-right: 6px;"></span>
 
                   {% else %}
                   <a href="{% url 'arkiveringsversion_view' avid v %}" style="margin: 0;">
-                    <button class="btn waves-effect waves-light z-depth-0" style="background-color: #81A1C1; color: #D8DEE9;" type="button" id="{{ v }}" name="{{ v }}">{{ v }}</button>
+                    <button class="btn waves-effect waves-light z-depth-0" style="background-color: #81A1C1; color: #D8DEE9;" type="button" id="{{ v.nummer }}" name="{{ v.nummer }}">{{ v.nummer }}</button>
                   </a>
                   <span style="margin-right: 6px;"></span>
 

@@ -480,13 +480,16 @@ def arkiveringsversion_view(request, avid, version=0, nystatus=None):
                     else:
                         messages.error(request, f"Mediet '{medie}' findes ikke.")
 
-            print(len(medier))
             if len(medier) > 0:
                 _version_obj.modtaget_kopieret = True
             else:
                 _version_obj.modtaget_kopieret = False
 
             _version_obj.save()
+
+            print('_version_obj.tilbagemeldt_nedpakket:', _version_obj.tilbagemeldt_nedpakket)
+            if _version_obj.tilbagemeldt_nedpakket:
+                print()
 
             return redirect(f"/arkiveringsversioner/arkiveringsversion/{avid}/{version}/")
 

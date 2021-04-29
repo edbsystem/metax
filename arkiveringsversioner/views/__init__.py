@@ -7,3 +7,4 @@ from .arkiveringsversion_view import arkiveringsversion_view
 from .soeg_view import soeg_view
 from .import_view import import_view
 from .mangler_maskine_view import mangler_maskine_view
+from .views_view import views_view

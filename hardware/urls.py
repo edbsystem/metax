@@ -1,6 +1,6 @@
 from django.urls import path
 
-from .views import hardware_view, maskiner_view, maskine_view, medier_view, medie_view
+from .views import hardware_view, maskiner_view, maskine_view, medier_view, medie_view, views_view
 
 urlpatterns = [
     path('', hardware_view, name='hardware_view'),
@@ -15,5 +15,6 @@ urlpatterns = [
     path('medie/', medie_view, name='medie_view'),
     path('medie/<str:pk>/', medie_view, name='medie_view'),
 
-
+    path('views/', views_view, name='views_view'),
+    path('views/<str:view>/', views_view, name='views_view'),
 ]

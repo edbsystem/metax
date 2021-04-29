@@ -217,7 +217,7 @@ class Version(models.Model):
     )
 
     def __str__(self):
-        return str(self.nummer)
+        return str(self.nummer) + ', ' + str(self.avid)
 
     class Meta:
         verbose_name_plural = "Versioner"
